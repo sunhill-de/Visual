@@ -18,4 +18,11 @@ namespace Sunhill\Visual\Managers;
 class ModuleManager 
 {
     protected $module_groups = [];
+    
+    /**
+     * Installs a site manager
+     */
+    public function installSiteManager(string $class)
+    {
+    }    
 }
