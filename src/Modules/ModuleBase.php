@@ -10,9 +10,11 @@ namespace Sunhill\Visual\Modules;
 class ModuleBase
 {
     
-    protected $name;
+    protected $tree = [];
     
-    protected $icon;
+    protected $name = "";
+    
+    protected $icon = "";
     
     public function __construct()
     {
@@ -21,6 +23,33 @@ class ModuleBase
     
     protected function setupModule()
     {
+    }
+    
+    /**
+     * Searches the tree for a SubEntity with the given name
+     * It return a ModuleBase object if found otherwise false
+     * @param $name string The name of the subentity to search
+     */
+    protected function findSubEntity(string $name)
+    {
+        if (isset($this->tree[$name])) {
+            return $this->tree[$name];
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Tries to add a sub entity to the tree. First it searches, if this entity is already in the tree
+     * if yes, it raises an excpetion otherwise it is added to the tree
+     */
+    protected function addSubEntity(string $name, $entity)
+    {
+        if ($this->findSubEnitity($name)) {
+            throw new \Exception("The sub entitiy '$name' does already exist.");
+        } else {
+            $this->tree[$name] = $group;           
+        }    
     }
     
     public function setName(string $name)
