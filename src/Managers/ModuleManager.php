@@ -24,5 +24,15 @@ class ModuleManager
      */
     public function installSiteManager(string $class)
     {
+    }
+    
+    /**
+     * Tries to route the given request in the module system. If successful, it returns a response otherwise false
+     * @param $request The given request
+     * @return bool|Response If successful, a Response object otherwise false
+     */
+    public function tryToRoute(Request $request)
+    {
+                
     }    
 }
