@@ -10,7 +10,7 @@ namespace Sunhill\Visual\Modules;
 class ModuleBase
 {
     
-    protected $tree = [];
+    protected $subentries = [];
     
     protected $name = "";
     
@@ -30,10 +30,10 @@ class ModuleBase
      * It return a ModuleBase object if found otherwise false
      * @param $name string The name of the subentity to search
      */
-    protected function findSubEntity(string $name)
+    protected function findSubEntry(string $name)
     {
-        if (isset($this->tree[$name])) {
-            return $this->tree[$name];
+        if (isset($this->subentries[$name])) {
+            return $this->subentries[$name];
         } else {
             return false;
         }
@@ -42,13 +42,22 @@ class ModuleBase
     /**
      * Tries to add a sub entity to the tree. First it searches, if this entity is already in the tree
      * if yes, it raises an excpetion otherwise it is added to the tree
+     * @param $name The name of the entry to add
+     * @param $entry string|ModuleBase either a string of an ModuleBase class or a already initiated object of a ModuleBase class
      */
-    protected function addSubEntity(string $name, $entity)
+    protected function addSubEntry(string $name, $entry)
     {
-        if ($this->findSubEnitity($name)) {
-            throw new \Exception("The sub entitiy '$name' does already exist.");
+        if ($this->findSubEntry($name)) {
+            throw new \Exception("The sub entry '$name' does already exist.");
+        } else if (is_string($entry)) {
+            $newentry = new $entry();
+            $this->subentries[$name] = $newentry;
+            return $newentry;
+        } else if (is_a($entry,ModuleBase::class)) {    
+            $this->subentries[$name] = $entry;           
+            return $entry;
         } else {
-            $this->tree[$name] = $group;           
+            throw new \Exception("Can't handle the sub entry.");
         }    
     }
     
