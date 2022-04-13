@@ -2,6 +2,8 @@
 
 namespace Sunhill\Visual\Modules;
 
+use Illuminate\Http\Request;
+
 /**
  * A basic class for differnt kinds of modules
  * @author lokal
@@ -15,6 +17,10 @@ class ModuleBase
     protected $name = "";
     
     protected $icon = "";
+    
+    protected $parent = null;
+    
+    protected $description = "";
     
     public function __construct()
     {
@@ -51,10 +57,12 @@ class ModuleBase
             throw new \Exception("The sub entry '$name' does already exist.");
         } else if (is_string($entry)) {
             $newentry = new $entry();
+            $newentry->setParent($this);
             $this->subentries[$name] = $newentry;
             return $newentry;
         } else if (is_a($entry,ModuleBase::class)) {    
             $this->subentries[$name] = $entry;           
+            $entry->setParent($this);
             return $entry;
         } else {
             throw new \Exception("Can't handle the sub entry.");
@@ -72,6 +80,17 @@ class ModuleBase
         return $this->name;
     }
     
+    public function setDescription(string $description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+    
+    public function getDescription() : String
+    {
+        return $this->description;
+    }
+    
     /**
      * Setter for the icon of this module
      */
@@ -87,5 +106,72 @@ class ModuleBase
     public function getIcon(): String
     {
         return $this->icon;
+    }
+    
+    public function setParent(ModuleBase $parent): ModuleBase
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+    
+    public function getParent()
+    {
+        return $this->parent;    
+    }
+    
+    /**
+     * The internal processing of routes is a little more complicated. Requests are passed from 
+     * top modules to bottom modules. Each module adds itself to the breadcrumb. If there is no 
+     * submodule, try to find a method with this name and the prefix "action_" and call this. 
+     * If this isn't found either, return false
+     * @param string $path The remaining path, excluding the own path name
+     * @param Request $request The complete request
+     * @param array $params The params so far
+     * @return string|unknown|boolean
+     */
+    public function route(string $path, Request $request, array &$params)
+    {
+        $parts = explode('/',$path);
+        $submodule = array_shift($parts);
+        if (empty($submodule) && !(count($parts) == 0)) {
+            $submodule = array_shift($parts);         // Remove first slash    
+        }
+        $remaining = implode('/',$parts);
+        
+        if (($submodule == '') && (method_exists($this,'action_index'))) {
+            return $this->action_index($request,$params);
+        } else if ($module = $this->findSubEntry($submodule)) {
+            $params['breadcrumbs'][] = $this->getBreadcrumb();
+            return $module->route($remaining,$request,$params);
+        } else if (method_exists($this,'action_'.$submodule)){
+            $method = 'action_'.$submodule;
+            $params['depth'] = $this->getDepth();
+            return $this->$method($remaining,$request,$params);
+        } else  {
+            return false;
+        }
+    }
+    
+    public function getLink()
+    {
+        if ($parent = $this->getParent()) {
+            return $parent->getLink().$this->getName().'/';
+        } else {
+            return '/';
+        }
+    }
+    
+    public function getBreadcrumb()
+    {
+        return ['name'=>$this->getName(),'link'=>$this->getLink()];
+    }
+    
+    public function getDepth()
+    {
+        if ($parent = $this->getParent()) {
+            return $parent->getDepth()+1;
+        } else {
+            return 0;
+        }
     }
 }

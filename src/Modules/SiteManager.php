@@ -4,19 +4,27 @@ namespace Sunhill\Visual\Modules;
 
 class SiteManager extends ModuleBase
 {
-    protected function addModuleGroup(string $name, ModuleGroup $group)
+    /**
+     * Tries to route the given request inside the 
+     * @param Request $request
+     */
+    public function tryToRoute(Request $request): Response
     {
-        $group->setSiteManager($this);
-        $this->addSubEntity($name,$group);
-        return $this;
+        $params = [
+            'sitename'=>$this->getName(),
+            'breadcrumbs'=>$this->getBreadcrumb()
+        ];
+        $path = $request->path();
+        if ($result = $this->route($path,$request,$params))
+        {
+            return $result;
+        } else {
+            return $this->error404($request);
+        }
     }
     
-    protected function addModule(string $name, string $group, $module)
+    protected function error404(Request $request): Response
     {
+        return view('error.404');
     }
-    
-    protected function addFeature(string $name, string $group, $feature)
-    {
-    }
-    
 }
