@@ -142,6 +142,7 @@ class ModuleBase
             return $this->action_index($request,$params);
         } else if ($module = $this->findSubEntry($submodule)) {
             $params['breadcrumbs'][] = $this->getBreadcrumb();
+            $params['nav_'.$this->getDepth()] = $this->getModuleNavigation();
             return $module->route($remaining,$request,$params);
         } else if (method_exists($this,'action_'.$submodule)){
             $method = 'action_'.$submodule;
@@ -163,7 +164,10 @@ class ModuleBase
     
     public function getBreadcrumb()
     {
-        return ['name'=>$this->getName(),'link'=>$this->getLink()];
+        $result = new \StdClass();
+        $result->name = $this->getName();
+        $result->link = $this->getLink();
+        return $result;
     }
     
     public function getDepth()
@@ -173,5 +177,19 @@ class ModuleBase
         } else {
             return 0;
         }
+    }
+    
+    public function getModuleNavigation()
+    {
+        $result = [];
+        foreach ($this->subentries as $subentry) {
+            $entry = new \StdClass();
+            $entry->id = $subentry->getName();
+            $entry->name = $subentry->getDescription();
+            $entry->depth = $this->getDepth()+1;
+            $entry->icon = $subentry->getIcon();
+            $result[] = $entry;
+        }
+        return $result;
     }
 }

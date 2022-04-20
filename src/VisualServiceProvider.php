@@ -13,9 +13,8 @@ class VisualServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadJSONTranslationsFrom(__DIR__.'/../resources/lang');
-        
-        $this->app->singleton(ModuleManager::class, function () { return new ModuleManager(); } );
-        $this->app->alias(ModuleManager::class,'modules');
+        $this->loadRoutesFrom(__DIR__.'/Routes/web.php');
+        $this->loadViewsFrom(__DIR__.'/../resources/views','visual');
     }
 
 }
