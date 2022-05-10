@@ -139,6 +139,7 @@ class ModuleBase
         $remaining = implode('/',$parts);
         
         if (($submodule == '') && (method_exists($this,'action_index'))) {
+            $params['breadcrumbs'][] = $this->getBreadcrumb();
             return $this->action_index($request,$params);
         } else if ($module = $this->findSubEntry($submodule)) {
             $params['breadcrumbs'][] = $this->getBreadcrumb();
@@ -146,6 +147,7 @@ class ModuleBase
             return $module->route($remaining,$request,$params);
         } else if (method_exists($this,'action_'.$submodule)){
             $method = 'action_'.$submodule;
+            $params['breadcrumbs'][] = $this->getBreadcrumb();
             $params['depth'] = $this->getDepth();
             return $this->$method($remaining,$request,$params);
         } else  {

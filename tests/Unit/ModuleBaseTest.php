@@ -34,6 +34,14 @@ class TestModule extends ModuleBase
     }
 }
 
+class SuperModule extends ModuleBase
+{
+    protected function setupModule()
+    {
+        $this->addSubEntry('main', new TestModule())->setName('main');
+    }
+}
+
 class ModuleBaseTest extends SunhillTestCase
 {
   
@@ -101,7 +109,9 @@ class ModuleBaseTest extends SunhillTestCase
       $subentry = new SubModule();
       $subentry->setName('sub');
       $this->callProtectedMethod($test,'addSubEntry',['sub',$subentry]);
-      $this->assertEquals(['name'=>'sub','link'=>'/sub/'],$subentry->getBreadcrumb());      
+      $breadcrumb = $subentry->getBreadcrumb();
+      $this->assertEquals('sub',$breadcrumb->name);
+      $this->assertEquals('/sub/',$breadcrumb->link);
   }
 
   public function testRouteExisting()
@@ -153,4 +163,25 @@ class ModuleBaseTest extends SunhillTestCase
       $params = [];
       $this->assertFalse($test->route('/notexisting',$request,$params));
   }
+  
+  public function testChain()
+  {
+        $test = new SuperModule();
+        $request = new Request();
+        $params = [];
+        $this->assertEquals("TEST",$test->route('/main/sub/test',$request,$params));
+  }
+
+  public function testChainBreadcrumbs()
+  {
+      $test = new SuperModule();
+      $request = new Request();
+      $params = [];
+      $test->route('/main/sub/test',$request,$params);
+      $this->assertEquals('/',$params['breadcrumbs'][0]->link);      
+      $this->assertEquals('/main/',$params['breadcrumbs'][1]->link);
+      $this->assertEquals('/main/sub/',$params['breadcrumbs'][2]->link);
+  }
+  
+  
 }  

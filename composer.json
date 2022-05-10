@@ -11,12 +11,8 @@
 	"minimum-stability" : "dev",
 	"autoload" : {
 		"psr-4" : {
-			"Sunhill\\Visual\\Tests\\" : [
-				"tests"
-			],
-			"Sunhill\\Visual\\Test\\" : [
-				"tests"
-			],
+			"Sunhill\\Visual\\Tests\\" : "tests",
+			"Sunhill\\Visual\\Test\\" : "tests",
 			"Sunhill\\Visual\\" : "src"
 		}
 	},
