@@ -24,8 +24,13 @@ abstract class ResponseBase
   
     abstract protected function getResponse();
   
+    protected function prepareResponse()
+    {
+    }
+    
     public function response()
     {
+        $this->prepareResponse();
         return $this->getResponse();
     }
     
