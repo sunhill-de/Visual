@@ -1,7 +1,7 @@
-@extends('visual::basic.html')
+@extends('visual::basic.hamburger')
 
 @section('body')
-
+@parent
 @if(isset($nav_0) && (null !== $nav_0))
 <style>
 @foreach ($nav_0 as $entry)
