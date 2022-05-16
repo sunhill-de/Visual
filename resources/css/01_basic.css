@@ -3,6 +3,9 @@ body {
 	color: #3E3E3E;
 	background: #FFFFFF;
 	font-size: 12px;
+	margin: 0;
+	padding: 0;
+	overflow-x: hidden;
 }
 
 p {
