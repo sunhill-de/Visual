@@ -22,9 +22,18 @@ class SystemController extends Controller
     
     protected function get_files(string $dir) {
         $result = [];
-        $basedir = base_path('/resources/'.$dir);
+        $this->composeDir($result, dirname(__FILE__).'/../Resources/'.$dir); // First the defaults
+        $this->composeDir($result, base_path('/resources/'.$dir));           // Implementation overrides defaults 
+        return $result;
+    }
+      
+    protected function composeDir(array &$result, string $effective_dir)
+    {
         $files = [];
-        $d = dir($basedir);
+        if (!file_exists($effective_dir) {
+              return;
+        }
+        $d = dir($effective_dir);
         while (false !== ($entry = $d->read())) {
             if (is_file($basedir.'/'.$entry)) {
                 $files[] = $basedir.'/'.$entry;
@@ -35,6 +44,6 @@ class SystemController extends Controller
         foreach ($files as $file) {
             $result[] = file_get_contents($file);
         }
-        return $result;
     }
+      
 }
