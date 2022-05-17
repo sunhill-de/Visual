@@ -10,6 +10,8 @@ abstract class ResponseBase
   
     protected $params;
   
+    protected $remaining;
+    
     public function setRequest(Request $request)
     {
       $this->request = $request;
@@ -22,6 +24,12 @@ abstract class ResponseBase
       return $this;
     }
   
+    public function setRemaining(string $remaining)
+    {
+        $this->remaining = $remaining;
+        return $this;
+    }
+    
     abstract protected function getResponse();
   
     protected function prepareResponse()
