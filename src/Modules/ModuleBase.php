@@ -118,12 +118,51 @@ class ModuleBase
     {
         return $this->parent;    
     }
+
+    /**
+     * The processing works like this:
+     * - first check if there is a submodule-entry
+     *  - if there is one, check if this is a module
+     *    - if yes, pass routing to submodule
+     *    - if no, check if this is a response
+     *     - if yes, return the response
+     *     - if no, check if this is a string
+     *      - if yes, check if there is a method action_$string
+     *      - if yes, return it
+     *      - if no, raise an error
+     * - if there is no entry, return false
+     */
+    protected function doRouting(string $submodule, string $remaining, Request $request, array &$params)
+    {
+        // No submodule means index
+        if ($submodule == '') {
+            $submodule = 'index';
+        }
+        if ($module = $this->findSubEntry($submodule)) {
+            $params['breadcrumbs'][] = $this->getBreadcrumb();
+            $params['depth'] = $this->getDepth();
+            if (is_a($module,ModuleBase::class)) {
+                return $module->route($remaining,$request,$params);
+            } else if (is_a($module,ResponseBase::class)) {
+                return $module->setRequest($request)->setRemaining($remaining)->setParams($params)->response();
+            } else if (is_string($module)) {
+                $method = 'action_'.$submodule;
+                if (method_exists($this,$method)) {
+                    return $this->$method($remaining,$request,$params);
+                } else {
+                    return false;
+                }
+            } else {                
+                throw new \Exception("Invalid entry in submodule list.");
+            }    
+        } else {
+            return false;
+        }       
+     }
     
     /**
      * The internal processing of routes is a little more complicated. Requests are passed from 
-     * top modules to bottom modules. Each module adds itself to the breadcrumb. If there is no 
-     * submodule, try to find a method with this name and the prefix "action_" and call this. 
-     * If this isn't found either, return false
+     * top modules to bottom modules. Each module adds itself to the breadcrumb. 
      * @param string $path The remaining path, excluding the own path name
      * @param Request $request The complete request
      * @param array $params The params so far
@@ -137,22 +176,7 @@ class ModuleBase
             $submodule = array_shift($parts);         // Remove first slash    
         }
         $remaining = implode('/',$parts);
-        
-        if (($submodule == '') && (method_exists($this,'action_index'))) {
-            $params['breadcrumbs'][] = $this->getBreadcrumb();
-            return $this->action_index($request,$params);
-        } else if ($module = $this->findSubEntry($submodule)) {
-            $params['breadcrumbs'][] = $this->getBreadcrumb();
-            $params['nav_'.$this->getDepth()] = $this->getModuleNavigation();
-            return $module->route($remaining,$request,$params);
-        } else if (method_exists($this,'action_'.$submodule)){
-            $method = 'action_'.$submodule;
-            $params['breadcrumbs'][] = $this->getBreadcrumb();
-            $params['depth'] = $this->getDepth();
-            return $this->$method($remaining,$request,$params);
-        } else  {
-            return false;
-        }
+        return $this->doRouting($submodule,$remaining,$request,$params);        
     }
     
     public function getLink()
