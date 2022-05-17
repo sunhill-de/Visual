@@ -23,6 +23,23 @@ class SubModule extends ModuleBase
     {
         return "INDEX";
     }
+
+    protected function setupModule()
+    {
+        $this->addSubEntry('test', 'test');
+        $this->addSubEntry('test', 'params');
+        $this->addSubEntry('test', 'index');
+    }
+    
+}
+
+class DummyResponse extends ResponseBase 
+{
+    
+    protected function getResponse()
+    {
+        return "Response".$this->remaining;
+    }    
     
 }
 
@@ -31,6 +48,7 @@ class TestModule extends ModuleBase
     protected function setupModule()
     {
         $this->addSubEntry('sub', new SubModule())->setName('sub');
+        $this->addSubEntry('response', new DummyResponse());
     }
 }
 
@@ -138,6 +156,14 @@ class ModuleBaseTest extends SunhillTestCase
       $this->assertEquals("INDEX",$test->route('/',$request,$params));      
   }
   
+  public function testRouteWithResponse()
+  {
+      $test = new SubModule();
+      $request = new Request();
+      $params = [];
+      $this->assertEquals("ResponseABC",$test->route('/response/abc',$request,$params));      
+  }
+    
   public function testDownRouting()
   {
       $test = new TestModule();
