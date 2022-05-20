@@ -95,10 +95,16 @@ class ModuleBaseTest extends SunhillTestCase
     $this->assertEquals('Test',$this->callProtectedMethod($test,'findSubEntry',['Test'])->getName());
   }  
       
-  public function testAddAndFindSubentryByClassName()
+  public function testAddAndFindSubentryByClassNameModule()
   {
     $test = new SubModule();
     $this->assertTrue(is_a($this->callProtectedMethod($test,'addSubEntry',['Test',SubModule::class]),SubModule::class));
+  }  
+
+  public function testAddAndFindSubentryByClassNameResponse()
+  {
+    $test = new SubModule();
+    $this->assertTrue(is_a($this->callProtectedMethod($test,'addSubEntry',['Test',DummyResponse::class]),DummyResponse::class));
   }  
 
   public function testGetParent()
