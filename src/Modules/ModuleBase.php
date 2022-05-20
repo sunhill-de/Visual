@@ -56,10 +56,16 @@ class ModuleBase
         if ($this->findSubEntry($name)) {
             throw new \Exception("The sub entry '$name' does already exist.");
         } else if (is_string($entry)) {
-            $newentry = new $entry();
-            $newentry->setParent($this);
-            $this->subentries[$name] = $newentry;
-            return $newentry;
+            if (method_exists($this,$entry)) {
+                $this->subentries[$name] = $newentry;
+            } else if (class_exists($entry)) {                
+              $newentry = new $entry();
+              $newentry->setParent($this);
+              $this->subentries[$name] = $newentry;
+              return $newentry;
+            } else {
+               throw new \Exception("Can't handle the sub entry '$entry'.");
+            }    
         } else if (is_a($entry,ModuleBase::class)) {    
             $this->subentries[$name] = $entry;           
             $entry->setParent($this);
