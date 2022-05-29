@@ -7,7 +7,7 @@ use Illuminate\Routing\Controller;
 class SystemController extends Controller
 {
       public function css() {
-        $content = view('visual::basic.build',[
+          $content = view('visual::basic.build',[
             'files'=>$this->get_files('css')
         ]);
         return response($content)->header('Content-Type','text/css');        
@@ -22,7 +22,7 @@ class SystemController extends Controller
     
     protected function get_files(string $dir) {
         $result = [];
-        $this->composeDir($result, dirname(__FILE__).'/../Resources/'.$dir); // First the defaults
+        $this->composeDir($result, dirname(__FILE__).'/../../resources/'.$dir); // First the defaults
         $this->composeDir($result, base_path('/resources/'.$dir));           // Implementation overrides defaults 
         return $result;
     }
@@ -30,13 +30,13 @@ class SystemController extends Controller
     protected function composeDir(array &$result, string $effective_dir)
     {
         $files = [];
-        if (!file_exists($effective_dir) {
+        if (!file_exists($effective_dir)) {
               return;
         }
         $d = dir($effective_dir);
         while (false !== ($entry = $d->read())) {
-            if (is_file($basedir.'/'.$entry)) {
-                $files[] = $basedir.'/'.$entry;
+            if (is_file($effective_dir.'/'.$entry)) {
+                $files[] = $effective_dir.'/'.$entry;
             }
         }
         $d->close(); 

@@ -3,6 +3,7 @@
 namespace Sunhill\Visual\Tests\Unit;
 
 use Sunhill\Visual\Modules\ModuleBase;
+use Sunhill\Visual\Response\ResponseBase;
 use Sunhill\Visual\Tests\CreatesApplication;
 use Sunhill\Basic\Tests\SunhillTestCase;
 use Illuminate\Http\Request;

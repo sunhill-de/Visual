@@ -2,7 +2,7 @@
 
 @section('body')
 <nav role='hamburger'>
-  <div id="menuToggle">
+  <div id="hamburgerToggle">
     <input type="checkbox" />
     <span></span>
     <span></span>

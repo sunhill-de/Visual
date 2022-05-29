@@ -3,6 +3,8 @@
 namespace Sunhill\Visual\Modules;
 
 use Illuminate\Http\Request;
+use Sunhill\Visual\Response\ResponseBase;
+use Sunhill\Visual\Modules\ModuleBase;
 
 /**
  * A basic class for differnt kinds of modules
@@ -21,6 +23,8 @@ class ModuleBase
     protected $parent = null;
     
     protected $description = "";
+    
+    protected $current;
     
     public function __construct()
     {
@@ -69,6 +73,9 @@ class ModuleBase
         } else if (is_a($entry,ModuleBase::class)) {    
             $this->subentries[$name] = $entry;           
             $entry->setParent($this);
+            return $entry;
+        } else if (is_a($entry,ResponseBase::class)) {
+            $this->subentries[$name] = $entry;
             return $entry;
         } else {
             throw new \Exception("Can't handle the sub entry.");
@@ -147,9 +154,10 @@ class ModuleBase
         if ($module = $this->findSubEntry($submodule)) {
             $params['breadcrumbs'][] = $this->getBreadcrumb();
             $params['depth'] = $this->getDepth();
-            if (is_a($module,ModuleBase::class)) {
+            $params['nav_'.$this->getDepth()] = $this->getModuleNavigation();
+            if ($module instanceof ModuleBase) {
                 return $module->route($remaining,$request,$params);
-            } else if (is_a($module,ResponseBase::class)) {
+            } else if ($module instanceof ResponseBase) {
                 return $module->setRequest($request)->setRemaining($remaining)->setParams($params)->response();
             } else if (is_string($module)) {
                 $method = 'action_'.$submodule;
@@ -215,12 +223,19 @@ class ModuleBase
     {
         $result = [];
         foreach ($this->subentries as $subentry) {
-            $entry = new \StdClass();
-            $entry->id = $subentry->getName();
-            $entry->name = $subentry->getDescription();
-            $entry->depth = $this->getDepth()+1;
-            $entry->icon = $subentry->getIcon();
-            $result[] = $entry;
+            if (is_a($subentry,ModuleBase::class)) {
+                $entry = new \StdClass();
+                $entry->id = $subentry->getName();
+                $entry->name = $subentry->getDescription();
+                $entry->depth = $this->getDepth()+1;
+                $entry->icon = $subentry->getIcon();
+                if (!is_null($subentry->getParent())) {
+                    $entry->prefix = $subentry->getParent()->getName();
+                } else {
+                    $entry->prefix = "";
+                }
+                $result[] = $entry;
+            }
         }
         return $result;
     }

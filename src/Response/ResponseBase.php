@@ -12,6 +12,14 @@ abstract class ResponseBase
   
     protected $remaining;
     
+    protected $parent;
+    
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+    
     public function setRequest(Request $request)
     {
       $this->request = $request;

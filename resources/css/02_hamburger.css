@@ -1,4 +1,4 @@
-#menuToggle
+#hamburgerToggle
 {
   display: block;
   position: absolute;
@@ -11,7 +11,7 @@
   user-select: none;
 }
 
-#menuToggle input
+#hamburgerToggle input
 {
   display: block;
   width: 40px;
@@ -31,7 +31,7 @@
 /*
  * Just a quick hamburger
  */
-#menuToggle span
+#hamburgerToggle span
 {
   display: block;
   width: 33px;
@@ -51,12 +51,12 @@
               opacity 0.55s ease;
 }
 
-#menuToggle span:first-child
+#hamburgerToggle span:first-child
 {
   transform-origin: 0% 0%;
 }
 
-#menuToggle span:nth-last-child(2)
+#hamburgerToggle span:nth-last-child(2)
 {
   transform-origin: 0% 100%;
 }
@@ -65,7 +65,7 @@
  * Transform all the slices of hamburger
  * into a crossmark.
  */
-#menuToggle input:checked ~ span
+#hamburgerToggle input:checked ~ span
 {
   opacity: 1;
   transform: rotate(45deg) translate(-2px, -1px);
@@ -75,7 +75,7 @@
 /*
  * But let's hide the middle one.
  */
-#menuToggle input:checked ~ span:nth-last-child(3)
+#hamburgerToggle input:checked ~ span:nth-last-child(3)
 {
   opacity: 0;
   transform: rotate(0deg) scale(0.2, 0.2);
@@ -84,7 +84,7 @@
 /*
  * Ohyeah and the last one should go the other direction
  */
-#menuToggle input:checked ~ span:nth-last-child(2)
+#hamburgerToggle input:checked ~ span:nth-last-child(2)
 {
   opacity: 1;
   transform: rotate(-45deg) translate(0, -1px);
@@ -94,7 +94,7 @@
  * Make this absolute positioned
  * at the top left of the screen
  */
-#menu
+#hamburger
 {
   position: absolute;
   width: 300px;
@@ -114,7 +114,7 @@
   transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
 }
 
-#menu li
+#hamburger li
 {
   padding: 10px 0;
   font-size: 22px;
@@ -123,14 +123,14 @@
 /*
  * And let's fade it in from the left
  */
-#menuToggle input:checked ~ ul
+#hamburgerToggle input:checked ~ ul
 {
   transform: none;
   opacity: 1;
 }
 
 @media screen and (max-width: 768px) {
-  #menu {
+  #hamburger {
     transform: none;
     opacity: 0;
 

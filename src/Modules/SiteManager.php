@@ -16,7 +16,7 @@ class SiteManager extends ModuleBase
         $params = [
             'nav_0'=>$this->getModuleNavigation(),
             'sitename'=>$this->getDescription(),            
-            'breadcrumbs'=>[$this->getBreadcrumb()]
+            'breadcrumbs'=>[]
         ];
         $path = $request->path();
         if ($result = $this->route($path,$request,$params))
