@@ -216,5 +216,24 @@ class ModuleBaseTest extends SunhillTestCase
       $this->assertEquals('/main/sub/',$params['breadcrumbs'][2]->link);
   }
   
+  public function testGetPrefixWithParent()
+  {
+      $test = new SubModule();
+      $test->setName('Main');
+      $subentry = new SubModule();
+      $subentry->setName('Sub');
+      $this->callProtectedMethod($test,'addSubEntry',['Test',$subentry]);
+      
+      $this->assertEquals('/Main/',$subentry->getPrefix());      
+  }
+  
+  // Tests if getPrefix without parent returns /
+  public function testGetPrefixWithoutParent()
+  {
+      $test = new SubModule();
+      $test->setName('Main');
+      
+      $this->assertEquals('/',$test->getPrefix());      
+  }
   
 }  
