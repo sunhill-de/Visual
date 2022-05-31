@@ -155,6 +155,7 @@ class ModuleBase
             $params['breadcrumbs'][] = $this->getBreadcrumb();
             $params['depth'] = $this->getDepth();
             $params['nav_'.$this->getDepth()] = $this->getModuleNavigation();
+            $params['prefix'] = $this->getPrefix();
             if ($module instanceof ModuleBase) {
                 return $module->route($remaining,$request,$params);
             } else if ($module instanceof ResponseBase) {
@@ -197,6 +198,15 @@ class ModuleBase
     {
         if ($parent = $this->getParent()) {
             return $parent->getLink().$this->getName().'/';
+        } else {
+            return '/';
+        }
+    }
+    
+    public function getPrefix()
+    {
+        if ($parent = $this->getParent()) {
+            return $parent->getPrefix().$parent->getName().'/';
         } else {
             return '/';
         }
