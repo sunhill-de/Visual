@@ -1,5 +1,6 @@
 <?php
-namespace Sunhill\Sunhill\Modules\Computer\Database;
+
+namespace Sunhill\Visual\Modules\Database;
 
 use Sunhill\Visual\Response\Database\ListObjectsResponse;
 use Sunhill\Visual\Response\Database\AddObjectResponse;
@@ -21,14 +22,14 @@ class FeatureObjects extends ModuleBase
         $this->setName('Objects');        
         $this->setDescription(__('Objects')); 
         $this->addSubEntry('list', ListObjectsResponse::class);
-        $this->addSubEntry('add', AddObjectResponse::class);
+/*        $this->addSubEntry('add', AddObjectResponse::class);
         $this->addSubEntry('execadd', ExecAddObjectResponse::class);
         $this->addSubEntry('edit', EditObjectResponse::class);
         $this->addSubEntry('execedit', ExecEditObjectResponse::class);
         $this->addSubEntry('groupedit', GroupEditObjectResponse::class);
         $this->addSubEntry('execgroupedit', ExecGroupEditObjectResponse::class);
         $this->addSubEntry('delete', DeleteObjectResponse::class);
-        $this->addSubEntry('show', ShowObjectResponse::class);
+        $this->addSubEntry('show', ShowObjectResponse::class); */
     }
     
     

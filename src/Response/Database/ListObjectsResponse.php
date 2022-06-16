@@ -1,13 +1,21 @@
 <?php
 
-namespace Sunhill\Visual\Response;
+namespace Sunhill\Visual\Response\Database;
 
-class ListObjectsResponse extends ResponseBase
+use Sunhill\Visual\Response\BladeResponse;
+
+class ListObjectsResponse extends BladeResponse
 {
 
-    protected function getResponse()
+    protected $template = 'visual::objects.list';
+    
+    protected function prepareResponse()
     {
-        return view($this->template,$this->params);
+        $parts = explode('/',$this->remaining);
+        if (count($parts) == 0) {
+            $this->params['object'] = 'ORMObject';
+        } else {
+            $this->params['object'] = $parts[0];
+        }
     }
-  
 }  
