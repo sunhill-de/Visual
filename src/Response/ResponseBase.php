@@ -14,6 +14,44 @@ abstract class ResponseBase
     
     protected $parent;
     
+    protected function solveRemaining(string $matrix): array
+    {
+        $result = [];
+        
+        $matrix_parts = explode('/',$matrix);
+        $remaining_parts = explode('/',$this->remaining);
+        
+        if (count($remaining_parts) > count($matrix_parts)) {
+            throw new \Exception("Too many parameters given.");
+        }
+        $i = 0;
+        foreach ($matrix_parts as $part) {
+            if (strpos($part,'?')) {
+                $part = substr($part,0,-1);
+                if (isset($remaining_parts[$i])) {
+                    $result[$part] = $remaining_parts[$i];
+                } else {
+                    $result[$part] = null;
+                }
+            } else if (strpos($part,'=')) {
+                list($name,$default) = explode('=',$part);
+                if (isset($remaining_parts[$i])) {
+                    $result[$name] = $remaining_parts[$i];
+                } else {
+                    $result[$name] = $default;
+                }
+            } else {
+                if (isset($remaining_parts[$i])) {
+                    $result[$part] = $remaining_parts[$i];
+                } else {
+                    throw new \Exception("Expected parameter '$part' not given.");
+                }
+            }
+            $i++;
+        }
+        return $result;
+    }
+    
     public function setParent($parent)
     {
         $this->parent = $parent;
