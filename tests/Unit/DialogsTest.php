@@ -37,6 +37,26 @@ class DialogsTest extends SunhillTestCase
 {
   
   use CreatesApplication;
+  
+  public function testGetClassName($param,$expect)
+  {
+        try {
+            $this->assertEquals($expect,Dialogs::getClassName($param));
+        } catch (\Exception $e)
+        {
+            if ($expect == 'except') {
+                $this->assertTrue(true);
+                return;
+            }
+        }
+  }
+  
+  public function getClassNameProvider()
+  {
+        return [
+            
+        ];    
+  }
     
   public function testGetResponse()
   {
