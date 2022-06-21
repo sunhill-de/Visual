@@ -5,7 +5,12 @@ namespace Sunhill\Visual\Managers;
 class DialogManager
 {
     
+    /**
+     * Stores 
+     */
     protected $storage;
+    
+    protected $list_fields;
     
     private $allowed_actions = ['add','edit','groupedit','list','show'];
     
@@ -18,12 +23,54 @@ class DialogManager
             'edit'=>[],
             'groupedit'=>[],
         ];
+        $this->list_fields = [
+            ORMObject::class=>['UUID']
+        ];
         $this->addResponse('list', ORMObject::class, ListObjectsResponse::class);
     }
     
     public function __construct()
     {
         $this->initManager();
+    }
+    
+    /**
+     * Depending on whats passed as parameter return the php class name
+     */
+    protected function getClassName($item)
+    {
+        if (is_string($item)) {
+            // Could be already the internal class name or a php class
+        } else if (is_a($item,ORMObject::class)) {
+        
+        } else if (is_int($item)) {
+            // We interpret the item as the object ID
+        }    
+    }
+    
+    /**
+     * Adds a list of field that should be displayed when objects of the given class are listed
+     * @param $class int|string|ORMObject any reference to a class
+     * @param $fields array: a list of strings that define the fields for the list
+     */
+    public function addListField($class, array $fields)
+    {
+        $class = $this->getClassName($class);
+        $this->list_fields[$class] = $fields;
+    }
+    
+    /**
+     * Returns the best fitting list of fields to list the given class
+     * @param $class int|string|ORMObject any reference to a class
+     * @return array of string: List of fields to display in the list
+     */
+    public function getListField($class): array
+    {
+        $class = $this->getClassName($class);
+        while (!isset($this->list_fields[$class])) {
+            $class = get_parent_class($class);
+        }
+        return $this->list_fields[$class];
     }
     
     public function addResponse(string $action, string $class, $response)
