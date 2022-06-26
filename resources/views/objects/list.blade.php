@@ -4,6 +4,7 @@
 
 @section('content')
 @parent
+        <div class="list">
        <table>
         <caption>Objekte von '{{$class}}' auflisten</caption>
         <tr>
@@ -31,5 +32,6 @@
 		 </tr>
         @endforelse
        </table>
+       </div>
        <a href="/">&Uuml;bersicht</a>
 @endsection
