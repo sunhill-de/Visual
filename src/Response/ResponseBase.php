@@ -19,7 +19,11 @@ abstract class ResponseBase
         $result = [];
         
         $matrix_parts = explode('/',$matrix);
-        $remaining_parts = explode('/',$this->remaining);
+        if (!empty($this->remaining)) {
+            $remaining_parts = explode('/',$this->remaining);
+        } else {
+            $remaining_parts = [];
+        }
         
         if (count($remaining_parts) > count($matrix_parts)) {
             throw new \Exception("Too many parameters given.");
