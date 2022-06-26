@@ -68,7 +68,7 @@ class ModuleBase
               $this->subentries[$name] = $newentry;
               return $newentry;
             } else {
-               throw new \Exception("Can't handle the sub entry '$entry'.");
+               throw new \Exception(__("Can't handle the sub entry ':entry'.",['entry'=>$entry]));
             }    
         } else if (is_a($entry,ModuleBase::class)) {    
             $this->subentries[$name] = $entry;           
@@ -78,7 +78,7 @@ class ModuleBase
             $this->subentries[$name] = $entry;
             return $entry;
         } else {
-            throw new \Exception("Can't handle the sub entry.");
+            throw new \Exception(__("Can't handle the sub entry."));
         }    
     }
     
@@ -205,7 +205,7 @@ class ModuleBase
     
     public function getPrefix()
     {
-        if ($parent = $this->getParent()) {
+        if (($parent = $this->getParent()) && ($parent->getParent())) {
             return $parent->getPrefix().$parent->getName().'/';
         } else {
             return '/';
