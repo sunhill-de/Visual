@@ -18,12 +18,6 @@ class ListObjectsResponse extends ListResponse
         return Objects::getObjectList($class);
     }
     
-    private function sliceObjectList($objectlist,$delta)
-    {
-        $result = new ObjectList();
-        return $result;
-    }
-
     protected function getFixedInheritance(string $class)
     {
         if ($class == 'object') {
