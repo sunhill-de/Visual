@@ -6,8 +6,6 @@ use Sunhill\Visual\Response\ListResponse;
 use Sunhill\ORM\Facades\Objects;
 use Sunhill\ORM\Utils\ObjectList;
 
-define("ENTRIES_PER_PAGE", 25);
-
 class ListObjectsResponse extends ListResponse
 {
 
