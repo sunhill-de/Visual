@@ -1,6 +1,6 @@
 <?php
 
-namespace Sunhill\Visual\Response\Database;
+namespace Sunhill\Visual\Response\Database\Classes;
 
 use Sunhill\Visual\Response\BladeResponse;
 use Sunhill\ORM\Facades\Classes;
