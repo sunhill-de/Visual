@@ -55,7 +55,7 @@ class ModuleBase
      * @param $name The name of the entry to add
      * @param $entry string|ModuleBase either a string of an ModuleBase class or a already initiated object of a ModuleBase class
      */
-    protected function addSubEntry(string $name, $entry)
+    protected function addSubEntry(string $name, $entry, $description="")
     {
         if ($this->findSubEntry($name)) {
             throw new \Exception("The sub entry '$name' does already exist.");
@@ -65,16 +65,25 @@ class ModuleBase
             } else if (class_exists($entry)) {                
               $newentry = new $entry();
               $newentry->setParent($this);
+              if (!empty($description)) {
+                  $newentry->setDescription($description);
+              }        
               $this->subentries[$name] = $newentry;
               return $newentry;
             } else {
                throw new \Exception(__("Can't handle the sub entry ':entry'.",['entry'=>$entry]));
             }    
         } else if (is_a($entry,ModuleBase::class)) {    
+            if (!empty($description)) {
+                $entry->setDescription($description);
+            }        
             $this->subentries[$name] = $entry;           
             $entry->setParent($this);
             return $entry;
         } else if (is_a($entry,ResponseBase::class)) {
+            if (!empty($description)) {
+                $entry->setDescription($description);
+            }        
             $this->subentries[$name] = $entry;
             return $entry;
         } else {
