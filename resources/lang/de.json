@@ -1,6 +1,16 @@
 {
+  "Can't resolv item to an object.":"Kann Eintrag nicht zu einem Objekt auflösen",
+  "':action' is not an allowed action.":"':action' ist keine erlaubte Aktion",
+  "The sub entry ':name' does already exist.":"Der Eintrag ':name' existiert bereits:",
+  "Can't handle the sub entry ':entry'.":"Kann den Eintrag ':entry' nicht bearbeiten.",
+  "Can't handle the sub entry.":"Kann den Eintrag nicht bearbeiten.",
+  "Invalid entry in submodule list.":"Ungültiger Eintrag in der Modulliste",
   "Too many parameters given.":"Zuviele Parameter übergeben.",	
   "Expected parameter ':part' not given.":"Der erwartete Parameter ':part' wurde nicht übergeben",
+  "Classes":"Klassen",
+  "Objects":"Objekte",
+  "Tags":"Tags",
   "list classes":"Klassen auflisten",
-  "list objects":"Objekte auflisten"
+  "list objects":"Objekte auflisten",
+  "list tags":"Tags auflisten"
 }
