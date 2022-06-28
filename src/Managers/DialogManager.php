@@ -76,7 +76,7 @@ class DialogManager
     public function addResponse(string $action, string $class, $response)
     {
         if (!in_array($action,$this->allowed_actions)) {
-            throw new \Exception("'$action' is not a allowed action.");
+            throw new \Exception(__("':action' is not an allowed action.",['action'=>$action]));
             return;
         }
     }
