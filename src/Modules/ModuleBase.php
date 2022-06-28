@@ -249,4 +249,25 @@ class ModuleBase
         }
         return $result;
     }
+    
+    public function getNavigationTree()
+    {
+        $result = [];
+        foreach($this->subentries as $subentry)
+        {
+            $entry = new \StdClass();
+            if (is_a($subentry,ModuleBase::class) {
+                $entry = new \StdClass();
+                $entry->id = $subentry->getName();
+                $entry->name = $subentry->getDescription();
+                $entry->depth = $this->getDepth()+1;
+                $entry->icon = $subentry->getIcon();
+                $entry->prefix = $subentry->getPrefix();
+            } else if (is_a($subentry,ResponseBase::class)) {
+            
+            }    
+            $result[] = $entry;
+        }    
+        return $result;
+    }    
 }
