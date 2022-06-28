@@ -13,7 +13,7 @@ class FeatureClasses extends ModuleBase
     {
         $this->setName('Classes');        
         $this->setDescription(__('Classes')); 
-        $this->addSubEntry('list', ListClassesResponse::class);
+        $this->addSubEntry('list', ListClassesResponse::class,__('add class'));
 /*        $this->addSubEntry('add', AddObjectResponse::class);
         $this->addSubEntry('execadd', ExecAddObjectResponse::class);
         $this->addSubEntry('edit', EditObjectResponse::class);
