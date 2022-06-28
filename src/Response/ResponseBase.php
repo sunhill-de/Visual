@@ -39,7 +39,7 @@ abstract class ResponseBase
         }
         
         if (count($remaining_parts) > count($matrix_parts)) {
-            throw new \Exception("Too many parameters given.");
+            throw new \Exception(__("Too many parameters given."));
         }
         $i = 0;
         foreach ($matrix_parts as $part) {
@@ -61,7 +61,7 @@ abstract class ResponseBase
                 if (isset($remaining_parts[$i])) {
                     $result[$part] = $remaining_parts[$i];
                 } else {
-                    throw new \Exception("Expected parameter '$part' not given.");
+                    throw new \Exception(__("Expected parameter ':part' not given.",['part'=>$part]));
                 }
             }
             $i++;
