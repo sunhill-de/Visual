@@ -58,7 +58,7 @@ class ModuleBase
     protected function addSubEntry(string $name, $entry, $description="")
     {
         if ($this->findSubEntry($name)) {
-            throw new \Exception("The sub entry '$name' does already exist.");
+            throw new \Exception(__("The sub entry ':name' does already exist.",['name'=>$name]));
         } else if (is_string($entry)) {
             if (method_exists($this,$entry)) {
                 $this->subentries[$name] = $newentry;
@@ -177,7 +177,7 @@ class ModuleBase
                     return false;
                 }
             } else {                
-                throw new \Exception("Invalid entry in submodule list.");
+                throw new \Exception(__("Invalid entry in submodule list."));
             }    
         } else {
             return false;
