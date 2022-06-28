@@ -14,6 +14,19 @@ abstract class ResponseBase
     
     protected $parent;
     
+    protected $description;
+    
+    public function setDescription(string $description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+    
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    
     protected function solveRemaining(string $matrix): array
     {
         $result = [];
