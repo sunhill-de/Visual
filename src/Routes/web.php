@@ -1,9 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ApiController;
-use App\Http\Controllers\ClassesController;
-use App\Http\Controllers\ObjectsController;
 
 /*
 |--------------------------------------------------------------------------
