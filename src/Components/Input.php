@@ -1,6 +1,6 @@
 <?php
 
-namespace Sunhill\Visual\Views\Components;
+namespace Sunhill\Visual\Components;
 
 use Illuminate\View\Component;
 use Sunhill\ORM\Facades\Classes;
