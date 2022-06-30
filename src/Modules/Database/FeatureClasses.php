@@ -2,7 +2,7 @@
 
 namespace Sunhill\Visual\Modules\Database;
 
-use Sunhill\Visual\Response\Database\ListClassesResponse;
+use Sunhill\Visual\Response\Database\Classes\ListClassesResponse;
 
 use Sunhill\Visual\Modules\ModuleBase;
 

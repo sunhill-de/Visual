@@ -265,7 +265,7 @@ class ModuleBase
         foreach($this->subentries as $subentry)
         {
             $entry = new \StdClass();
-            if (is_a($subentry,ModuleBase::class) {
+            if (is_a($subentry,ModuleBase::class)) {
                 $entry = new \StdClass();
                 $entry->id = $subentry->getName();
                 $entry->name = $subentry->getDescription();

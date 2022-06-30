@@ -15,7 +15,7 @@ class ListObjectsResponse extends ListResponse
     
     protected function prepareList($key=null)
     {
-        return Objects::getObjectList($class);
+        return Objects::getObjectList($key);
     }
     
     protected function getFixedInheritance(string $class)
@@ -36,7 +36,7 @@ class ListObjectsResponse extends ListResponse
     protected function processAdditional()
     {
         $this->params['columns'] = $this->getColumns();
-        $this->params['inheritance'] = array_reverse($this->getFixedInheritance($params['key']));
+        $this->params['inheritance'] = array_reverse($this->getFixedInheritance($this->params['key']));
     }
     
     protected function getColumns()

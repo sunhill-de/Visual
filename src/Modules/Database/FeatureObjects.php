@@ -2,15 +2,7 @@
 
 namespace Sunhill\Visual\Modules\Database;
 
-use Sunhill\Visual\Response\Database\ListObjectsResponse;
-use Sunhill\Visual\Response\Database\AddObjectResponse;
-use Sunhill\Visual\Response\Database\ExecAddObjectResponse;
-use Sunhill\Visual\Response\Database\EditObjectResponse;
-use Sunhill\Visual\Response\Database\ExecEditObjectResponse;
-use Sunhill\Visual\Response\Database\GroupEditObjectResponse;
-use Sunhill\Visual\Response\Database\ExecGroupEditObjectResponse;
-use Sunhill\Visual\Response\Database\DeleteObjectResponse;
-use Sunhill\Visual\Response\Database\ShowObjectResponse;
+use Sunhill\Visual\Response\Database\Objects\ListObjectsResponse;
 
 use Sunhill\Visual\Modules\ModuleBase;
 

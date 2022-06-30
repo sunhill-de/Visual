@@ -2,10 +2,10 @@
 
 namespace Sunhill\Visual\Response\Database\Classes;
 
-use Sunhill\Visual\Response\BladeResponse;
+use Sunhill\Visual\Response\ListResponse;
 use Sunhill\ORM\Facades\Classes;
 
-class ListClassesResponse extends BladeResponse
+class ListClassesResponse extends ListResponse
 {
     
     protected $template = 'visual::classes.list';

@@ -2,7 +2,7 @@
 
 namespace Sunhill\Visual\Modules\Database;
 
-use Sunhill\Visual\Response\Database\ListTagsResponse;
+use Sunhill\Visual\Response\Database\Tags\ListTagsResponse;
 
 use Sunhill\Visual\Modules\ModuleBase;
 

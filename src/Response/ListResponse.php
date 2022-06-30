@@ -21,12 +21,12 @@ abstract class ListResponse extends BladeResponse
      * @param $key if given the key is a sub amount of entries
      * @returns array the unsorted, unliced list of all entries
      */
-    abstract function prepareList($key = null);
+    abstract protected function prepareList($key = null);
 
     /**
      * Sorts the passed list by key
      */
-    protected function orderList(array $list,string $key): array
+    protected function orderList($list,string $key)
     {
       if ($key == 'id') {
         return $list;
@@ -36,12 +36,12 @@ abstract class ListResponse extends BladeResponse
     /**
      * Slices the given list
      */
-    protected function sliceList(array $list,int $page): array
+    protected function sliceList($list,int $page): array
     {
         $result = [];
         $i = 0;
-        while (($i + $delta * ENTRIES_PER_PAGE < count($list)) && ($i < ENTRIES_PER_PAGE)) {
-            $result[] = $list[($i++)+$delta*ENTRIES_PER_PAGE];  
+        while (($i + $page * ENTRIES_PER_PAGE < count($list)) && ($i < ENTRIES_PER_PAGE)) {
+            $result[] = $list[($i++)+$page*ENTRIES_PER_PAGE];  
         }
         return $result;
     }
@@ -66,9 +66,9 @@ abstract class ListResponse extends BladeResponse
     private function processParams()
     {
         $params = $this->getParams();
-        $this->params['key'] = $passed['key'];
-        $this->params['delta'] = $passed['delta'];
-        $this->params['order'] = $passed['order'];
+        $this->params['key'] = $params['key'];
+        $this->params['delta'] = $params['delta'];
+        $this->params['order'] = $params['order'];
     }
   
     /**
@@ -76,7 +76,7 @@ abstract class ListResponse extends BladeResponse
      */
     private function processList()
     {
-        $this->params['list'] = $this->sliceList($this->orderList($this->prepareList($this->params['key']),$this->params['order']),$this->params['delta']);        
+        $this->params['items'] = $this->sliceList($this->orderList($this->prepareList($this->params['key']),$this->params['order']),$this->params['delta']);        
     }
   
     protected function processPaginator()
