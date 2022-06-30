@@ -14,7 +14,7 @@
 	$(document).ready(function () {
 		var options = {
   			url: function(phrase) {
-    			return "/api/objectSearch";
+    			return "/ajax/objectSearch";
   			},
   			getValue: function(element) {
     			return element.name;
