@@ -35,12 +35,7 @@ class ListObjectsResponse extends ListResponse
   
     protected function processAdditional()
     {
-        $this->params['columns'] = $this->getColumns();
         $this->params['inheritance'] = array_reverse($this->getFixedInheritance($this->params['key']));
     }
     
-    protected function getColumns()
-    {
-        return ['UID'];     
-    }
 }  

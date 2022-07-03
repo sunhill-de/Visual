@@ -61,7 +61,7 @@ class ModuleBase
             throw new \Exception(__("The sub entry ':name' does already exist.",['name'=>$name]));
         } else if (is_string($entry)) {
             if (method_exists($this,$entry)) {
-                $this->subentries[$name] = $newentry;
+                $this->subentries[$name] = $entry;
             } else if (class_exists($entry)) {                
               $newentry = new $entry();
               $newentry->setParent($this);
@@ -170,9 +170,8 @@ class ModuleBase
             } else if ($module instanceof ResponseBase) {
                 return $module->setRequest($request)->setRemaining($remaining)->setParams($params)->response();
             } else if (is_string($module)) {
-                $method = 'action_'.$submodule;
-                if (method_exists($this,$method)) {
-                    return $this->$method($remaining,$request,$params);
+                if (method_exists($this,$module)) {
+                    return $this->$module($remaining,$request,$params);
                 } else {
                     return false;
                 }
