@@ -4,6 +4,7 @@ namespace Sunhill\Visual\Response\Database\Objects;
 
 use Sunhill\Visual\Response\ListResponse;
 use Sunhill\ORM\Facades\Objects;
+use Sunhill\ORM\Facades\Classes;
 use Sunhill\ORM\Utils\ObjectList;
 
 class ListObjectsResponse extends ListResponse

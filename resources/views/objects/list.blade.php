@@ -23,7 +23,7 @@ Objekte von '{{ $key }}' auflisten
   @forelse ($items as $item)
   <tr>
  <td>{{ $item->getID() }}</td>
- <td>{{ $item::$object_infos['name'] }}</td>
+ <td><a href="{{ $prefix }}/Objects/list/{{ $item::$object_infos['name'] }}">{{ $item::$object_infos['name'] }}</a></td>
  @foreach ($columns as $col)
  <td>{{ $item->$col }}</td>
  @endforeach
