@@ -34,7 +34,7 @@ class DialogManager
         $this->addObjectResponse('add',ORMObject::class,AddObjectResponse::class);
         
         $this->object_list_fields = [];
-        $this->addObjectListFields(ORMObject::class,['UUID']);
+        $this->addObjectListFields(ORMObject::class,['uuid']);
     }
     
     public function __construct()

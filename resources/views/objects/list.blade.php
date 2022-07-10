@@ -23,7 +23,7 @@ Objekte von '{{ $key }}' auflisten
   @forelse ($items as $item)
   <tr>
  <td>{{ $item->getID() }}</td>
- <td>{{ $item::objectInfos['name'] }}</td>
+ <td>{{ $item::$object_infos['name'] }}</td>
  @foreach ($columns as $col)
  <td>{{ $item->$col }}</td>
  @endforeach

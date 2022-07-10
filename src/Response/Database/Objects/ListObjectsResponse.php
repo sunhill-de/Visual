@@ -9,7 +9,7 @@ use Sunhill\ORM\Utils\ObjectList;
 class ListObjectsResponse extends ListResponse
 {
 
-    protected $columns = ['UUID'];
+    protected $columns = ['uuid'];
     
     protected $template = 'visual::objects.list';
     
