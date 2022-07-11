@@ -12,10 +12,10 @@ Objekte von '{{ $key }}' auflisten
  <table>
   <caption>@yield('caption')</caption>
   <tr>
-     <th>ID</th>
+     <th><a href="{{ $prefix }}/Objects/list/{{ $key }}/{{ $delta }}/id">ID</a></th>
      <th>Klasse</th>
      @foreach ($columns as $col)
-     <th>{{ $col }}</th>
+     <th><a href="{{ $prefix }}/Objects/list/{{ $key }}/{{ $delta }}/{{ $col }}">{{ $col }}</a></th>
      @endforeach
      <th>&nbsp;</th>
      <th>&nbsp;</th>
