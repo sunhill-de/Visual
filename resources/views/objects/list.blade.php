@@ -30,7 +30,7 @@ Objekte von '{{ $key }}' auflisten
   </tr>
   @forelse ($items as $item)
   <tr>
- <td>{{ $item->getID() }}</td>
+ <td><a href="{{ $prefix }}/Objects/show/{{ $item->getID() }}">{{ $item->getID() }}</a></td>
  <td><a href="{{ $prefix }}/Objects/list/{{ $item::$object_infos['name'] }}">{{ $item::$object_infos['name'] }}</a></td>
  @foreach ($columns as $col)
  <td>{{ $item->$col }}</td>
