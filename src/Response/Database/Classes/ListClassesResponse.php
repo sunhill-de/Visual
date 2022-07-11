@@ -10,7 +10,7 @@ class ListClassesResponse extends ListResponse
     
     protected $template = 'visual::classes.list';
     
-    protected function prepareList($key=null)
+    protected function prepareList($key,$order,$delta,$limit)
     {
         $all_classes = Classes::getAllClasses();
         $result = [];

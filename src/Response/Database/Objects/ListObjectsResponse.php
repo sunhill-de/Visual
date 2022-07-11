@@ -14,9 +14,9 @@ class ListObjectsResponse extends ListResponse
     
     protected $template = 'visual::objects.list';
     
-    protected function prepareList($key=null)
+    protected function prepareList($key,$order,$delta,$limit)
     {
-        return Objects::getObjectList($key);
+        return Objects::getPartialObjectList($key,$order,$delta*$limit,$limit);
     }
     
     protected function getFixedInheritance(string $class)

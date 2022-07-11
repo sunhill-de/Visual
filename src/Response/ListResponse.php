@@ -16,13 +16,26 @@ define("ENTRIES_PER_PAGE", 25);
  */
 abstract class ListResponse extends BladeResponse
 {
+    
+    protected $key = 'id';
+    
     /**
      * Returns a list of all entries of the given item
      * @param $key if given the key is a sub amount of entries
      * @returns array the unsorted, unliced list of all entries
      */
-    abstract protected function prepareList($key = null);
+    abstract protected function prepareList($key,$order,$delta,$limit);
 
+    protected function cmp($a,$b)
+    {
+        $key = $this->$key;
+        if ($a->$key == $b->$key) {
+            return 0;
+        } else {
+            return ($a->$key < $b->$key) ? -1 : 1;
+        }
+    }
+    
     /**
      * Sorts the passed list by key
      */
@@ -30,7 +43,9 @@ abstract class ListResponse extends BladeResponse
     {
       if ($key == 'id') {
         return $list;
-      }  
+      }
+      uasort($list,'cmp');
+      return $list;
     }
   
     /**
@@ -76,7 +91,8 @@ abstract class ListResponse extends BladeResponse
      */
     private function processList()
     {
-        $this->params['items'] = $this->sliceList($this->orderList($this->prepareList($this->params['key']),$this->params['order']),$this->params['delta']);        
+        $this->params['items'] = $this->prepareList($this->params['key'],$this->params['order'],$this->params['delta'],ENTRIES_PER_PAGE);
+//        $this->params['items'] = $this->sliceList($this->orderList($this->prepareList($this->params['key']),$this->params['order']),$this->params['delta']);        
     }
   
     protected function processPaginator()
