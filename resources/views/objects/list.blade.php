@@ -15,7 +15,7 @@ Objekte von '{{ $key }}' auflisten
      <th><a href="{{ $prefix }}/Objects/list/{{ $key }}/{{ $delta }}/id">ID</a></th>
      <th>Klasse</th>
      @foreach ($columns as $col)
-     <th><a href="{{ $prefix }}/Objects/list/{{ $key }}/{{ $delta }}/{{ $col }}">{{ $col }}</a></th>
+     <th><a href="{{ $prefix }}/Objects/list/{{ $key }}/{{ $delta }}/{{ $col }}">{{ __($col) }}</a></th>
      @endforeach
      <th>&nbsp;</th>
      <th>&nbsp;</th>
