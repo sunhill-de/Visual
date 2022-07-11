@@ -1,0 +1,14 @@
+#hirarchy ul {
+	list-style-type:none;
+}
+
+#hirarchy ul li {
+	display: inline;
+}
+
+#hirarchy ul li+li:before {
+	padding: 8px;
+	padding-top: 0px;
+	color: black;
+	content: '>>';	
+}

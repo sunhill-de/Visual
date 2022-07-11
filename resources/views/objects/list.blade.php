@@ -9,6 +9,14 @@ Objekte von '{{ $key }}' auflisten
 @section('content')
 @parent
 <div class="list">
+ <div id="hirarchy">
+  <ul>
+  <li>Objekthirarchie</li>  
+  @foreach ($inheritance as $ancestor)
+  <li><a href="{{ $prefix }}/Objects/list/{{ $ancestor }}">{{ $ancestor }}</a></li>
+  @endforeach  
+  </ul>
+ </div>
  <table>
   <caption>@yield('caption')</caption>
   <tr>
