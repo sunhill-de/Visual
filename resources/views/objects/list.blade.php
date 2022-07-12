@@ -22,8 +22,12 @@ Objekte von '{{ $key }}' auflisten
   <tr>
      <th><a href="{{ $prefix }}/Objects/list/{{ $key }}/{{ $delta }}/id">ID</a></th>
      <th>Klasse</th>
-     @foreach ($columns as $col)
+     @foreach ($columns as $index => $col)
+      @if (is_int($index)
      <th><a href="{{ $prefix }}/Objects/list/{{ $key }}/{{ $delta }}/{{ $col }}">{{ __($col) }}</a></th>
+      @else
+     <th><a href="{{ $prefix }}/Objects/list/{{ $key }}/{{ $delta }}/{{ $index }}">{{ __($index) }}></th>
+      @endif
      @endforeach
      <th>&nbsp;</th>
      <th>&nbsp;</th>
@@ -32,8 +36,15 @@ Objekte von '{{ $key }}' auflisten
   <tr>
  <td><a href="{{ $prefix }}/Objects/show/{{ $item->getID() }}">{{ $item->getID() }}</a></td>
  <td><a href="{{ $prefix }}/Objects/list/{{ $item::$object_infos['name'] }}">{{ $item::$object_infos['name'] }}</a></td>
- @foreach ($columns as $col)
+ @foreach ($columns as $index => $col)
+  @if (is_int($index))
  <td>{{ $item->$col }}</td>
+  @else
+    @php
+     list($field,$subfield) = explode("=>",$col);
+    @endphp
+  <td>{{ $item->$field->$subfield }}</td>
+  @endif
  @endforeach
  <td><a href="{{ $prefix }}/Objects/edit">bearbeiten</a></td>
  <td><a href="{{ $prefix }}/Objects/delete">l&ouml;schen</a></td>
