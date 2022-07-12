@@ -23,7 +23,7 @@ Objekte von '{{ $key }}' auflisten
      <th><a href="{{ $prefix }}/Objects/list/{{ $key }}/{{ $delta }}/id">ID</a></th>
      <th>Klasse</th>
      @foreach ($columns as $index => $col)
-      @if (is_int($index)
+      @if (is_int($index))
      <th><a href="{{ $prefix }}/Objects/list/{{ $key }}/{{ $delta }}/{{ $col }}">{{ __($col) }}</a></th>
       @else
      <th><a href="{{ $prefix }}/Objects/list/{{ $key }}/{{ $delta }}/{{ $index }}">{{ __($index) }}></th>
@@ -43,7 +43,13 @@ Objekte von '{{ $key }}' auflisten
     @php
      list($field,$subfield) = explode("=>",$col);
     @endphp
-  <td>{{ $item->$field->$subfield }}</td>
+  <td>
+   @if (is_null($item->$field))
+    &nbsp;
+   @else
+   {{ $item->$field->$subfield }}
+   @endif
+  </td>
   @endif
  @endforeach
  <td><a href="{{ $prefix }}/Objects/edit">bearbeiten</a></td>
