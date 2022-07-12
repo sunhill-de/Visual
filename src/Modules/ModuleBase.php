@@ -55,30 +55,39 @@ class ModuleBase
      * @param $name The name of the entry to add
      * @param $entry string|ModuleBase either a string of an ModuleBase class or a already initiated object of a ModuleBase class
      */
-    protected function addSubEntry(string $name, $entry)
+    protected function addSubEntry(string $name, $entry, $description="")
     {
         if ($this->findSubEntry($name)) {
-            throw new \Exception("The sub entry '$name' does already exist.");
+            throw new \Exception(__("The sub entry ':name' does already exist.",['name'=>$name]));
         } else if (is_string($entry)) {
             if (method_exists($this,$entry)) {
-                $this->subentries[$name] = $newentry;
+                $this->subentries[$name] = $entry;
             } else if (class_exists($entry)) {                
               $newentry = new $entry();
               $newentry->setParent($this);
+              if (!empty($description)) {
+                  $newentry->setDescription($description);
+              }        
               $this->subentries[$name] = $newentry;
               return $newentry;
             } else {
-               throw new \Exception("Can't handle the sub entry '$entry'.");
+               throw new \Exception(__("Can't handle the sub entry ':entry'.",['entry'=>$entry]));
             }    
         } else if (is_a($entry,ModuleBase::class)) {    
+            if (!empty($description)) {
+                $entry->setDescription($description);
+            }        
             $this->subentries[$name] = $entry;           
             $entry->setParent($this);
             return $entry;
         } else if (is_a($entry,ResponseBase::class)) {
+            if (!empty($description)) {
+                $entry->setDescription($description);
+            }        
             $this->subentries[$name] = $entry;
             return $entry;
         } else {
-            throw new \Exception("Can't handle the sub entry.");
+            throw new \Exception(__("Can't handle the sub entry."));
         }    
     }
     
@@ -161,14 +170,13 @@ class ModuleBase
             } else if ($module instanceof ResponseBase) {
                 return $module->setRequest($request)->setRemaining($remaining)->setParams($params)->response();
             } else if (is_string($module)) {
-                $method = 'action_'.$submodule;
-                if (method_exists($this,$method)) {
-                    return $this->$method($remaining,$request,$params);
+                if (method_exists($this,$module)) {
+                    return $this->$module($remaining,$request,$params);
                 } else {
                     return false;
                 }
             } else {                
-                throw new \Exception("Invalid entry in submodule list.");
+                throw new \Exception(__("Invalid entry in submodule list."));
             }    
         } else {
             return false;
@@ -205,7 +213,7 @@ class ModuleBase
     
     public function getPrefix()
     {
-        if ($parent = $this->getParent()) {
+        if (($parent = $this->getParent()) && ($parent->getParent())) {
             return $parent->getPrefix().$parent->getName().'/';
         } else {
             return '/';
@@ -249,4 +257,25 @@ class ModuleBase
         }
         return $result;
     }
+    
+    public function getNavigationTree()
+    {
+        $result = [];
+        foreach($this->subentries as $subentry)
+        {
+            $entry = new \StdClass();
+            if (is_a($subentry,ModuleBase::class)) {
+                $entry = new \StdClass();
+                $entry->id = $subentry->getName();
+                $entry->name = $subentry->getDescription();
+                $entry->depth = $this->getDepth()+1;
+                $entry->icon = $subentry->getIcon();
+                $entry->prefix = $subentry->getPrefix();
+            } else if (is_a($subentry,ResponseBase::class)) {
+            
+            }    
+            $result[] = $entry;
+        }    
+        return $result;
+    }    
 }

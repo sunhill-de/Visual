@@ -1,9 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ApiController;
-use App\Http\Controllers\ClassesController;
-use App\Http\Controllers\ObjectsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,3 +14,6 @@ use App\Http\Controllers\ObjectsController;
 */
 Route::get('/css/sunhill.css', 'Sunhill\Visual\Controllers\SystemController@css');
 Route::get('/js/sunhill.js', 'Sunhill\Visual\Controllers\SystemController@js');
+
+Route::get('/ajax/searchTags', 'Sunhill\Visual\Controllers\AjaxController@searchTags');
+Route::get('/ajax/searchObjects', 'Sunhill\Visual\Controllers\AjaxController@searchObjects');

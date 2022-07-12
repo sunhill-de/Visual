@@ -14,15 +14,32 @@ abstract class ResponseBase
     
     protected $parent;
     
+    protected $description;
+    
+    public function setDescription(string $description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+    
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    
     protected function solveRemaining(string $matrix): array
     {
         $result = [];
         
         $matrix_parts = explode('/',$matrix);
-        $remaining_parts = explode('/',$this->remaining);
+        if (!empty($this->remaining)) {
+            $remaining_parts = explode('/',$this->remaining);
+        } else {
+            $remaining_parts = [];
+        }
         
         if (count($remaining_parts) > count($matrix_parts)) {
-            throw new \Exception("Too many parameters given.");
+            throw new \Exception(__("Too many parameters given."));
         }
         $i = 0;
         foreach ($matrix_parts as $part) {
@@ -44,7 +61,7 @@ abstract class ResponseBase
                 if (isset($remaining_parts[$i])) {
                     $result[$part] = $remaining_parts[$i];
                 } else {
-                    throw new \Exception("Expected parameter '$part' not given.");
+                    throw new \Exception(__("Expected parameter ':part' not given.",['part'=>$part]));
                 }
             }
             $i++;

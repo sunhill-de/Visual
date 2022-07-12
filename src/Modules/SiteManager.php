@@ -14,6 +14,7 @@ class SiteManager extends ModuleBase
     public function tryToRoute(Request $request)
     {        
         $params = [
+            'navigation'=>$this->getNavigationTree(),
             'nav_0'=>$this->getModuleNavigation(),
             'sitename'=>$this->getDescription(),            
             'breadcrumbs'=>[]
@@ -31,4 +32,5 @@ class SiteManager extends ModuleBase
     {
         return view('error.404',$params);
     }
+    
 }
