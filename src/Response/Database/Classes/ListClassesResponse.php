@@ -26,5 +26,15 @@ class ListClassesResponse extends ListResponse
         }    
         return $result;
     }
+
+    protected function prepareMatrix($input): array
+    {
+        
+    }
+    
+    protected function prepareHeaders(): array
+    {
+        
+    }
     
 }  

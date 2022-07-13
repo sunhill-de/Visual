@@ -14,6 +14,8 @@ class DialogManager
      * Stores the responses for different object actions 
      */
     protected $object_actions;
+
+    protected $object_keyfields;
     
     protected $object_list_fields;
     
@@ -34,7 +36,7 @@ class DialogManager
         $this->addObjectResponse('add',ORMObject::class,AddObjectResponse::class);
         
         $this->object_list_fields = [];
-        $this->addObjectListFields(ORMObject::class,['uuid']);
+        $this->addObjectListFields(ORMObject::class,['uuid','keyfield']);
     }
     
     public function __construct()
@@ -106,6 +108,16 @@ class DialogManager
         }
         $class = $this->getClassName($class);
         $this->object_actions[$action][$class] = $response;
+    }
+    
+    public function addKeyfield(string $class,string $keyfield)
+    {
+        
+    }
+    
+    public function getKeyfield($object)
+    {
+        $class = get_class($object);    
     }
     
     public function getObjectResponse(string $action, $item, $additional=null)

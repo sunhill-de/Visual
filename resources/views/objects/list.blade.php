@@ -20,44 +20,30 @@ Objekte von '{{ $key }}' auflisten
  <table>
   <caption>@yield('caption')</caption>
   <tr>
-     <th><a href="{{ $prefix }}/Objects/list/{{ $key }}/{{ $delta }}/id">ID</a></th>
-     <th>Klasse</th>
-     @foreach ($columns as $index => $col)
-      @if (is_int($index))
-     <th><a href="{{ $prefix }}/Objects/list/{{ $key }}/{{ $delta }}/{{ $col }}">{{ __($col) }}</a></th>
+     @foreach ($headers as $entry)
+     <th>
+      @if (is_null($entry->link))
+       {{ $entry->name }}
       @else
-     <th><a href="{{ $prefix }}/Objects/list/{{ $key }}/{{ $delta }}/{{ $index }}">{{ __($index) }}></th>
+       <a href="{{ $entry->link }}">{{ $entry->name }}</a>
       @endif
+     </th>
      @endforeach
-     <th>&nbsp;</th>
-     <th>&nbsp;</th>
-  </tr>
-  @forelse ($items as $item)
+  @forelse ($items as $row)
   <tr>
- <td><a href="{{ $prefix }}/Objects/show/{{ $item->getID() }}">{{ $item->getID() }}</a></td>
- <td><a href="{{ $prefix }}/Objects/list/{{ $item::$object_infos['name'] }}">{{ $item::$object_infos['name'] }}</a></td>
- @foreach ($columns as $index => $col)
-  @if (is_int($index))
- <td>{{ $item->$col }}</td>
-  @else
-    @php
-     list($field,$subfield) = explode("=>",$col);
-    @endphp
-  <td>
-   @if (is_null($item->$field))
-    &nbsp;
-   @else
-   {{ $item->$field->$subfield }}
-   @endif
-  </td>
-  @endif
- @endforeach
- <td><a href="{{ $prefix }}/Objects/edit">bearbeiten</a></td>
- <td><a href="{{ $prefix }}/Objects/delete">l&ouml;schen</a></td>
+   @foreach ($row as $col)
+   <td>
+    @if (is_null($col->link))
+     {{ $col->name }}   
+    @else
+     <a href="{{ $col->link }}">{{ $col->name }}</a>
+    @endif
+   </td> 
+   @endforeach 
   </tr>
   @empty
   <tr>
-   <td colspan="100">Keine Eintr&auml;ge</td>
+   <td colspan="100">{{ __("No entries") }}</td>
   </tr>
   @endforelse
    

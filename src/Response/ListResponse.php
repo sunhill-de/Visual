@@ -26,28 +26,10 @@ abstract class ListResponse extends BladeResponse
      */
     abstract protected function prepareList($key,$order,$delta,$limit);
 
-    protected function cmp($a,$b)
-    {
-        $key = $this->$key;
-        if ($a->$key == $b->$key) {
-            return 0;
-        } else {
-            return ($a->$key < $b->$key) ? -1 : 1;
-        }
-    }
+    abstract protected function prepareMatrix($input): array;
     
-    /**
-     * Sorts the passed list by key
-     */
-    protected function orderList($list,string $key)
-    {
-      if ($key == 'id') {
-        return $list;
-      }
-      uasort($list,'cmp');
-      return $list;
-    }
-  
+    abstract protected function prepareHeaders(): array;
+    
     /**
      * Slices the given list
      */
@@ -91,8 +73,7 @@ abstract class ListResponse extends BladeResponse
      */
     private function processList()
     {
-        $this->params['items'] = $this->prepareList($this->params['key'],$this->params['order'],$this->params['delta'],ENTRIES_PER_PAGE);
-//        $this->params['items'] = $this->sliceList($this->orderList($this->prepareList($this->params['key']),$this->params['order']),$this->params['delta']);        
+        $this->params['items'] = $this->prepareMatrix($this->prepareList($this->params['key'],$this->params['order'],$this->params['delta'],ENTRIES_PER_PAGE));
     }
   
     protected function processPaginator()
@@ -106,10 +87,17 @@ abstract class ListResponse extends BladeResponse
     {
     }
     
+    protected function processHeaders()
+    {
+        $this->params['headers'] = $this->prepareHeaders();    
+    }
+    
     protected function prepareResponse()
     {
         $this->processParams();
+        $this->processHeaders();
         $this->processList();
+        
         $this->processPaginator();
         $this->processAdditional();
     }
