@@ -37,6 +37,9 @@ class DialogManager
         
         $this->object_list_fields = [];
         $this->addObjectListFields(ORMObject::class,['uuid','keyfield']);
+        
+        $this->object_keyfields = [];
+        $this->addObjectKeyfield(ORMObject::class,':uuid');
     }
     
     public function __construct()
@@ -110,14 +113,19 @@ class DialogManager
         $this->object_actions[$action][$class] = $response;
     }
     
-    public function addKeyfield(string $class,string $keyfield)
+    public function addObjectKeyfield(string $class,string $keyfield)
     {
-        
+        $this->object_keyfields[$class] = $keyfield;   
     }
     
-    public function getKeyfield($object)
+    public function getObjectKeyfield($object)
     {
-        $class = get_class($object);    
+        $keyfield = $this->getBestEntry($this->object_keyfields,get_class($object));
+        $vars = preg_match_all('/\:(\S+)/s',$keyfield,$matches);
+        foreach ($matches[1] as $match) {
+            $keyfield = str_replace(':'.$match,$object->$match,$keyfield);
+        }
+        return $keyfield;
     }
     
     public function getObjectResponse(string $action, $item, $additional=null)

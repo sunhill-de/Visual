@@ -65,7 +65,7 @@ class ListObjectsResponse extends ListResponse
                 return $key_object->$subkey;
             }
         } else if ($column == "keyfield") {
-            
+            return Dialogs::getObjectKeyfield($object);
         } else {
             return $object->$column;
         }
