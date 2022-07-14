@@ -1,9 +1,9 @@
 @extends('visual::basic.navigation')
 
-@section('title','Klassen auflisten')
+@section('title','List classes')
 
 @section('caption')
-Klassen auflisten
+{{ __('List classes') }}
 @endsection
 
 @section('content')
@@ -12,26 +12,32 @@ Klassen auflisten
  <table>
   <caption>@yield('caption')</caption>
   <tr>
-   <th><a href="{{ $prefix }}/Classes/list/{{ $delta }}/Name">Name</a></th>
-   <th><a href="{{ $prefix }}/Classes/list/{{ $delta }}/Parent">Parent</a></th>
-   <th>Beschreibung</th>
+   <th>{{ __('Class name') }}</th>
+   <th>{{ __('Name') }}</th>
+   <th>{{ __('Description') }}</th>
+   <th>{{ __('Parent') }}</th>
    <th>&nbsp;</th>
    <th>&nbsp;</th>
    <th>&nbsp;</th>
   </tr>
-  @forelse ($items as $item)
+  @forelse ($items as $row)
   <tr>
-   <td>{{ $item->name }}</td>
-   <td>{{ $item->parent }}</td>
-   <td>{{ $item->description }}</td>
-   <td><a href="{{ $prefix }}/Classes/show/{{$item->name}}">anzeigen</a></td>
-   <td><a href="{{ $prefix }}/Objects/list/{{$item->name}}">Objekte auflisten</a></td>
-   <td><a href="{{ $prefix }}/Objects/add/{{$item->name}}">Objekt hinzuf&uuml;gen</a></td> 
+   <td>{{ $row->classname }}</td>
+   <td>{{ $row->name }}</td>
+   <td>{{ $row->description }}</td>
+   <td>{{ $row->parent }}</td>
+   <td><a href="{{ $prefix }}/Objects/list/{{ $row->name }}">{{ __('list') }}</a></td>
+   <td><a href="{{ $prefix }}/Objects/add/{{ $row->name }}">{{ __('add') }}</a></td>
+   <td><a href="{{ $prefix }}/Classes/show/{{ $row->name }}">{{ __('show') }}</a></td>
   </tr>
   @empty
   <tr>
-   <td colspan="100">Keine Eintr&auml;ge</td>
+   <td colspan="100">{{ __("No entries") }}</td>
+  </tr>
   @endforelse
- </table>
+   
+</table>
 </div>
-@endsection  
+
+@endsection
+  

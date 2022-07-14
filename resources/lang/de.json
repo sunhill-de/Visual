@@ -15,5 +15,16 @@
   "list tags":"Tags auflisten",
   "keyfield":"Schlüsselfeld",
   "class":"Klasse",
-  "No entries":"Keine Einträge"
+  "No entries":"Keine Einträge",
+  "List classes":"Klassen auflisten",
+  "Class name":"Klassenname",
+  "Name":"Name",
+  "Description":"Beschreibung",
+  "Parent":"Vorfahre",
+  "list":"auflisten",
+  "add":"hinzufügen",
+  "delete":"löschen",
+  "edit":"bearbeiten",
+  "group edit":"Gruppenbearbeitung",
+  "show":"anzeigen"
 }
