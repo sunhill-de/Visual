@@ -3,6 +3,8 @@
 namespace Sunhill\Visual\Modules\Database;
 
 use Sunhill\Visual\Response\Database\Objects\ListObjectsResponse;
+use Sunhill\Visual\Response\Database\Objects\ShowObjectResponse;
+use Sunhill\Visual\Response\Database\Objects\AddObjectResponse;
 
 use Sunhill\Visual\Modules\ModuleBase;
 use Sunhill\Visual\Facades\Dialogs;
@@ -21,8 +23,8 @@ class FeatureObjects extends ModuleBase
         $this->addSubEntry('execedit', ExecEditObjectResponse::class);
         $this->addSubEntry('groupedit', GroupEditObjectResponse::class);
         $this->addSubEntry('execgroupedit', ExecGroupEditObjectResponse::class);
-        $this->addSubEntry('delete', DeleteObjectResponse::class);
-        $this->addSubEntry('show', ShowObjectResponse::class); */
+        $this->addSubEntry('delete', DeleteObjectResponse::class); */
+        $this->addSubEntry('show', ShowObjectResponse::class, __("Show object")); 
     }
     
     protected function listObjects($remaining,$request,$params)

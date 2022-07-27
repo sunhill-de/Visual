@@ -4,6 +4,8 @@ namespace Sunhill\Visual;
 
 use Illuminate\Support\ServiceProvider;
 use Sunhill\Visual\Managers\DialogManager;
+use Sunhill\Visual\Components\Input;
+use Illuminate\Support\Facades\Blade;
 
 class VisualServiceProvider extends ServiceProvider
 {
@@ -18,6 +20,10 @@ class VisualServiceProvider extends ServiceProvider
         $this->loadJSONTranslationsFrom(__DIR__.'/../resources/lang');
         $this->loadRoutesFrom(__DIR__.'/Routes/web.php');
         $this->loadViewsFrom(__DIR__.'/../resources/views','visual');
+    //    $this->loadViewComponentsAs('input', [Input::class]);
+        Blade::component('visual-input', Input::class);
+        
+        
     }
 
 }

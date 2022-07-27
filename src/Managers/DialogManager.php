@@ -120,6 +120,9 @@ class DialogManager
     
     public function getObjectKeyfield($object)
     {
+        if (empty($object)) {
+            return "";
+        }
         $keyfield = $this->getBestEntry($this->object_keyfields,get_class($object));
         $vars = preg_match_all('/\:(\S+)/s',$keyfield,$matches);
         foreach ($matches[1] as $match) {

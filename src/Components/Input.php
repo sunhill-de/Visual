@@ -8,22 +8,39 @@ use Sunhill\ORM\Facades\Classes;
 class Input extends Component
 {
     
-    public $class;
+    public $id;
     
     public $name;
     
-    public $type;
+    public $action;
+    
+    public $property;
+    
+    public $class;
     
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($class,$name,$type)
+    public function __construct($id,$name,$action)
     {
-        $this->class = $class;
+        switch ($this->action = $action) {
+            case "add":
+                // id should be a class name
+                $this->class = $id;
+                $namespace = Classes::getNamespaceOfClass($id);
+                $this->property = $namespace::getPropertyObject($name);
+                break;
+            case "edit":
+                break;
+            case "groupedit":
+                break;
+            default:
+                throw new \Exception(__("Invalid action: ':action'",['action'=>$action]));
+        }
+        $this->id = $id;
         $this->name  = $name;
-        $this->type  = $type;
     }
 
     /**
@@ -33,7 +50,7 @@ class Input extends Component
      */
     public function render()
     {
-        switch ($this->type) {
+        switch ($this->property->getType()) {
             case 'Varchar':
                 return view(
                     'components.varchar', 
@@ -77,7 +94,7 @@ class Input extends Component
                         'entries'=>Classes::getNamespaceOfClass($this->class)::getPropertyObject($this->name)->getEnumValues()
                      ]);
             default:
-                return view('components.notimplemented', ['name'=>$this->name, 'type'=>$this->type]);
+                return view('components.notimplemented', ['class'=>$this->class,'name'=>$this->name, 'type'=>$this->property->getType()]);
         }
     }
 }
