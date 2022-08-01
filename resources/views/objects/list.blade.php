@@ -48,6 +48,7 @@ Objekte von '{{ $key }}' auflisten
   @endforelse
    
 </table>
+<a href="{{ $prefix }}/Objects/add/{{ $key }}">{{ __('add') }}</a>
 </div>
 
 @endsection
