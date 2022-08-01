@@ -47,5 +47,11 @@
   "Float":"Kommazahl",
   "Enum":"Aufzählung",
   "empty":"leer",
-  "Invalid action: ':action'":"Ungültige Aktion: ':action'"
+  "Invalid action: ':action'":"Ungültige Aktion: ':action'",
+  "No handler for ':fieldtype'":"Kein Handler für ':fieldtype'",
+  "':value' is not an integer":"':value' ist keine Ganzzahl",
+  "':value' is not an float":"':value' ist keine Kommazahl",
+  "':value' is not an object-id":"'value' ist keine Objekt-ID",
+  "'$value' is not an allowed value":"'value' ist kein erlaubter Wert",
+  "':value' is not an allowed object for this field":"'value' ist kein erlaubtes Objekt für dieses Feld"
 }
