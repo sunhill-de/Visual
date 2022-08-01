@@ -1,5 +1,16 @@
 @extends('visual::basic.navigation')
 
+@push('css')
+  <style>
+  .feedback { font-size: 1.4em; }
+  .selectable .ui-selecting { background: #FECA40; }
+  .selectable .ui-selected { background: #F39814; color: white; }
+  .selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  .selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
+  </style>
+
+@endpush
+
 @section('title','Objekt hinzufügen')
 
 @section('caption')
@@ -18,5 +29,18 @@ Objekt von '{{ $class->name }}' hinzufügen
  @endforeach
  <input type="submit" value="abschicken" />
 </form>
+<script>
+  $( function() {
+    $( ".selectable" ).selectable();
+
+    function addStrEntry( id ) {
+	     if (getElementById('_'+id).value != '') {
+		     getElementById('_'+id).innerHTML += '<li>Test</li>';
+		     getElementById(id).value += 'Test;';
+		     } 	         
+  }} );
+
+  	  
+</script>
 @endsection
   

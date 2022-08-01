@@ -53,48 +53,48 @@ class Input extends Component
         switch ($this->property->getType()) {
             case 'Varchar':
                 return view(
-                    'components.varchar', 
+                    'visual::components.varchar', 
                     [
                         'name'=>$this->name
                     ]);
             case 'Integer':
-                return view('components.integer', ['name'=>$this->name]);
+                return view('visual::components.integer', ['name'=>$this->name]);
             case 'Date':
-                return view('components.date', ['name'=>$this->name]);
+                return view('visual::components.date', ['name'=>$this->name]);
             case 'Time':
-                return view('components.time', ['name'=>$this->name]);
+                return view('visual::components.time', ['name'=>$this->name]);
             case 'Object':
                 return view(
-                    'components.object', 
+                    'visual::components.object', 
                     [
                         'name'=>$this->name,
                         'allowed_objects'=>json_encode(Classes::getNamespaceOfClass($this->class)::getPropertyObject($this->name)->getAllowedObjects())
                     ]);
             case 'Float':
-                return view('components.float', ['name'=>$this->name]);
+                return view('visual::components.float', ['name'=>$this->name]);
             case 'ArrayOfStrings':
                 return view(
-                    'components.arrayofstrings',
+                    'visual::components.arrayofstrings',
                     [
                         'name'=>$this->name
                     ]
                 );
             case 'ArrayOfObjects':
                 return view(
-                'components.arrayofobjects',
+                'visual::components.arrayofobjects',
                 [
                 'name'=>$this->name
                 ]
                 );
             case 'Enum':
                 return view(
-                    'components.enum', 
+                    'visual::components.enum', 
                      [
                         'name'=>$this->name,
                         'entries'=>Classes::getNamespaceOfClass($this->class)::getPropertyObject($this->name)->getEnumValues()
                      ]);
             default:
-                return view('components.notimplemented', ['class'=>$this->class,'name'=>$this->name, 'type'=>$this->property->getType()]);
+                return view('visual::components.notimplemented', ['class'=>$this->class,'name'=>$this->name, 'type'=>$this->property->getType()]);
         }
     }
 }
