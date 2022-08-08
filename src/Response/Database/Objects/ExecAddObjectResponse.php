@@ -37,7 +37,7 @@ class ExecAddObjectResponse extends RedirectResponse
           
           if (is_array($value)) {
               foreach ($value as $single) {
-                  $object->fieldname[] = $single;
+                  $object->$fieldname[] = $single;
               }
           } else {
               if (!is_null($value)) {
@@ -125,10 +125,15 @@ class ExecAddObjectResponse extends RedirectResponse
 
     protected function getArrayOfStrings($value,$field)
     {
-        if (empty($value)) {
-            return null;
+        $result = [];
+        $name = $field->getName();
+        $count = $this->request->input("_".$name."_count",0);
+        for ($i=1;$i<=$count;$i++) {
+            if ($this->request->has("_".$name.$i)) {
+                $result[] = $this->request->input("_".$name.$i);                
+            }
         }
-        return explode(';',$value);        
+        return $result;
     }
     
     protected function getArrayOfObjects($value,$field)

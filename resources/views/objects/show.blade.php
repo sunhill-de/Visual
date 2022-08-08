@@ -27,7 +27,7 @@
        <td>{{ $field->name }}</td>
        <td>{{ $field->type }}</td>
        <td>{{ $field->description }}</td>
-       <td>{{ $field->value }}</td>
+       <td><b>{{ $field->value }}</b></td>
        <td>@if ($field->displayable)<div class="yes">Y</div>@else<div class="no">N</div>@endif</td>  
        <td>@if ($field->editable)<div class="yes">Y</div>@else<div class="no">N</div>@endif</td>  
        <td>@if ($field->groupeditable)<div class="yes">Y</div>@else<div class="no">N</div>@endif</td>  
