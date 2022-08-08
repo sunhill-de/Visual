@@ -35,7 +35,8 @@ Objekt von '{{ $class->name }}' hinzufügen
   }); 
 
   function addStrEntry( id ) {
-		 $('<form><input type="text" id="_enter"></form>').dialog({
+// @todo Implement a suggestion AJAX function
+	  $('<form><label for="_enter">Eingabe</label><input type="text" id="_enter"></form>').dialog({
 			 modal: true,
 			 buttons: {
 				 'OK': function() {
@@ -47,7 +48,6 @@ Objekt von '{{ $class->name }}' hinzufügen
 					 $('#_'+id).append('<li>'+entry+'</li>');
 					// Append it to the hidden part
 					 $('#_'+id+'_count').val(index);
-					 alert($('#_'+id+'_count').val());
 					 $('<input>').attr({
 							type: 'hidden',
 							name: '_'+id+index,
@@ -63,7 +63,27 @@ Objekt von '{{ $class->name }}' hinzufügen
 		 });	 		 			 
   }
 
-  	  
+  function delStrEntry ( id ) {
+	// @todo Implement me
+  }	  
+
+  function searchObject( id ) {
+		$('<form><label for="_keyword">Suchbegriff</label><input type="text" id="_keyword" name="_keyword"></form>').dialog({
+			modal: true,
+			open: initAJAX('_keyword'),
+			buttons: {
+				'OK': function() {
+					$(this).dialog('close');
+					},
+				'Cancel': function() {
+					$(this).dialog('close');
+					}	
+			}});	
+  }
+
+  function initAJAX( name ) {
+  }
+  	  	  
 </script>
 @endsection
   

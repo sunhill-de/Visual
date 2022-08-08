@@ -1,4 +1,15 @@
 <div class="inputgroup">
+ <fieldset>
+ <input name="_keystring" readonly id="_keystring" />
+ <input type="hidden" name="{{ $name }}" id="{{ $name }}" value="" />
+ <input type="button" value="+" onClick="searchObject( '{{ $name }}' )">
+ <input type="button" value="-" onClick="clearObject( '{{ $name }}' )">
+ <legend>{{ __( $name ) }}</legend>
+ </fieldset>	     
+</div>
+
+<!-- 
+<div class="inputgroup">
 	     <label for="_{{$name}}">{{__($name)}}</label>
 	     <input id="_{{$name}}" />
 	     <input type="hidden" name="{{$name}}" id="{{$name}}" />
@@ -40,3 +51,4 @@
 	});
 		 </script>
 </div>
+ -->

@@ -7,11 +7,11 @@ use Illuminate\Routing\Controller;
 class AjaxController extends Controller
 {
 
-  public function searchTags(Request $request,Response $response)
+  public function searchTags(string $class="", Request $request,Response $response)
   {
   }
   
-  public function searchObjects(Request $request,Response $response)
+  public function searchObjects(string $class = "", $field = "", Request $request,Response $response)
   {
   }
   
