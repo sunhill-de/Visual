@@ -6,9 +6,10 @@ use Sunhill\Visual\Facades\Dialogs;
 use Sunhill\Visual\Managers\DialogManager;
 use Sunhill\ORM\Objects\ORMObject;
 use Sunhill\Visual\Response\ResponseBase;
-use Sunhill\Basic\Tests\SunhillTestCase;
 use Sunhill\Visual\Tests\CreatesApplication;
 use Sunhill\ORM\Facades\Classes;
+
+use Sunhill\ORM\Tests\DBSearchTestCase;
 
 class TestObject extends ORMObject
 {
@@ -65,7 +66,7 @@ class TestResponse extends ResponseBase
    
 }
 
-class DialogsTest extends SunhillTestCase
+class DialogsTest extends DBSearchTestCase
 {
   
   use CreatesApplication;
@@ -102,11 +103,19 @@ class DialogsTest extends SunhillTestCase
   
   public function getClassNameProvider()
   {
-        return [
+      return [
             [TestObject::class,TestObject::class],
             ['noneexisting','except'],
-            ['TestObject',TestObject::class]
+            ['TestObject',TestObject::class],
         ];    
+  }
+
+  public function testGetClassNameWithObject()
+  {
+      $this->setupClasses();
+      $test = new DialogManager();
+      $object = new TestObject();
+      $this->assertEquals(TestObject::class,$this->callProtectedMethod($test, 'getClassName',[$object]));
   }
   
   /**
@@ -154,5 +163,22 @@ class DialogsTest extends SunhillTestCase
       $response = Dialogs::getObjectResponse('add', DummyObject::class);
       $this->assertTrue(is_null($response));
   }
+
+  /**
+   * @dataProvider searchKeyfieldProvider
+   * @param unknown $class
+   * @param unknown $search
+   * @param unknown $expect
+   
+  public function testSearchKeyfield($class,$search,$anywhere,$expect)
+  {
+      
+  }
   
+  public function searchKeyfieldProvider()
+  {
+      return [
+        ['Person','Di',false,[['keyfield'=>'']]]          
+      ];
+  } */
 }  

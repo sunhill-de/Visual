@@ -49,6 +49,7 @@ class DialogManager
     
     /**
      * Depending on whats passed as parameter return the php class name
+     * @test Unit/DialogTest::testGetClassName and ::testGetClassNameWithObject
      */
     protected function getClassName($item)
     {
@@ -60,7 +61,7 @@ class DialogManager
                return Classes::getNamespaceOfClass($item); 
             }
         } else if (is_a($item,ORMObject::class)) {
-        
+            return $item::class;        
         } else if (is_int($item)) {
             // We interpret the item as the object ID
         }    
@@ -216,5 +217,34 @@ class DialogManager
     public function deleteObject(int $id)
     {
         
+    }
+
+    /**
+     * Searches all classes that fit to the search term $search in their keyfield(s)
+     * Depending on $anywhere: 
+     *  true = the term $search can be anywhere in any keyfield
+     *  false = the keyfield has to start with $search
+     * @param string $class
+     * @param string $search
+     * @param bool $anywhere
+     */
+    public function searchKeyfield(string $class, string $search, bool $anywhere=false, int $limit=10)
+    {
+        $namespace = Classes::getClassNamespace($class);        
+        $keyfield = $this->getBestEntry($this->object_keyfields,$namespace);
+        $vars = preg_match_all('/\:(\S+)/s',$keyfield,$matches);
+        $query = $namespace::search();
+        foreach ($vars as $var) {
+            if ($anywhere) {
+                $query = $query->where($var,'consists',$search);
+            } else {
+                $query = $query->where($var,'begins with',$search);                
+            }
+        }
+        $query_result = $query->get();
+        $result = [];
+        foreach ($query_result as $single_result) {
+            
+        }
     }
 }
