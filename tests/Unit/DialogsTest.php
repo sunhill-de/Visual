@@ -10,6 +10,10 @@ use Sunhill\Visual\Tests\CreatesApplication;
 use Sunhill\ORM\Facades\Classes;
 
 use Sunhill\ORM\Tests\DBSearchTestCase;
+use Sunhill\ORM\Utils\ObjectList;
+use Sunhill\ORM\Facades\Objects;
+use Sunhill\ORM\Tests\Objects\SearchtestA;
+use Sunhill\ORM\Tests\Objects\SearchtestB;
 
 class TestObject extends ORMObject
 {
@@ -164,21 +168,83 @@ class DialogsTest extends DBSearchTestCase
       $this->assertTrue(is_null($response));
   }
 
+  public function testGetObjectKeyfieldSimple()
+  {
+      Dialogs::addObjectKeyfield(SearchTestA::class,':Achar');
+      $object = Objects::load(5);
+      $this->assertEquals('ABC',Dialogs::getObjectKeyfield($object));
+  }
+  
+  public function testGetObjectKeyfieldComplex()
+  {
+      Dialogs::addObjectKeyfield(SearchTestB::class,':Achar :Bchar');
+      $object = Objects::load(10);
+      $this->assertEquals('GGG ABC',Dialogs::getObjectKeyfield($object));
+  }
+  
+  public function testObjectListHasId()
+  {
+      $manager = new DialogManager();
+
+      $test = new ObjectList();
+      $test->add(3);
+      $test->add(5);
+      $this->assertTrue($this->callProtectedMethod($manager, 'objectListHasId',[$test,5]));
+      $this->assertFalse($this->callProtectedMethod($manager, 'objectListHasId',[$test,4]));
+  }
+  
+  public function testMergeObjectList()
+  {
+      $manager = new DialogManager();
+      
+      $list1 = new ObjectList();
+      $list1->add(1);
+      $list1->add(2);
+      
+      $list2 = new ObjectList();
+      $list2->add(2);
+      $list2->add(3);
+      
+      $merge = $this->callProtectedMethod($manager,'mergeObjectLists',[$list1,$list2]);
+      $this->assertEquals(3,$merge->count());
+      $this->assertEquals(1,$merge->getID(0));
+      $this->assertEquals(2,$merge->getID(1));
+      $this->assertEquals(3,$merge->getID(2));
+  }
+  
   /**
    * @dataProvider searchKeyfieldProvider
    * @param unknown $class
    * @param unknown $search
    * @param unknown $expect
-   
-  public function testSearchKeyfield($class,$search,$anywhere,$expect)
+   */ 
+  public function testSearchKeyfieldForClass($class,$search,$anywhere,$expect)
   {
-      
+      $manager = new DialogManager();
+      Classes::flushClasses();
+      Classes::registerClass(SearchtestA::class);
+      Classes::registerClass(SearchtestB::class);      
+      $manager->addObjectKeyfield(SearchTestA::class,':Achar');
+      $manager->addObjectKeyfield(SearchTestB::class,':Achar :Bchar');
+  
+      $result = $this->callProtectedMethod($manager,'searchKeyfieldForClass',[$class,$search,$anywhere]);
+      if (empty($expect)) {
+          $this->assertEquals(0,$result->count());
+      } else {
+          foreach ($expect as $id) {
+            $this->assertTrue($this->callProtectedMethod($manager,'objectListHasId',[$result,$id]));
+          }
+      }
   }
   
   public function searchKeyfieldProvider()
   {
       return [
-        ['Person','Di',false,[['keyfield'=>'']]]          
+          [SearchTestA::class,'XYZ',false,[8]],          
+          [SearchTestA::class,'ABC',false,[5,11]], 
+          [SearchTestB::class,'ABC',false,[10,11]],
+          [SearchTestA::class,'UQY',false,[]],          
+          [SearchTestA::class,'B',true,[5,7,11]],
       ];
-  } */
+  } 
 }  

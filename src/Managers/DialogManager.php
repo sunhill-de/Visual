@@ -4,6 +4,8 @@ namespace Sunhill\Visual\Managers;
 
 use Sunhill\ORM\Objects\ORMObject;
 use Sunhill\ORM\Facades\Classes;
+use Sunhill\ORM\Utils\ObjectList;
+
 use Sunhill\Visual\Response\Database\Objects\ListObjectsResponse;
 use Sunhill\Visual\Response\Database\Objects\AddObjectResponse;
 
@@ -220,6 +222,75 @@ class DialogManager
     }
 
     /**
+     * Tests, if the given list has an entry with the id $id
+     * @todo move me to ORM
+     * @param ObjectList $list
+     * @param int $id
+     * @return bool
+     * test: DialogsTest::testObjectListHasId
+     */
+    protected function objectListHasId(ObjectList $list,int $id): bool
+    {
+        for ($i=0;$i<$list->count();$i++) {
+            if ($list->getID($i) == $id) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Merges all entries from list2 to list1 if they are not already in list1
+     * @todo Move me to ORM
+     * @param unknown $list1
+     * @param unknown $list2
+     * @return unknown
+     */
+    protected function mergeObjectLists($list1,$list2)
+    {
+        for ($i=0;$i<$list2->count();$i++) {
+            if (!$this->objectListHasId($list1,$list2->getID($i))) {
+                $list1->add($list2->getID($i));
+            }
+        }
+        return $list1;
+    }
+    
+    /**
+     * Returns an ObjectList of objects that fit to the given keyfield search
+     * @param string $namespace
+     * @param string $search
+     * @param bool $anywhere
+     * @param int $limit
+     * @return ObjectList
+     */
+    protected function searchKeyfieldForClass(string $namespace, string $search, bool $anywhere, int $limit=10): ObjectList
+    {
+        $keyfield = $this->getBestEntry($this->object_keyfields,$namespace);        
+        preg_match_all('/\:(\S+)/s',$keyfield,$matches);
+        $query = $namespace::search();
+        foreach ($matches[1] as $var) {
+            if ($anywhere) {
+                $query = $query->orWhere($var,'consists',$search);
+            } else {
+                $query = $query->orWhere($var,'begins with',$search);
+            }
+        }
+        return $query->limit(0,$limit)->get();
+    }
+
+    protected function reLimitObjectList(ObjectList $list, int $limit)
+    {
+        $result = new ObjectList();
+        $i=0;
+        while (($i<$list->count()) && ($i<$limit)) {
+            $result->add($list->getID($i));
+            $i++;
+        }
+        return $result;
+    }
+    
+    /**
      * Searches all classes that fit to the search term $search in their keyfield(s)
      * Depending on $anywhere: 
      *  true = the term $search can be anywhere in any keyfield
@@ -230,11 +301,11 @@ class DialogManager
      */
     public function searchKeyfield(string $class, string $search, bool $anywhere=false, int $limit=10)
     {
-        $namespace = Classes::getClassNamespace($class);        
+        $namespace = Classes::getNamespaceOfClass($class);        
         $keyfield = $this->getBestEntry($this->object_keyfields,$namespace);
-        $vars = preg_match_all('/\:(\S+)/s',$keyfield,$matches);
+        preg_match_all('/\:(\S+)/s',$keyfield,$matches);
         $query = $namespace::search();
-        foreach ($vars as $var) {
+        foreach ($matches[1] as $var) {
             if ($anywhere) {
                 $query = $query->where($var,'consists',$search);
             } else {
@@ -244,7 +315,8 @@ class DialogManager
         $query_result = $query->get();
         $result = [];
         foreach ($query_result as $single_result) {
-            
+            $result[] = ['keyfield'=>$this->getObjectKeyfield($single_result),'id'=>$single_result->getID()];   
         }
+        return $result;
     }
 }
