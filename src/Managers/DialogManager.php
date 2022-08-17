@@ -289,6 +289,27 @@ class DialogManager
         }
         return $result;
     }
+
+    protected function reorderAsArray(ObjectList $list): array
+    {
+        $result = [];
+        foreach ($list as $object) {
+            $result[] = ['keyfield'=>$this->getObjectKeyfield($object),'id'=>$object->getID()];
+        }
+        return $result;
+    }
+
+    protected function reorderAsObjectArray(ObjectList $list): array
+    {
+        $result = [];
+        foreach ($list as $result) {
+            $entry = new \StdClass();
+            $entry->keyfield = $this->getObjectKeyfield($result);
+            $entry->id = $result->getID();
+        }
+        return $result;
+        
+    }
     
     /**
      * Searches all classes that fit to the search term $search in their keyfield(s)
@@ -298,25 +319,45 @@ class DialogManager
      * @param string $class
      * @param string $search
      * @param bool $anywhere
+     * @test DialogsTest::testSearchKeyfield
      */
     public function searchKeyfield(string $class, string $search, bool $anywhere=false, int $limit=10)
     {
         $namespace = Classes::getNamespaceOfClass($class);        
-        $keyfield = $this->getBestEntry($this->object_keyfields,$namespace);
-        preg_match_all('/\:(\S+)/s',$keyfield,$matches);
-        $query = $namespace::search();
-        foreach ($matches[1] as $var) {
-            if ($anywhere) {
-                $query = $query->where($var,'consists',$search);
-            } else {
-                $query = $query->where($var,'begins with',$search);                
-            }
+
+        $query_result = $this->searchKeyfieldForClass($namespace,$search,$anywhere,$limit);
+
+        return $this->reOrderAsArray($query_result);
+    }
+    
+
+    /**
+     * Searches all Keyfields for the given classes that match to the search term
+     * @param array $classes
+     * @param string $search
+     * @param bool $anywhere
+     * @param int $limit
+     * @return array|NULL[]|string[]|\Sunhill\Visual\Managers\unknown[]|mixed[]
+     */
+    public function searchKeyfieldInClasses(array $classes, string $search, bool $anywhere=false, int $limit=10)
+    {
+        $result = new ObjectList();
+        foreach ($classes as $class) {
+            $namespace = Classes::getNamespaceOfClass($class);
+            $subresult = $this->searchKeyfieldForClass($namespace,$search,$anywhere,$limit);
+            $result = $this->mergeObjectLists($result,$subresult);
         }
-        $query_result = $query->get();
-        $result = [];
-        foreach ($query_result as $single_result) {
-            $result[] = ['keyfield'=>$this->getObjectKeyfield($single_result),'id'=>$single_result->getID()];   
-        }
-        return $result;
+        $result = $this->reLimitObjectList($result,$limit);
+        return $this->reOrderAsArray($result);
+    }
+    
+    public function searchKeyfieldForField(string $class, string $field, string $search, bool $anywhere, $limit = 10)
+    {
+        
+    }
+    
+    public function searchStringsForField(string $class, string $field, string $search, bool $anywhere, int $limit = 10)
+    {
+        
     }
 }

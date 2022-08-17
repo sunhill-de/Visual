@@ -213,7 +213,7 @@ class DialogsTest extends DBSearchTestCase
   }
   
   /**
-   * @dataProvider searchKeyfieldProvider
+   * @dataProvider searchKeyfieldForClassProvider
    * @param unknown $class
    * @param unknown $search
    * @param unknown $expect
@@ -237,7 +237,7 @@ class DialogsTest extends DBSearchTestCase
       }
   }
   
-  public function searchKeyfieldProvider()
+  public function searchKeyfieldForClassProvider()
   {
       return [
           [SearchTestA::class,'XYZ',false,[8]],          
@@ -247,4 +247,54 @@ class DialogsTest extends DBSearchTestCase
           [SearchTestA::class,'B',true,[5,7,11]],
       ];
   } 
+  
+  public function testReLimitObjectList()
+  {
+      $manager = new DialogManager();
+      $list1 = new ObjectList();
+      $list1->add(1);
+      $list1->add(2);
+      $list1->add(3);
+      $list1->add(4);
+      $list1->add(5);
+      
+      $this->assertEquals(5,$list1->count());
+      $newlist = $this->callProtectedMethod($manager,'reLimitObjectlist',[$list1,2]);
+      $this->assertEquals(2,$newlist->count());
+  }
+  
+  /**
+   * @dataProvider SearchKeyfieldProvider
+   * @param unknown $class
+   * @param unknown $search
+   * @param unknown $anywhere
+   * @param unknown $expect
+   */
+  public function testSearchkeyfield($class,$search,$anywhere,$expect)
+  {
+      Classes::flushClasses();
+      Classes::registerClass(SearchtestA::class);
+      Classes::registerClass(SearchtestB::class);
+      Dialogs::addObjectKeyfield(SearchTestA::class,':Achar');
+      Dialogs::addObjectKeyfield(SearchTestB::class,':Achar :Bchar');
+      
+      $result = Dialogs::searchKeyfield($class,$search,$anywhere);
+      
+      $this->assertEquals($expect, $result);
+  }
+  
+  public function SearchKeyfieldProvider()
+  {
+    return [
+        ['searchtestA','XYZ',false,[['keyfield'=>'XYZ','id'=>8]]],
+        ['searchtestA','ABC',false,[['keyfield'=>'ABC','id'=>5],['keyfield'=>'ABC BBB','id'=>11]]],
+        ['searchtestB','ABC',false,[['keyfield'=>'GGG ABC','id'=>10],['keyfield'=>'ABC BBB','id'=>11]]],
+        ['searchtestA','UQY',false,[]],  
+        ['searchtestA','B',true,[
+            ['keyfield'=>'ABC','id'=>5],
+            ['keyfield'=>'BCC','id'=>7],
+            ['keyfield'=>'ABC BBB','id'=>11]
+        ]],        
+    ];      
+  }
 }  
