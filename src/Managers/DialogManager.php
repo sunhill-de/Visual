@@ -5,6 +5,8 @@ namespace Sunhill\Visual\Managers;
 use Sunhill\ORM\Objects\ORMObject;
 use Sunhill\ORM\Facades\Classes;
 use Sunhill\ORM\Utils\ObjectList;
+use Sunhill\ORM\Properties\PropertyArrayOfObjects;
+use Sunhill\ORM\Properties\PropertyObject;
 
 use Sunhill\Visual\Response\Database\Objects\ListObjectsResponse;
 use Sunhill\Visual\Response\Database\Objects\AddObjectResponse;
@@ -294,7 +296,9 @@ class DialogManager
     {
         $result = [];
         foreach ($list as $object) {
-            $result[] = ['keyfield'=>$this->getObjectKeyfield($object),'id'=>$object->getID()];
+            $id = $object->getID();
+            $keyfield = $this->getObjectKeyfield($object);
+            $result[] = ['keyfield'=>$keyfield,'id'=>$id];
         }
         return $result;
     }
@@ -353,7 +357,16 @@ class DialogManager
     
     public function searchKeyfieldForField(string $class, string $field, string $search, bool $anywhere, $limit = 10)
     {
+        $classname = $this->getClassName($class);
+        $property = $classname::getPropertyObject($field);
         
+        if (!is_a($property,PropertyArrayOfObjects::class) && !is_a($property,PropertyObject::class)) {
+            throw new \Exception(__("The field ':field' of class ':class' is neither an object nor an array of object",['class'=>$class,'field'=>$field]));   
+            return;
+        }
+        $classes = $property->getAllowedObjects();
+    
+        return $this->searchKeyfieldInClasses($classes,$search,$anywhere,$limit);
     }
     
     public function searchStringsForField(string $class, string $field, string $search, bool $anywhere, int $limit = 10)

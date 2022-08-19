@@ -14,6 +14,7 @@ use Sunhill\ORM\Utils\ObjectList;
 use Sunhill\ORM\Facades\Objects;
 use Sunhill\ORM\Tests\Objects\SearchtestA;
 use Sunhill\ORM\Tests\Objects\SearchtestB;
+use Sunhill\ORM\Tests\Objects\SearchtestD;
 
 class TestObject extends ORMObject
 {
@@ -297,4 +298,57 @@ class DialogsTest extends DBSearchTestCase
         ]],        
     ];      
   }
+  
+  public function testSearchKeyfieldInClasses()
+  {
+      Classes::flushClasses();
+      Classes::registerClass(SearchtestA::class);
+      Classes::registerClass(SearchtestB::class);
+      Classes::registerClass(SearchtestD::class);
+      Dialogs::addObjectKeyfield(SearchtestA::class,':Achar');
+      Dialogs::addObjectKeyfield(SearchTestB::class,':Achar :Bchar');
+      Dialogs::addObjectKeyfield(SearchtestD::class,':Dchar');
+      
+      $result = Dialogs::searchKeyfieldInClasses(['searchtestA','searchtestD'],'ABC');
+    
+      $this->assertEquals(
+          [
+              ['keyfield'=>'ABC','id'=>5],
+              ['keyfield'=>'ABC BBB','id'=>11],
+              ['keyfield'=>'ABC','id'=>16]              
+          ],$result);
+  }
+  
+  /**
+   * @dataProvider SearchKeyfieldForFieldProvider
+   * @param unknown $search
+   * @param unknown $anywhere
+   * @param unknown $expect
+   */
+  public function testSearchKeyfieldForField($search,$anywhere,$expect)
+  {
+      Classes::flushClasses();
+      Classes::registerClass(SearchtestA::class);
+      Classes::registerClass(SearchtestB::class);
+      Classes::registerClass(SearchtestD::class);
+      Dialogs::addObjectKeyfield(SearchtestA::class,':Achar');
+      Dialogs::addObjectKeyfield(SearchTestB::class,':Achar :Bchar');
+      Dialogs::addObjectKeyfield(SearchtestD::class,':Dchar');
+  
+      $result = Dialogs::searchKeyfieldForField('searchtestD','Dobject',$search,$anywhere);
+      $this->assertEquals($expect,$result);
+  }
+  
+  public function SearchKeyfieldForFieldProvider()
+  {
+    return [
+        ['XY',false,[['keyfield'=>'XYZ','id'=>8]]],
+        ['ABC',false,[              
+            ['keyfield'=>'ABC','id'=>5],
+            ['keyfield'=>'ABC BBB','id'=>11],
+            ['keyfield'=>'ABC','id'=>16]
+        ]],
+    ];    
+  }
+  
 }  
