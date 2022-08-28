@@ -28,62 +28,6 @@ Objekt von '{{ $class->name }}' hinzufügen
  @endforeach
  <input type="submit" value="abschicken" />
 </form>
-<script>
-  $( function() {
-    $( ".selectable" ).selectable();
-
-  }); 
-
-  function addStrEntry( id ) {
-// @todo Implement a suggestion AJAX function
-	  $('<form><label for="_enter">Eingabe</label><input type="text" id="_enter"></form>').dialog({
-			 modal: true,
-			 buttons: {
-				 'OK': function() {
-					// Get the input
-					 var entry = $(this).find('#_enter').val();
-					// Get the next index
-					 var index = parseInt($('#_'+id+'_count').val()) + 1;
-					// Append it to the visual part
-					 $('#_'+id).append('<li>'+entry+'</li>');
-					// Append it to the hidden part
-					 $('#_'+id+'_count').val(index);
-					 $('<input>').attr({
-							type: 'hidden',
-							name: '_'+id+index,
-							id: '_'+id+index,
-							value: entry
-						 }).appendTo('#add'); 
-					 $(this).dialog('close');
-				 },
-				 'Cancel': function() {
-					 $(this).dialog('close');
-				 }
-			 }
-		 });	 		 			 
-  }
-
-  function delStrEntry ( id ) {
-	// @todo Implement me
-  }	  
-
-  function searchObject( id ) {
-		$('<form><label for="_keyword">Suchbegriff</label><input type="text" id="_keyword" name="_keyword"></form>').dialog({
-			modal: true,
-			open: initAJAX('_keyword'),
-			buttons: {
-				'OK': function() {
-					$(this).dialog('close');
-					},
-				'Cancel': function() {
-					$(this).dialog('close');
-					}	
-			}});	
-  }
-
-  function initAJAX( name ) {
-  }
-  	  	  
 </script>
 @endsection
   
