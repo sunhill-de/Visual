@@ -107,19 +107,32 @@ class ExecAddObjectResponse extends RedirectResponse
         }
         return false;
     }
+
+    protected function isAllowedObject($test, $allowed_objects)
+    {
+        if (is_numeric($test)) {
+            $test = Objects::getClassNameOf(intval($test));
+        }
+        foreach ($allowed_objects as $object) {
+            if ($object == $test) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     protected function getObject($value,$field)
     {
         if (empty($value)) {
             return null;
         }
-        if (!is_int($value)) {
+        if (!is_numeric($value)) {
             throw new \Exception(__("':value' is not an object-id",['value'=>$value]));
         }
-        if (!isAllowed($value,$field->getAllowedObjects())) {
+        if (!$this->isAllowedObject($value,$field->getAllowedObjects())) {
             throw new \Exception(__("':value' is not an allowed object for this field",['value'=>$value]));
         }
-        return Objects::load($value);
+        return Objects::load(intval($value));
     }
     
 
