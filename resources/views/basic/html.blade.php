@@ -6,7 +6,7 @@
 
         <title>{{ $sitename }} - @yield('title')</title>
 
-        <link rel="stylesheet" type="text/css" href="/css/sunhill.css">
+        <link rel="stylesheet" type="text/css" href="/css/sunhill.css">  
 		@stack('css')
 		@stack('js')
     </head>
