@@ -100,6 +100,9 @@ class ShowObjectResponse extends BladeResponse
         $result = '';
         $first = true;
         foreach ($object->$name as $entry) {
+            if (is_int($entry)) {
+                $entry = Objects::load($entry);
+            }
             $result .= ($first?'':',').Dialogs::getObjectKeyfield($entry);
             $first = false;
         }
