@@ -29,19 +29,20 @@ class AjaxController extends Controller
         return response()->json($result,200)->header('Content-type', 'application/json');
   }
   
-  public function getArrayOfStringSuggestion(string $class, string $field)
+  public function getArrayOfStringSuggestion(string $class, string $field, Request $request)
   {
       $search = $request->input('search');
       $query = DB::table('stringobjectassigns')
-       ->join('objects','stringobjectassigs.container_id','=','objects.id')
+       ->join('objects','stringobjectassigns.container_id','=','objects.id')
        ->select('element_id')
        ->where('stringobjectassigns.field',$field)
        ->where('element_id','like','%'.$search.'%')
+       ->groupBy('element_id')
        ->get();
        $newresult = [];
-       foreach ($result as $entry) {
+       foreach ($query as $entry) {
            $newentry = new \StdClass();
-           $newentry->label = $query->element_id;
+           $newentry->label = $entry->element_id;
            $newresult[] = $newentry;
        }
        return $this->getOutput($newresult);

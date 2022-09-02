@@ -64,7 +64,7 @@ class ExecAddObjectResponse extends RedirectResponse
         if (empty($value)) {
             return null;
         }
-        if (!is_int($value)) {
+        if (!is_numeric($value)) {
             throw new \Exception(__("':value' is not an integer",['value'=>$value]));            
         }
         return $value;
@@ -114,7 +114,7 @@ class ExecAddObjectResponse extends RedirectResponse
             $test = Objects::getClassNameOf(intval($test));
         }
         foreach ($allowed_objects as $object) {
-            if ($object == $test) {
+            if (Classes::isA($test,$object)) {
                 return true;
             }
         }
@@ -151,14 +151,20 @@ class ExecAddObjectResponse extends RedirectResponse
     
     protected function getArrayOfObjects($value,$field)
     {
-        if (empty($value)) {
-            return null;
-        }
         $result = [];
-        $ids = explode(';',$value);
-        foreach ($ids as $id) {
-            $result[] = $this->getObject($id,$field);         
+        $name = $field->getName();
+        $count = $this->request->input($name."_count",0);
+        for ($i=1;$i<=$count;$i++) {
+            if ($this->request->has("_".$name.$i)) {
+                $id = $this->request->input("_".$name.$i);
+                $obj = Objects::load(intval($id));
+                if (!$this->isAllowedObject($obj,$field->getAllowedObjects())) {
+                    throw new \Exception(__("':value' is not an allowed object for this field",['value'=>$value]));
+                }
+                $result[] = $obj;
+            }            
         }
+        
         return $result;
     }
     

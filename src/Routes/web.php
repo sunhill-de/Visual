@@ -17,3 +17,4 @@ Route::get('/js/sunhill.js', 'Sunhill\Visual\Controllers\SystemController@js');
 
 Route::get('/ajax/searchTags/{class?}', 'Sunhill\Visual\Controllers\AjaxController@searchTags');
 Route::get('/ajax/searchObjects/{class}/{field}', 'Sunhill\Visual\Controllers\AjaxController@searchObjects');
+Route::get('/ajax/searchArrayOfString/{class}/{field}', 'Sunhill\Visual\Controllers\AjaxController@getArrayOfStringSuggestion');

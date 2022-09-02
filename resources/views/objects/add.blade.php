@@ -19,6 +19,7 @@ Objekt von '{{ $class->name }}' hinzufügen
 @section('content')
 @parent
 <form method="post" id="add" name="add" action="{{ $prefix }}/Objects/execadd">
+ <div class="dialogelements">
  @csrf
  Klassenname: {{ $class->name }}<br />
  Tabellenname: {{ $class->tablename }}<br />
@@ -27,7 +28,7 @@ Objekt von '{{ $class->name }}' hinzufügen
   <x-visual-input id="{{ $class->name }}" name="{{ $field->name }}" action="add" />
  @endforeach
  <input type="submit" value="abschicken" />
+</div>
 </form>
-</script>
 @endsection
   
