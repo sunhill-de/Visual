@@ -53,6 +53,13 @@ class ShowObjectResponse extends BladeResponse
                         break;
                     case "Date":
                         $datetime = new DateTime($property->getValue);
+                        $entry->value = $datetime->format('d.m.Y');
+                    case "Time":
+                        $datetime = new DateTime($property->getValue);
+                        $entry->value = $datetime->format('H:i:s');
+                    case "DateTime":
+                        $datetime = new DateTime($property->getValue);
+                        $entry->value = $datetime->format('d.m.Y H:i:s');
                     default:
                         $entry->value = $property->getValue();
                 }
