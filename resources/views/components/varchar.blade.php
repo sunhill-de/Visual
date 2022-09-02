@@ -1,4 +1,6 @@
 <div class="inputgroup">
- <label for="{{$name}}">{{__($name)}}</label>
- <input type="text" name="{{$name}}" id="{{$name}}" />
+ <fieldset>
+  <legend>{{__($name)}}</legend>>
+  <input type="text" name="{{$name}}" id="{{$name}}" />
+ </fieldset> 
 </div>
