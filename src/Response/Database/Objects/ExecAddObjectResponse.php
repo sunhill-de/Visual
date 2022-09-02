@@ -129,10 +129,13 @@ class ExecAddObjectResponse extends RedirectResponse
         if (!is_numeric($value)) {
             throw new \Exception(__("':value' is not an object-id",['value'=>$value]));
         }
+        if (is_numeric($value)) {
+            $value = Objects::load(intval($value));
+        }
         if (!$this->isAllowedObject($value,$field->getAllowedObjects())) {
             throw new \Exception(__("':value' is not an allowed object for this field",['value'=>$value]));
         }
-        return Objects::load(intval($value));
+        return $value;
     }
     
 
