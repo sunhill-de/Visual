@@ -64,15 +64,9 @@
 	// Get the next index
     var index = parseInt($('#_'+id+'_count').val()) + 1;
     // Append it to the visual part
-    $('#_'+id).append('<li>'+entry+'</li>');
+    $('#_'+id).append('<li>'+entry+'<input type="hidden" name="_'+id+index+'" id="_'+id+index+'" value="'+entry+'"/></li>');
 	// Append it to the hidden part
     $('#_'+id+'_count').val(index);
-    $('<input>').attr({
-							type: 'hidden',
-							name: '_'+id+index,
-							id: '_'+id+index,
-							value: entry
-						 }).appendTo('#add'); 
   }
 
   function delStrEntry( id ) {
@@ -81,7 +75,7 @@
 
   function objectArrayField( id, classid ) {
 		$("#_"+id).selectable({
-			selecting: function ( event, ui ) {
+			selected: function ( event, ui ) {
 				var el = $(ui.selected);
 				el.remove()
 			}
