@@ -108,17 +108,39 @@ class Input extends Component
                     'value'=>(is_null($this->object))?null:$this->object->$name
                 ]);
             case 'ArrayOfStrings':
+                if (!is_null($this->object) && !is_null($this->object->$name)) {
+                    $values = [];
+                    foreach ($this->object->$name as $entry) {
+                        $values[] = $entry;
+                    }
+                } else {
+                        $values = null;
+                }
                 return view(
                     'visual::components.arrayofstrings',
                     [
-                        'name'=>$this->name
+                        'name'=>$this->name,
+                        'values'=>$values
                     ]
                 );
             case 'ArrayOfObjects':
+                if (!is_null($this->object) && !is_null($this->object->$name)) {
+                    $values = [];
+                    foreach ($this->object->$name as $entry) {
+                        $entry = Objects::load($entry);
+                        $res_entry = new \StdClass();
+                        $res_entry->key = Dialogs::getObjectKeyfield($entry);
+                        $res_entry->value = $entry->getID();
+                        $values[] = $res_entry;
+                    }
+                } else {
+                    $values = null;
+                }
                 return view(
                 'visual::components.arrayofobjects',
                 [
-                'name'=>$this->name
+                    'name'=>$this->name,
+                    'values'=>$values
                 ]
                 );
             case 'Enum':

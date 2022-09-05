@@ -6,6 +6,11 @@
  <input type="button" value="-" onClick="delStrEntry( '{{ $name }}' )">
 
  <ul class="selectable" name="_{{ $name }}" id="_{{ $name }}">
+  @isset($values)
+  @foreach($values as $value)
+ <li>{{ $value }}<input type="hidden" name="_{{ $name }}{{ $loop->index }}" value="{{ $value }}"/></li>
+  @endforeach
+ @endisset
  </ul>
 
  <input type="hidden" name="_{{$name}}_count" id="_{{$name}}_count" value="0"/>
