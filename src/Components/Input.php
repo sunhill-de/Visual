@@ -4,6 +4,7 @@ namespace Sunhill\Visual\Components;
 
 use Illuminate\View\Component;
 use Sunhill\ORM\Facades\Classes;
+use Sunhill\ORM\Facades\Objects;
 
 class Input extends Component
 {
@@ -18,6 +19,7 @@ class Input extends Component
     
     public $class;
     
+    public $object;
     /**
      * Create a new component instance.
      *
@@ -33,6 +35,11 @@ class Input extends Component
                 $this->property = $namespace::getPropertyObject($name);
                 break;
             case "edit":
+                $this->id = $id;
+                $this->object = Objects::load($id);
+                $this->class = Classes::getClassName($this->object);
+                $namespace = $this->object::class;
+                $this->property = $namespace::getPropertyObject($name);                
                 break;
             case "groupedit":
                 break;
@@ -50,19 +57,33 @@ class Input extends Component
      */
     public function render()
     {
+        $name = $this->name;
         switch ($this->property->getType()) {
             case 'Varchar':
                 return view(
                     'visual::components.varchar', 
                     [
-                        'name'=>$this->name
+                        'name'=>$this->name,
+                        'value'=>(is_null($this->object))?null:$this->object->$name
                     ]);
             case 'Integer':
-                return view('visual::components.integer', ['name'=>$this->name]);
+                return view('visual::components.integer', 
+                [
+                    'name'=>$this->name,
+                    'value'=>(is_null($this->object))?null:$this->object->$name                    
+                ]);
             case 'Date':
-                return view('visual::components.date', ['name'=>$this->name]);
+                return view('visual::components.date', 
+                [
+                    'name'=>$this->name,
+                    'value'=>(is_null($this->object))?null:$this->object->$name
+                    ]);
             case 'Time':
-                return view('visual::components.time', ['name'=>$this->name]);
+                return view('visual::components.time', 
+                [
+                    'name'=>$this->name,
+                    'value'=>(is_null($this->object))?null:$this->object->$name                    
+                ]);
             case 'Object':
                 return view(
                     'visual::components.object', 
@@ -91,7 +112,8 @@ class Input extends Component
                     'visual::components.enum', 
                      [
                         'name'=>$this->name,
-                        'entries'=>Classes::getNamespaceOfClass($this->class)::getPropertyObject($this->name)->getEnumValues()
+                        'entries'=>Classes::getNamespaceOfClass($this->class)::getPropertyObject($this->name)->getEnumValues(),
+                        'selected'=>(is_null($this->object))?"":$this->object->$name
                      ]);
             default:
                 return view('visual::components.notimplemented', ['class'=>$this->class,'name'=>$this->name, 'type'=>$this->property->getType()]);

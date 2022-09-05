@@ -4,7 +4,7 @@
   <select name="{{$name}}" id="{{$name}}">
 	<option value="">(leer)</option>
 	@foreach($entries as $value)
-	<option value="{{$value}}">{{__($value)}}</option>
+	<option value="{{$value}}" @if (isset($selected) && ($selected == $value)) selected @endif>{{__($value)}}</option>
 	@endforeach
   </select>
  </fieldset>

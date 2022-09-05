@@ -8,11 +8,9 @@ Objekt mit der ID '{{ $object->id }}' bearbeiten
 
 @section('content')
 @parent
-<form method="post" action="{{ $prefix }}/objects/execadd/{{ $object->id }}">
- Klassenname: {{ $class->name }}<br />
- Tabellenname: {{ $class->tablename }}<br />
- @foreach ($object->fields as $field)
-  <x-input class="{{ $class->name }}" name="{{ $field->name }}" action="edit" />
+<form method="post" action="{{ $prefix }}/objects/execedit/{{ $object->id }}">
+ @foreach ($fields as $field)
+  <x-visual-input id="{{ $object->getID() }}" name="{{ $field->name }}" action="edit" />
  @endforeach
  <input type="submit" value="abschicken" />
 </form>
