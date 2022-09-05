@@ -5,6 +5,7 @@ namespace Sunhill\Visual\Components;
 use Illuminate\View\Component;
 use Sunhill\ORM\Facades\Classes;
 use Sunhill\ORM\Facades\Objects;
+use Sunhill\Visual\Facades\Dialogs;
 
 class Input extends Component
 {
@@ -85,14 +86,27 @@ class Input extends Component
                     'value'=>(is_null($this->object))?null:$this->object->$name                    
                 ]);
             case 'Object':
+                if (is_null($this->object) || is_null($this->object->$name)) {
+                    $key = null;
+                    $id  = null;
+                } else {
+                    $id  = $this->object->$name->getID();
+                    $key = Dialogs::getObjectKeyfield($this->object->$name);
+                }
                 return view(
                     'visual::components.object', 
                     [
                         'name'=>$this->name,
-                        'allowed_objects'=>json_encode(Classes::getNamespaceOfClass($this->class)::getPropertyObject($this->name)->getAllowedObjects())
+                        'allowed_objects'=>json_encode(Classes::getNamespaceOfClass($this->class)::getPropertyObject($this->name)->getAllowedObjects()),
+                        'obj_key'=>$key,
+                        'obj_id'=>$id,
                     ]);
             case 'Float':
-                return view('visual::components.float', ['name'=>$this->name]);
+                return view('visual::components.float', 
+                [
+                    'name'=>$this->name,
+                    'value'=>(is_null($this->object))?null:$this->object->$name
+                ]);
             case 'ArrayOfStrings':
                 return view(
                     'visual::components.arrayofstrings',
