@@ -28,7 +28,7 @@
 	
 	function stringArrayField( id, classid ) {
 		$("#_"+id).selectable({
-			selecting: function ( event, ui ) {
+			selected: function ( event, ui ) {
 				var el = $(ui.selected);
 				el.remove()
 			}
