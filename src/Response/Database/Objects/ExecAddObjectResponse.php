@@ -5,10 +5,7 @@ namespace Sunhill\Visual\Response\Database\Objects;
 use Illuminate\Http\Request;
 
 use Sunhill\Visual\Response\RedirectResponse;
-use Sunhill\ORM\Facades\Objects;
 use Sunhill\ORM\Facades\Classes;
-use Sunhill\ORM\Utils\ObjectList;
-use Sunhill\Visual\Traits\GetProperties;
 
 class ExecAddObjectResponse extends ObjectResponseBase
 {
