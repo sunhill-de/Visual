@@ -33,7 +33,7 @@ abstract class ObjectResponseBase extends RedirectResponse
           if (!method_exists($this,'get'.$fieldtype)) {
               throw new \Exception(__("No handler for ':fieldtype'",['fieldtype'=>$fieldtype]));
           }
-          $value = $this->$handler($this->request->input($fieldname),$property);
+          $value = $this->$handler($this->request->input($fieldname,null),$property);
           
           if (is_array($value)) {
               foreach ($value as $single) {
@@ -93,7 +93,7 @@ abstract class ObjectResponseBase extends RedirectResponse
         }
         $allowed = $field->getEnumValues();
         if (!in_array($value,$allowed)) {
-            throw new \Exception(__("'$value' is not an allowed value",['value'=>$value]));
+            throw new \Exception(__("':value' is not an allowed value",['value'=>$value]));
         }
         return $value;
     }
@@ -123,6 +123,7 @@ abstract class ObjectResponseBase extends RedirectResponse
     
     protected function getObject($value,$field)
     {
+        $value = $this->request->input($field->getName());
         if (empty($value)) {
             return null;
         }
@@ -132,6 +133,9 @@ abstract class ObjectResponseBase extends RedirectResponse
         if (is_numeric($value)) {
             $value = Objects::load(intval($value));
         }
+        if (empty($value)) {
+            throw new \Exception(__("':value' is not a valid object id",['value'=>$value]));
+        }    
         if (!$this->isAllowedObject($value,$field->getAllowedObjects())) {
             throw new \Exception(__("':value' is not an allowed object for this field",['value'=>$value]));
         }
@@ -143,10 +147,10 @@ abstract class ObjectResponseBase extends RedirectResponse
     {
         $result = [];
         $name = $field->getName();
-        $count = $this->request->input("_".$name."_count",0);
+        $count = $this->request->input("count_".$name,0);
         for ($i=1;$i<=$count;$i++) {
             if ($this->request->has("_".$name.$i)) {
-                $result[] = $this->request->input("_".$name.$i);                
+                $result[] = $this->request->input("value_".$name.$i);                
             }
         }
         return $result;
@@ -156,11 +160,14 @@ abstract class ObjectResponseBase extends RedirectResponse
     {
         $result = [];
         $name = $field->getName();
-        $count = $this->request->input($name."_count",0);
+        $count = $this->request->input("count_".$name,0);
         for ($i=1;$i<=$count;$i++) {
-            if ($this->request->has("_".$name.$i)) {
-                $id = $this->request->input("_".$name.$i);
+            if ($this->request->has("value_".$name.$i)) {
+                $id = $this->request->input("value_".$name.$i);
                 $obj = Objects::load(intval($id));
+                if (empty($obj)) {
+                    throw new \Exception(__("':value' is not a valid object id",['value'=>$obj]));
+                }    
                 if (!$this->isAllowedObject($obj,$field->getAllowedObjects())) {
                     throw new \Exception(__("':value' is not an allowed object for this field",['value'=>$value]));
                 }
