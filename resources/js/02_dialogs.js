@@ -61,8 +61,8 @@ function addEntry( id ) {
     var index = parseInt($('#count_'+id).val()) + 1; // Get the next index
 	  
     // Append it to the visual part
-    $('#_'+id).append('<li>'+entry_text+'<input type="hidden" name="value_'+id+index+'" id="value_'+id+index+'" value="'+entry_value+'"/></li>');
+    $('#list_'+id).append('<li>'+entry_text+'<input type="hidden" name="value_'+id+index+'" id="value_'+id+index+'" value="'+entry_value+'"/></li>');
 	// Append it to the hidden part
-    $('#_'+id+'_count').val(index);    
+    $('#count_'+id).val(index);    
 }
   
