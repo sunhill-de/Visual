@@ -1,8 +1,8 @@
-	function objectField( id, classid ) {
-		$("#_"+id).autocomplete({
+function lookupField( id, classid, ajaxmethod ) {
+		$("#input_"+id).autocomplete({
 			source: function( request, response ) {
 				$.ajax({
-					url:"/ajax/searchObjects/"+classid+"/"+id+"/",
+					url:"/ajax/"+ajaxmethod+"/"+classid+"/"+id+"/",
 					type:"get",
 					dataType:"json",
 					data: { 
@@ -24,39 +24,26 @@
 				return false;
 			}
 		})
-	}
-	
-	function stringArrayField( id, classid ) {
+
+}
+
+function listField( id ) {
 		$("#_"+id).selectable({
 			selected: function ( event, ui ) {
 				var el = $(ui.selected);
 				el.remove()
 			}
 		});
-		$("#__"+id).autocomplete({
-			source: function( request, response ) {
-				$.ajax({
-					url:"/ajax/searchArrayOfString/"+classid+"/"+id+"/",
-					type:"get",
-					dataType:"json",
-					data: { 
-						search: request.term 
-					},
-					success: function( data ) {
-						response( data );
-				}	
-				});
-			},
-			select: function( event, ui ) {
-				$("#__"+id).val(ui.item.label);
-				return false;
-			},
-			focus: function( event, ui ) {
-				$("#__"+id).val(ui.item.label);
-				return false;
-			}
-		})		
-	}	
+}
+
+function objectField( id, classid ) {
+	lookupField( id, classid, "searchObject" );
+}
+	
+function stringArrayField( id, classid ) {
+	listField( id );
+	lookupField( id, classid, "searchArrayOfString" );
+}	
 
   function addStrEntry( id ) {
 	// Get the input
