@@ -13,6 +13,7 @@
 @section('body')
 
 @parent
+
 @if(isset($nav_0) && (null !== $nav_0))
 <style>
 @foreach ($nav_0 as $entry)
@@ -21,29 +22,72 @@
 @endforeach
 </style>
 <div class="mainnav" id="mainnav">
- <ul>
-  <li><a id="home" href="/">Home</a></li>
-@foreach ($nav_0 as $entry)
-  <li><a id="{{$entry->id}}" href="/{{$entry->id}}/">{{$entry->name}}</a></li>
-@endforeach
- </ul>
-</div>
-@endif
-
-@if(isset($nav_1) && (null !== $nav_1))
-<style>
-@foreach ($nav_1 as $entry)
- #subnav #{{$entry->id}} { background-image: url(/img/{{$entry->icon}}); } 
-@endforeach
-</style>
-<div class="subnav" id="subnav">
- <ul>
-@foreach ($nav_1 as $entry)
-  <li><a id="{{$entry->id}}" href="{{$entry->prefix}}/{{$entry->id}}/">{{$entry->name}}</a></li>
-@endforeach
- </ul>
-</div>
-@endif
+<ul>
+ <li><a id="home" href="/">Home</a></li>
+@isset($navigation)
+ @foreach ($navigation as $level1_entry)
+  @if ($level1_entry->visible)
+  <li>
+    @if ($level1_entry->active)
+    <div class="active_navigation">
+    @endif
+    <a id="{{ $level1_entry->id }}" href="{{ $level1_entry->link }}">{{ $level1_entry->display_name }}</a>
+    @if ($level1_entry->subentries)
+     <!-- ******* Level 2 ******* -->
+     <ul>
+     @foreach ($level1_entry->subentries as $level2_entry)
+     <li>
+      @if ($level2_entry->active)
+      <div class="active_navigation">
+      @endif
+      <a id="{{ $level2_entry->id }}" href="{{ $level2_entry->link }}">{{ $level2_entry->display_name }}</a>
+      @if ($level2_entry->subentries)
+      <ul>
+      @foreach ($level2_entry->subentries as $level3_entry)
+      @if ($level1_entry->subentries)
+      <!-- ******* Level 3 ******* -->
+     <ul>
+     @foreach ($level1_entry->subentries as $level2_entry)
+     <li>
+      @if ($level2_entry->active)
+      <div class="active_navigation">
+      @endif
+      <a id="{{ $level2_entry->id }}" href="{{ $level2_entry->link }}">{{ $level2_entry->display_name }}</a>
+      @if ($level1_entry->subentries)
+      <ul>
+      @foreach ($level1_entry->subentries as $level2_entry)
+     
+      @endforeach
+      </ul>
+      @endif
+      @if ($level2_entry->active)
+      </div>
+      @endif
+    </li>      
+     @endforeach
+     </ul>
+     <!-- ******** Level 3 ******** -->
+    @endif
+     
+      @endforeach
+      </ul>
+      @endif
+      @if ($level2_entry->active)
+      </div>
+      @endif
+    </li>      
+     @endforeach
+     </ul>
+     <!-- ******** Level 2 ******** -->
+    @endif
+    @if ($level1_entry->active)
+    </div>
+    @endif
+  </li>   
+  @endif
+ @endforeach
+@endisset
+</ul>
 
 @if(null !== $breadcrumbs)
 <div id="breadcrumb">
