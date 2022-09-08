@@ -3,30 +3,16 @@
 namespace Sunhill\Visual\Response;
 
 use Illuminate\Http\Request;
+use Sunhill\Visual\Entries\EntryBase;
 
-abstract class ResponseBase
+abstract class ResponseBase extends EntryBase
 {
     protected $request;
   
     protected $params;
   
     protected $remaining;
-    
-    protected $parent;
-    
-    protected $description;
-    
-    public function setDescription(string $description)
-    {
-        $this->description = $description;
-        return $this;
-    }
-    
-    public function getDescription()
-    {
-        return $this->description;
-    }
-    
+        
     protected function solveRemaining(string $matrix): array
     {
         $result = [];
@@ -67,12 +53,6 @@ abstract class ResponseBase
             $i++;
         }
         return $result;
-    }
-    
-    public function setParent($parent)
-    {
-        $this->parent = $parent;
-        return $this;
     }
     
     public function setRequest(Request $request)
