@@ -4,27 +4,19 @@ namespace Sunhill\Visual\Modules;
 
 use Illuminate\Http\Request;
 use Sunhill\Visual\Response\ResponseBase;
-use Sunhill\Visual\Modules\ModuleBase;
+use Sunhill\Visual\Entries\EntryBase;
 
 /**
  * A basic class for differnt kinds of modules
  * @author lokal
  *
  */
-class ModuleBase
+class ModuleBase extends EntryBase
 {
     
     protected $subentries = [];
-    
-    protected $name = "";
-    
+        
     protected $icon = "";
-    
-    protected $parent = null;
-    
-    protected $description = "";
-    
-    protected $current;
     
     public function __construct()
     {
@@ -91,28 +83,6 @@ class ModuleBase
         }    
     }
     
-    public function setName(string $name)
-    {    
-        $this->name = $name;
-        return $this;
-    }
-    
-    public function getName() : String
-    {
-        return $this->name;
-    }
-    
-    public function setDescription(string $description)
-    {
-        $this->description = $description;
-        return $this;
-    }
-    
-    public function getDescription() : String
-    {
-        return $this->description;
-    }
-    
     /**
      * Setter for the icon of this module
      */
@@ -130,17 +100,6 @@ class ModuleBase
         return $this->icon;
     }
     
-    public function setParent(ModuleBase $parent): ModuleBase
-    {
-        $this->parent = $parent;
-        return $this;
-    }
-    
-    public function getParent()
-    {
-        return $this->parent;    
-    }
-
     /**
      * The processing works like this:
      * - first check if there is a submodule-entry
@@ -193,6 +152,7 @@ class ModuleBase
      */
     public function route(string $path, Request $request, array &$params)
     {
+        $this->setActive(); // Mark it as active (because we routed down)
         $parts = explode('/',$path);
         $submodule = array_shift($parts);
         if (empty($submodule) && !(count($parts) == 0)) {
@@ -273,6 +233,29 @@ class ModuleBase
                 $entry->prefix = $subentry->getPrefix();
             } else if (is_a($subentry,ResponseBase::class)) {
             
+            }    
+            $result[] = $entry;
+        }    
+        return $result;
+    }  
+    
+    public function getNavigation()
+    {
+        $result = [];
+        foreach($this->subentries as $subentry)
+        {
+            $entry = new \StdClass();
+            if (is_a($subentry,ModuleBase::class)) {
+                $entry = new \StdClass();
+                $entry->id = $subentry->getName();
+                $entry->name = $subentry->getDescription();
+                $entry->depth = $this->getDepth()+1;
+                $entry->icon = $subentry->getIcon();
+                $entry->prefix = $subentry->getPrefix();
+                $entry->active = $subentry->active;
+                $entry->subentries = $subentry->getNavigation();
+            } else if (is_a($subentry,ResponseBase::class)) {
+                $entry = new \StdClass();
             }    
             $result[] = $entry;
         }    
