@@ -51,7 +51,8 @@
   "No handler for ':fieldtype'":"Kein Handler für ':fieldtype'",
   "':value' is not an integer":"':value' ist keine Ganzzahl",
   "':value' is not an float":"':value' ist keine Kommazahl",
-  "':value' is not an object-id":"'value' ist keine Objekt-ID",
-  "'$value' is not an allowed value":"'value' ist kein erlaubter Wert",
+  "':value' is not an object-id":"':value' ist keine Objekt-ID",
+  "':value' is not an allowed value":"':value' ist kein erlaubter Wert",
+  "':value' is not a valid object id":"':value' ist keine gültige Objekt-ID",
   "':value' is not an allowed object for this field":"'value' ist kein erlaubtes Objekt für dieses Feld"
 }

@@ -43,6 +43,7 @@ class AjaxController extends Controller
        foreach ($query as $entry) {
            $newentry = new \StdClass();
            $newentry->label = $entry->element_id;
+           $newentry->id = $entry->element_id;
            $newresult[] = $newentry;
        }
        return $this->getOutput($newresult);

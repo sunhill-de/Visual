@@ -12,7 +12,7 @@ class ExecAddObjectResponse extends ObjectResponseBase
     
     protected $target = '/';
 
-    protected function getObject()
+    protected function getWorkingObject()
     {
         $classname = $this->request->input('_class');
         $this->target = $this->params['prefix'].'/Objects/list/'.$classname;

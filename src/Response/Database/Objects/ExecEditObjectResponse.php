@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 
 use Sunhill\Visual\Response\RedirectResponse;
 use Sunhill\ORM\Facades\Classes;
+use Sunhill\ORM\Facades\Objects;
 
-class ExecAddObjectResponse extends ObjectResponseBase
+class ExecEditObjectResponse extends ObjectResponseBase
 {
     
     protected $target = '/';
 
-    protected function getObject()
+    protected function getWorkingObject()
     {
         $result = $this->solveRemaining('id');
         $object_id = $result['id'];
@@ -20,7 +21,7 @@ class ExecAddObjectResponse extends ObjectResponseBase
         
         $this->clearLists($object);
         $this->target = $this->params['prefix'].'/Objects/show/'.$object_id;
-
+        
         return $object;       
     }
     
@@ -36,7 +37,7 @@ class ExecAddObjectResponse extends ObjectResponseBase
             $object->$name = [];
           }
           $object->tags = [];
-          $object->attributes = [];
+//          $object->attributes = [];
         }  
     }  
 }  

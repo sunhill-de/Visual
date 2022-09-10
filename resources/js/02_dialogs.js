@@ -1,8 +1,8 @@
-	function objectField( id, classid ) {
-		$("#_"+id).autocomplete({
+function lookupField( id, classid, ajaxmethod ) {
+		$("#input_"+id).autocomplete({
 			source: function( request, response ) {
 				$.ajax({
-					url:"/ajax/searchObjects/"+classid+"/"+id+"/",
+					url:"/ajax/"+ajaxmethod+"/"+classid+"/"+id+"/",
 					type:"get",
 					dataType:"json",
 					data: { 
@@ -14,115 +14,64 @@
 				});
 			},
 			select: function( event, ui ) {
-				$("#_"+id).val(ui.item.label);
-				$("#"+id).val(ui.item.id);
+				$("#input_"+id).val(ui.item.label);
+				$("#value_"+id).val(ui.item.id);
 				return false;
 			},
 			focus: function( event, ui ) {
-				$("#_"+id).val(ui.item.label);
-				$("#"+id).val(ui.item.id);
+				$("#input_"+id).val(ui.item.label);
+				$("#value_"+id).val(ui.item.id);
 				return false;
 			}
 		})
-	}
-	
-	function stringArrayField( id, classid ) {
+
+}
+
+function listField( id ) {
 		$("#_"+id).selectable({
 			selected: function ( event, ui ) {
 				var el = $(ui.selected);
 				el.remove()
 			}
 		});
-		$("#__"+id).autocomplete({
-			source: function( request, response ) {
-				$.ajax({
-					url:"/ajax/searchArrayOfString/"+classid+"/"+id+"/",
-					type:"get",
-					dataType:"json",
-					data: { 
-						search: request.term 
-					},
-					success: function( data ) {
-						response( data );
-				}	
-				});
-			},
-			select: function( event, ui ) {
-				$("#__"+id).val(ui.item.label);
-				return false;
-			},
-			focus: function( event, ui ) {
-				$("#__"+id).val(ui.item.label);
-				return false;
-			}
-		})		
-	}	
+}
 
-  function addStrEntry( id ) {
-	// Get the input
-    var entry = $('#__'+id).val();
-	// Get the next index
-    var index = parseInt($('#_'+id+'_count').val()) + 1;
-    // Append it to the visual part
-    $('#_'+id).append('<li>'+entry+'<input type="hidden" name="_'+id+index+'" id="_'+id+index+'" value="'+entry+'"/></li>');
-	// Append it to the hidden part
-    $('#_'+id+'_count').val(index);
-  }
-
-  function delStrEntry( id ) {
+function objectField( id, classid ) {
+	lookupField( id, classid, "searchObjects" );
+}
 	
-  }
+function stringArrayField( id, classid ) {
+	listField( id );
+	lookupField( id, classid, "searchArrayOfString" );
+}	
 
-  function objectArrayField( id, classid ) {
-		$("#_"+id).selectable({
-			selected: function ( event, ui ) {
-				var el = $(ui.selected);
-				el.remove()
-			}
-		});
-		$("#__"+id).autocomplete({
-			source: function( request, response ) {
-				$.ajax({
-					url:"/ajax/searchObjects/"+classid+"/"+id+"/",
-					type:"get",
-					dataType:"json",
-					data: { 
-						search: request.term 
-					},
-					success: function( data ) {
-						response( data );
-				}	
-				});
-			},
-			select: function( event, ui ) {
-				$("#__"+id).val(ui.item.label);
-				$("#"+id).val(ui.item.id);
-				return false;
-			},
-			focus: function( event, ui ) {
-				$("#__"+id).val(ui.item.label);
-				$("#"+id).val(ui.item.id);
-				return false;
-			}
-		})			
-  }
+function objectArrayField( id, classid ) {
+	listField( id );
+	lookupField( id, classid, "searchObjects" );
+}
+
+/**
+ * When clicked on the add button, add the current entry to the list
+ * @todo only do something, when there is an input (finished)
+ * @todo clean the input field afterwards (finished)
+ */
+function addEntry( id, valueonly ) {
+    var entry_text = $( "#input_"+id ).val();  // Get the display value
+    var entry_value = $( "#value_"+id ).val(); // Get the internal value	      
+    if ((entry_value) && (valueonly == true) ||
+        (valueonly == false) && (entry_text)) {
+      var index = parseInt($('#count_'+id).val()) + 1; // Get the next index
+	  
+      // Append it to the visual part
+      if (valueonly || entry_value) {
+	  	$('#list_'+id).append('<li>'+entry_text+'<input type="hidden" name="value_'+id+index+'" id="value_'+id+index+'" value="'+entry_value+'"/></li>');
+      } else {
+	  	$('#list_'+id).append('<li>'+entry_text+'<input type="hidden" name="value_'+id+index+'" id="value_'+id+index+'" value="'+entry_text+'"/></li>');	
+	  }
+	  // Append it to the hidden part
+      $('#count_'+id).val(index);
+      $( "#input_"+id ).val("");
+      $( "#value_"+id ).val("");
+    }	    
+}
   
- function addObjectEntry( id ) {
-	// Get the input
-    var text_entry = $('#__'+id).val();
-    var num_entry = $('#'+id).val();
-	// Get the next index
-    var index = parseInt($('#_'+id+'_count').val()) + 1;
-    // Append it to the visual part
-    $('#_'+id).append('<li>'+text_entry+'</li>');
-	// Append it to the hidden part
-    $('#_'+id+'_count').val(index);
-    $('<input>').attr({
-							type: 'hidden',
-							name: '_'+id+index,
-							id: id+index,
-							value: num_entry
-						 }).appendTo('#add'); 
-  }
-
-	
