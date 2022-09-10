@@ -18,11 +18,11 @@ abstract class ObjectResponseBase extends RedirectResponse
 
     use GetProperties;
     
-    abstract protected function getObject();    
+    abstract protected function getWorkingObject();    
       
     protected function prepareResponse()
     {    
-        $object = $this->getObject();
+        $object = $this->getWorkingObject();
         $fields = $this->getEditable($object);
 
         foreach ($fields as $field) {
@@ -123,7 +123,7 @@ abstract class ObjectResponseBase extends RedirectResponse
     
     protected function getObject($value,$field)
     {
-        $value = $this->request->input($field->getName());
+        $value = $this->request->input('value_'.$field->getName());
         if (empty($value)) {
             return null;
         }
