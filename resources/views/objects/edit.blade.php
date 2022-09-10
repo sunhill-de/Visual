@@ -8,11 +8,14 @@ Objekt mit der ID '{{ $object->id }}' bearbeiten
 
 @section('content')
 @parent
-<form method="post" action="{{ $prefix }}/objects/execedit/{{ $object->id }}">
+<form method="post" action="{{ $prefix }}/Objects/execedit/{{ $object->id }}">
+ <div class="dialogelements">
+ @csrf
  @foreach ($fields as $field)
   <x-visual-input id="{{ $object->getID() }}" name="{{ $field->name }}" action="edit" />
  @endforeach
  <input type="submit" value="abschicken" />
+ </div>
 </form>
 @endsection
   
