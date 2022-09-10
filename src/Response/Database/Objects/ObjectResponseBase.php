@@ -149,7 +149,7 @@ abstract class ObjectResponseBase extends RedirectResponse
         $name = $field->getName();
         $count = $this->request->input("count_".$name,0);
         for ($i=1;$i<=$count;$i++) {
-            if ($this->request->has("_".$name.$i)) {
+            if ($this->request->has("value_".$name.$i)) {
                 $result[] = $this->request->input("value_".$name.$i);                
             }
         }
