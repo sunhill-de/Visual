@@ -17,12 +17,12 @@
 @if(isset($nav_0) && (null !== $nav_0))
 <style>
 @foreach ($nav_0 as $entry)
- #mainnav #{{$entry->id}} { background-image: url(/img/{{$entry->icon}}); }
- 
+ #mainnav #{{$entry->id}} { background-image: url(/img/{{$entry->icon}}); } 
 @endforeach
 </style>
+@endif
 
-@each('partials.navigation',$navigation,'entry')
+@each('visual::partials.navigation',$navigation,'entry')
 
 @if(null !== $breadcrumbs)
 <div id="breadcrumb">
