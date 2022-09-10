@@ -21,9 +21,9 @@
 @endforeach
 </style>
 @endif
-
-@each('visual::partials.navigation',$navigation,'entry')
-
+<ul>
+@each('visual::partials.navigation',json_decode(json_encode($navigation),true),'entry')
+</ul>
 @if(null !== $breadcrumbs)
 <div id="breadcrumb">
  <ul>

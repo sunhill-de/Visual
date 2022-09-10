@@ -248,6 +248,8 @@ class ModuleBase extends EntryBase
             if (is_a($subentry,ModuleBase::class)) {
                 $entry = new \StdClass();
                 $entry->id = $subentry->getName();
+                $entry->display_name = $subentry->getName();
+                $entry->link = $subentry->getPrefix().'/'.$subentry->getName();
                 $entry->name = $subentry->getDescription();
                 $entry->depth = $this->getDepth()+1;
                 $entry->icon = $subentry->getIcon();
