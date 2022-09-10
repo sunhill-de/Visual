@@ -4,7 +4,7 @@
  <input type="text" name="input_{{ $name }}" id="input_{{ $name }}" />
  <input type="hidden" name="value_{{ $name }}" id="value_{{ $name }}" />
  
- <input type="button" value="+" onClick="addEntry('{{ $name }}')" />
+ <input type="button" value="+" onClick="addEntry('{{ $name }}', true)" />
  
  <ul class="selectable" name="list_{{ $name }}" id="list_{{ $name }}">
   @isset($values)
