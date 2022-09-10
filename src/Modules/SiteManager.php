@@ -14,7 +14,7 @@ class SiteManager extends ModuleBase
     public function tryToRoute(Request $request)
     {        
         $params = [
-            'navigation'=>$this->getNavigationTree(),
+            'navigation'=>$this->getNavigation(),
             'nav_0'=>$this->getModuleNavigation(),
             'sitename'=>$this->getDescription(),            
             'breadcrumbs'=>[]

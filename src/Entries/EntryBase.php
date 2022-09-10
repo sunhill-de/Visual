@@ -29,7 +29,9 @@ class EntryBase
      * The parent module of this entry
      */
     protected $parent;
-  
+
+    protected $active;
+    
     /**
      * Setter for $this->name
      */
