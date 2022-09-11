@@ -30,7 +30,17 @@ class EntryBase
      */
     protected $parent;
 
-    protected $active;
+    /**
+     * Marks if this module is currently active
+     * @var bool
+     */
+    protected $active = false;
+    
+    /**
+     * Marks if this module is currently visible in the navigation
+     * @var boolean
+     */
+    protected $visible = false;
     
     /**
      * Setter for $this->name

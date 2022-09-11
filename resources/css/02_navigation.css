@@ -1,0 +1,50 @@
+.nav1 {
+	list-style: none;
+	float: left;
+	width: 10000px;
+	padding: 0px;	
+	top: 100px;
+}
+
+.nav1 a {
+	background-size: 100px;
+	display: block;
+	overflow: hidden;
+	width: 100px;
+	padding:0px;
+	height: 100px;
+	text-indent :-9999px;
+}
+
+.nav2 {
+	position: absolute;
+	top:0px;
+	left:100px;
+	float: top;
+	height: 100px;
+	padding: 0;
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+
+.nav2 li {
+	float: left;
+}
+
+.nav2 a {
+	display: block;
+	overflow: hidden;
+	width: 0;
+	padding-left:100px;
+	height: 100px;
+	background-size: 100px;	
+}
+
+.content {
+	left:100px;
+	top: 100px;
+}
+#Home { background-image: url(/img/Sonnenhuegel.png); } 
+#Computer { background-image: url(/img/computer/computer.png); } 
+#Database { background-image: url(/img/computer/database.png); }

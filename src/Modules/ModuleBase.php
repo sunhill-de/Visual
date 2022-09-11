@@ -249,12 +249,13 @@ class ModuleBase extends EntryBase
                 $entry = new \StdClass();
                 $entry->id = $subentry->getName();
                 $entry->display_name = $subentry->getName();
-                $entry->link = $subentry->getPrefix().'/'.$subentry->getName();
+                $entry->link = str_replace('//','/',$subentry->getPrefix().'/'.$subentry->getName());
                 $entry->name = $subentry->getDescription();
                 $entry->depth = $this->getDepth()+1;
                 $entry->icon = $subentry->getIcon();
                 $entry->prefix = $subentry->getPrefix();
-                $entry->active = $subentry->active;
+                $entry->active = $subentry->getactive();
+                $entry->visible = $subentry->getVisible();
                 $entry->subentries = $subentry->getNavigation();
             } else if (is_a($subentry,ResponseBase::class)) {
                 $entry = new \StdClass();

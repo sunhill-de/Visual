@@ -21,9 +21,11 @@
 @endforeach
 </style>
 @endif
-<ul>
+<ul class="nav1">
+<a href="/" id="Home">Home</a>
 @each('visual::partials.navigation',json_decode(json_encode($navigation),true),'entry')
 </ul>
+<div class="content">
 @if(null !== $breadcrumbs)
 <div id="breadcrumb">
  <ul>
@@ -33,7 +35,6 @@
  </ul>
 </div>
 @endif
-<div class="content">
 @yield('content')
 </div>
 @endsection
