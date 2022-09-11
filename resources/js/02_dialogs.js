@@ -28,7 +28,7 @@ function lookupField( id, classid, ajaxmethod ) {
 }
 
 function listField( id ) {
-		$("#_"+id).selectable({
+		$("#list_"+id).selectable({
 			selected: function ( event, ui ) {
 				var el = $(ui.selected);
 				el.remove()

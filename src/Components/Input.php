@@ -108,13 +108,19 @@ class Input extends Component
                     'value'=>(is_null($this->object))?null:$this->object->$name
                 ]);
             case 'ArrayOfStrings':
-                if (!is_null($this->object) && !is_null($this->object->$name)) {
-                    $values = [];
-                    foreach ($this->object->$name as $entry) {
-                        $values[] = $entry;
-                    }
+                if (is_null($this->object) || is_null($this->object->$name)) {
+                    $values = null;
                 } else {
+                    $value = $this->object->$name;
+                    if (empty($value)) {
                         $values = null;
+                    }
+                    $values = [];
+                    if ($this->object->$name->count() > 0) {
+                        foreach ($this->object->$name as $entry) {
+                            $values[] = $entry;
+                        }
+                    }
                 }
                 return view(
                     'visual::components.arrayofstrings',
@@ -124,7 +130,13 @@ class Input extends Component
                     ]
                 );
             case 'ArrayOfObjects':
-                if (!is_null($this->object) && !is_null($this->object->$name)) {
+                if (is_null($this->object) || is_null($this->object->$name)) {
+                    $values = null;
+                } else {
+                    $value = $this->object->$name;
+                    if (empty($value)) {
+                        $values = null;
+                    }
                     $values = [];
                     foreach ($this->object->$name as $entry) {
                         $entry = Objects::load($entry);
@@ -133,9 +145,7 @@ class Input extends Component
                         $res_entry->value = $entry->getID();
                         $values[] = $res_entry;
                     }
-                } else {
-                    $values = null;
-                }
+                } 
                 return view(
                 'visual::components.arrayofobjects',
                 [
