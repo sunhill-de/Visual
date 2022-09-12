@@ -16,7 +16,7 @@ class ExecEditTagResponse extends TagResponseBase
     {
         $id = $this->solveRemaining('id');
         
-        $tag = Tags::load($id);
+        $tag = Tags::loadTag($id);
         $this->target = $this->getPrefix().'/Tags/show/'.$id;
         
         return $tag;
