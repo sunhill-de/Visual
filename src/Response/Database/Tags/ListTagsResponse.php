@@ -4,8 +4,9 @@ namespace Sunhill\Visual\Response\Database\Tags;
 
 use Sunhill\Visual\Response\BladeResponse;
 use Sunhill\ORM\Facades\Tags;
+use Sunhill\Visual\Response\ListResponse;
 
-class ListObjectsResponse extends ListResponse
+class ListTagsResponse extends ListResponse
 {
 
     protected $columns = ['name','parent'];
@@ -37,8 +38,8 @@ class ListObjectsResponse extends ListResponse
             $this->createEntry(__('name'),$this->getLink($this->params['key'],'name',$this->params['delta'])),
             $this->createEntry(__('parent'),$this->getLink($this->params['key'],'parent',$this->params['delta'])),
             $this->createEntry(__('fullpath'),$this->getLink($this->params['key'],'full_path',$this->params['delta'])),
-            $result[] = $this->createEntry(" ");
-            $result[] = $this->createEntry(" ");
+            $result[] = $this->createEntry(" "),
+            $result[] = $this->createEntry(" ")
         ];    
         return $result;
     }

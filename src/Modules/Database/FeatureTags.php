@@ -2,7 +2,6 @@
 
 namespace Sunhill\Visual\Modules\Database;
 
-use Sunhill\Visual\Response\Database\Tags\ListTagsResponse;
 
 use Sunhill\Visual\Modules\ModuleBase;
 
@@ -26,7 +25,7 @@ class FeatureTags extends ModuleBase
         $this->addSubEntry('execadd', ExecAddTagResponse::class);
         $this->addSubEntry('edit', EditTagResponse::class);
         $this->addSubEntry('execedit', ExecEditTagResponse::class);
-        $this->addSubEntry('delete', DeleteTagResponse::class);
+     //   $this->addSubEntry('delete', DeleteTagResponse::class);
         $this->addSubEntry('show', ShowTagResponse::class); 
     }
     
