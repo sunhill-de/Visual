@@ -37,6 +37,11 @@
   @endforelse
    
 </table>
+<div class="flex items-center space-x-1">
+@foreach ($pages as $page) 
+<a href="{{ $page->link }}" class="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-blue-400 hover:text-white">{{ $page->text }}</a>
+@endforeach
+</div>
 </div>
 
 @endsection

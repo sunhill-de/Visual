@@ -8,7 +8,7 @@ namespace Sunhill\Visual\Response;
 /**
  * Defines how many entry per page should be displayed
  */
-define("ENTRIES_PER_PAGE", 25);
+define("ENTRIES_PER_PAGE", 20);
 
 /**
  * Defines how many paginator links should be left and right to the current entry
@@ -41,9 +41,14 @@ abstract class ListResponse extends BladeResponse
     protected function sliceList($list,int $page): array
     {
         $result = [];
-        $i = 0;
-        while (($i + $page * ENTRIES_PER_PAGE < count($list)) && ($i < ENTRIES_PER_PAGE)) {
-            $result[] = $list[($i++)+$page*ENTRIES_PER_PAGE];  
+        $start = $page*ENTRIES_PER_PAGE;
+        $end = ($page+1)*ENTRIES_PER_PAGE-1;
+        $i=0;
+        foreach ($list as $key => $entry) {
+            if (($i >= $start) && ($i <= $end)) {
+                $result[$key] = $entry;
+            }
+            $i++;
         }
         return $result;
     }
