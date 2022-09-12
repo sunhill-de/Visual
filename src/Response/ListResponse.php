@@ -114,7 +114,7 @@ abstract class ListResponse extends BladeResponse
             $start = ($current_page - PAGINATOR_NEIGHBORS);
             $this->params['left_ellipse'] = '...';                    
         }    
-        if (($current_page + PAGINATOR_NEIGHBOURS)>($pages-1) {
+        if (($current_page + PAGINATOR_NEIGHBOURS)>($pages-1)) {
             $end = $pages - 1;
             $this->params['right_ellipse'] = '';            
         } else {
