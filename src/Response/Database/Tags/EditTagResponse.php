@@ -15,7 +15,7 @@ class EditTagResponse extends BladeResponse
     {
         $result = $this->solveRemaining('id');
         $tag_id = $result['id'];
-        $tag = Tags::load($tag_id);
+        $tag = Tags::loadTag($tag_id);
         
         $this->params['title'] = __('Edit tag');
         $this->params['action'] = $this->getPrefix().'/Tags/execedit';
