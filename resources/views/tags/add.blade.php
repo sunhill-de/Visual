@@ -15,6 +15,7 @@
  <input name="name" type="text" />
  <label for="parent">{{ __('Tag parent') }}</label>
  <input name="input_parent" type="text" />
+ <input name="value_parent" type="hidden" value="{{ $parent_id }}" />
  <inputgroup>
   <caption>Optionen</caption>
   <input type="checkbox" name="leafable" checked />{{ __('leafable') }}
