@@ -1,3 +1,7 @@
+  $( function() {
+    $( document ).tooltip();
+  } );
+  
 function lookupField( id, classid, ajaxmethod ) {
 		$("#input_"+id).autocomplete({
 			source: function( request, response ) {
