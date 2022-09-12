@@ -20,7 +20,7 @@
   <caption>Optionen</caption>
   <input type="checkbox" name="leafable" checked />{{ __('leafable') }}
  </inputgroup>
- <input type="submit" value="abschicken" />
+ <input type="submit" value="{{ __("send") }}" />
 </div>
 </form>
 @endsection
