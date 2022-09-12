@@ -1,14 +1,14 @@
 @extends('visual::basic.navigation')
 
-@section('title',__('Add tag'))
+@section('title',{{ $title }})
 
 @section('caption')
-{{ __('Add Tag') }}
+{{ $title }}
 @endsection
 
 @section('content')
 @parent
-<form method="post" id="add" name="add" action="{{ $prefix }}/Tags/execadd">
+<form method="post" action="{{ $method }}">
  <div class="dialogelements">
  @csrf
  <label for="tagname">{{ __('Tag name') }}</label>
@@ -20,7 +20,7 @@
   <caption>Optionen</caption>
   <input type="checkbox" name="leafable" checked />{{ __('leafable') }}
  </inputgroup>
- <input type="submit" value="abschicken" />
+ <input type="submit" value="{{ __('send') }}" />
 </div>
 </form>
 @endsection
