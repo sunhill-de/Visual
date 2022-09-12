@@ -1,6 +1,6 @@
 <?php
 
-namespace Sunhill\Visual\Response\Database\Objects;
+namespace Sunhill\Visual\Response\Database\Tags;
 
 use Sunhill\Visual\Response\BladeResponse;
 use Sunhill\ORM\Facades\Tags;
