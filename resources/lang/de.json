@@ -54,5 +54,10 @@
   "':value' is not an object-id":"':value' ist keine Objekt-ID",
   "':value' is not an allowed value":"':value' ist kein erlaubter Wert",
   "':value' is not a valid object id":"':value' ist keine gültige Objekt-ID",
-  "':value' is not an allowed object for this field":"'value' ist kein erlaubtes Objekt für dieses Feld"
+  "':value' is not an allowed object for this field":"'value' ist kein erlaubtes Objekt für dieses Feld",
+  "Add tag":"Tag hinzufügen",
+  "Tag name":"Tagname",
+  "Tag parent":"Elterntag",
+  "leafable":"Darf einem Objekt zugeordnet werden",
+  "send":"abschicken"
 }
