@@ -18,6 +18,17 @@ class AjaxController extends Controller
 
   public function searchTags(string $class="", Request $request,Response $response)
   {
+       $search = $request->input('search');
+       $query = DB::table('tagcache')->select('tag_id')->where('name','like','%'.$search.'%')->get();
+       $newresult = [];
+       foreach ($query as $entry) {
+           $newentry = new \StdClass();
+           $newentry->label = $entry->tag_id;
+           $newentry->id = $entry->tag_id;
+           $newresult[] = $newentry;
+       }
+       return $this->getOutput($newresult);
+       
   }
   
   protected function mergeResult($result1,$result2)

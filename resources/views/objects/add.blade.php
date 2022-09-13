@@ -27,6 +27,7 @@ Objekt von '{{ $class->name }}' hinzufügen
  @foreach ($class->fields as $field)
   <x-visual-input id="{{ $class->name }}" name="{{ $field->name }}" action="add" />
  @endforeach
+ <x-visual-input id="{{ $class->name }}" name="tags" action="add" />
  <input type="submit" value="abschicken" />
 </div>
 </form>

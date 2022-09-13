@@ -14,6 +14,7 @@ Objekt mit der ID '{{ $object->id }}' bearbeiten
  @foreach ($fields as $field)
   <x-visual-input id="{{ $object->getID() }}" name="{{ $field->name }}" action="edit" />
  @endforeach
+ <x-visual-input id="{{ $class->name }}" name="tags" action="edit" />
  <input type="submit" value="abschicken" />
  </div>
 </form>

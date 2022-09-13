@@ -161,8 +161,25 @@ class Input extends Component
                         'entries'=>Classes::getNamespaceOfClass($this->class)::getPropertyObject($this->name)->getEnumValues(),
                         'selected'=>(is_null($this->object))?"":$this->object->$name
                      ]);
+                 
+            case 'Tags':
+                $values = [];
+                if (!is_null($this->object)) {    
+                    for ($i=0;$i<count($this->object->tags);$i++) {
+                        $values[] = $this->object->tags[$i];
+                    }
+                }
+                return view(
+                    'visual::components.tags',
+                    [
+                        'name'=>$this->name,
+                        'values'=>$values
+                    ]
+                    );
+                break;
             default:
                 return view('visual::components.notimplemented', ['class'=>$this->class,'name'=>$this->name, 'type'=>$this->property->getType()]);
         }
+      
     }
 }

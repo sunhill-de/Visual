@@ -1,13 +1,21 @@
 <div class="inputgroup">
- <label for="_tags">Tags</label>
- <input type="text" name="_tags" id="_tags" />
- <input type="button" value="+" onClick="
-	     if (getElementById('_tags').value != '') {
-	     getElementById('value_tags').innerHTML += '<li>'+getElementById('_tags').value+'</li>';
-	     getElementById('tags').value += getElementById('_tags').value+'|';
-	     getElementById('_tags').value = '';
-	     } 	         
-	     "/>
- <input type="hidden" name="tags" id="tags" value=""/>
- <ul id="value_tags"></ul>	     
+ <fieldset>
+ <legend>{{ __( "Tags" ) }}</legend>
+ <input type="text" name="input_tags" id="input_tags" />
+ <input type="hidden" name="value_tags" id="value_tags" /> <!-- only for compatibility -->
+ 
+ <input type="button" value="+" onClick="addEntry( 'tags', false )">
+ 
+ <ul class="selectable" name="list_tags" id="list_tags">
+  @isset($values)
+  @foreach($values as $value)
+ <li>{{ $value }}<input type="hidden" name="value_tags{{ $loop->index+1 }}" value="{{ $value }}"/></li>
+  @endforeach
+ @endisset
+ </ul>
+ <input type="hidden" name="count_tags" id="count_tags" value="@isset($values){{ count($values) }} @else 0 @endisset"/>
+ <script>
+ 	$( function() { tags('{{ $class}}'); } );
+ </script>
+ </fieldset>	     
 </div>

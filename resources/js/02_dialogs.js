@@ -45,6 +45,11 @@ function stringArrayField( id, classid ) {
 	lookupField( id, classid, "searchArrayOfString" );
 }	
 
+function tags( classid ) {
+	listField( 'tags' );
+	lookupField( 'tags', classid, "searchTags" );
+}	
+
 function objectArrayField( id, classid ) {
 	listField( id );
 	lookupField( id, classid, "searchObjects" );
