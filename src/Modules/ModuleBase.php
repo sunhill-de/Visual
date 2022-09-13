@@ -250,20 +250,21 @@ class ModuleBase extends EntryBase
         foreach($this->subentries as $subentry)
         {
             $entry = new \StdClass();
+            $entry->name = $subentry->getName();
+            $entry->display_name = $subentry->getName();
+            $entry->description = $subentry->getDescription();
+            $entry->active = $subentry->getactive();
+            $entry->visible = $subentry->getVisible();
+            
+
             if (is_a($subentry,ModuleBase::class)) {
-                $entry = new \StdClass();
-                $entry->id = $subentry->getName();
-                $entry->display_name = $subentry->getName();
-                $entry->link = str_replace('//','/',$subentry->getPrefix().'/'.$subentry->getName());
-                $entry->name = $subentry->getDescription();
-                $entry->depth = $this->getDepth()+1;
                 $entry->icon = $subentry->getIcon();
-                $entry->prefix = $subentry->getPrefix();
-                $entry->active = $subentry->getactive();
-                $entry->visible = $subentry->getVisible();
                 $subentry->getNavigation($navigation);
+            $entry->link = str_replace('//','/',$subentry->getPrefix().'/'.$subentry->getName());
+            $entry->name = $subentry->getDescription();
+            $entry->depth = $this->getDepth()+1;
+            $entry->prefix = $subentry->getPrefix();
             } else if (is_a($subentry,ResponseBase::class)) {
-                $entry = new \StdClass();
             }    
             
             $navigation[$this->getDepth()] = $entry;
