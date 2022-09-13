@@ -162,24 +162,6 @@ class ModuleBase extends EntryBase
         return $this->doRouting($submodule,$remaining,$request,$params);        
     }
     
-    public function getLink()
-    {
-        if ($parent = $this->getParent()) {
-            return $parent->getLink().$this->getName().'/';
-        } else {
-            return '/';
-        }
-    }
-    
-    public function getPrefix()
-    {
-        if (($parent = $this->getParent()) && ($parent->getParent())) {
-            return $parent->getPrefix().$parent->getName().'/';
-        } else {
-            return '/';
-        }
-    }
-    
     public function getBreadcrumb()
     {
         $result = new \StdClass();
@@ -188,14 +170,6 @@ class ModuleBase extends EntryBase
         return $result;
     }
     
-    public function getDepth()
-    {
-        if ($parent = $this->getParent()) {
-            return $parent->getDepth()+1;
-        } else {
-            return 0;
-        }
-    }
     
     public function getModuleNavigation()
     {
@@ -251,19 +225,18 @@ class ModuleBase extends EntryBase
         {
             $entry = new \StdClass();
             $entry->name = $subentry->getName();
-            $entry->display_name = $subentry->getName();
+            $entry->display_name = $subentry->getDisplayName();
             $entry->description = $subentry->getDescription();
             $entry->active = $subentry->getactive();
             $entry->visible = $subentry->getVisible();
-            
-
+            $entry->link = str_replace('//','/',$subentry->getPrefix().'/'.$subentry->getName());
+            $entry->depth = $this->getDepth()+1;
+            $entry->prefix = $subentry->getPrefix();
+           
             if (is_a($subentry,ModuleBase::class)) {
                 $entry->icon = $subentry->getIcon();
                 $subentry->getNavigation($navigation);
-            $entry->link = str_replace('//','/',$subentry->getPrefix().'/'.$subentry->getName());
-            $entry->name = $subentry->getDescription();
-            $entry->depth = $this->getDepth()+1;
-            $entry->prefix = $subentry->getPrefix();
+                $entry->name = $subentry->getDescription();
             } else if (is_a($subentry,ResponseBase::class)) {
             }    
             
