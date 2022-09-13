@@ -239,9 +239,14 @@ class ModuleBase extends EntryBase
         return $result;
     }  
     
-    public function getNavigation()
+    public function getNavigation(array &$navigation)
     {
-        $result = [];
+        if (empty($this->subentries)) {
+            return;
+        }
+        if (!isset($navigation[$this->getDepth()])) {            
+            $navigation[$this->getDepth()] = [];
+        }
         foreach($this->subentries as $subentry)
         {
             $entry = new \StdClass();
@@ -256,12 +261,12 @@ class ModuleBase extends EntryBase
                 $entry->prefix = $subentry->getPrefix();
                 $entry->active = $subentry->getactive();
                 $entry->visible = $subentry->getVisible();
-                $entry->subentries = $subentry->getNavigation();
+                $subentry->getNavigation($navigation);
             } else if (is_a($subentry,ResponseBase::class)) {
                 $entry = new \StdClass();
             }    
-            $result[] = $entry;
+            
+            $navigation[$this->getDepth()] = $entry;
         }    
-        return $result;
     }    
 }
