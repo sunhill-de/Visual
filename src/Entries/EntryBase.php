@@ -150,4 +150,43 @@ class EntryBase
         return $this->visible;
     }
     
+    /**
+     * Returns a link to this entry
+     * @returns string
+     */
+    public function getLink()
+    {
+        if ($parent = $this->getParent()) {
+            return $parent->getLink().$this->getName().'/';
+        } else {
+            return '/';
+        }
+    }
+    
+    /**
+     * Returns the link to the parent module
+     * @returns string
+     */
+    public function getPrefix()
+    {
+        if (($parent = $this->getParent()) && ($parent->getParent())) {
+            return $parent->getPrefix().$parent->getName().'/';
+        } else {
+            return '/';
+        }
+    }
+    
+    /**
+     * Returns the module depth (how many parent modules are there)
+     * @returns int
+     */
+    public function getDepth()
+    {
+        if ($parent = $this->getParent()) {
+            return $parent->getDepth()+1;
+        } else {
+            return 0;
+        }
+    }
+
 }
