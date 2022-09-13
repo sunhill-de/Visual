@@ -1,25 +1,46 @@
-@extends('visual::basic.list')
+@extends('visual::basic.navigation')
 
-@section('title','Tags auflisten')
+@section('title',{{ __('List tags') }})
 
 @section('caption')
-Tags auflisten
+{{ __('List tags') }}
 @endsection
 
-@section('headerrow')
-<th><a href="{{ $prefix }}/Tags/list/{{ $delta }}/id">ID</a></th>
-<th><a href="{{ $prefix }}/Tags/list/{{ $delta }}/name">Name</a></th>
-<th><a href="{{ $prefix }}/Tags/list/{{ $delta }}/parent">Parent</a></th>
-<th><a href="{{ $prefix }}/Tags/list/{{ $delta }}/full_path">Vollständiger Pfad</a></th>
-<th>&nbsp;</th>
-<th>&nbsp;</th>
-@endsection
+@section('content')
+@parent
+<div class="list">
+ <table>
+  <caption>@yield('caption')</caption>
+  <tr>
+     @foreach ($headers as $entry)
+     <th>
+      @if (is_null($entry->link))
+       {{ $entry->name }}
+      @else
+       <a href="{{ $entry->link }}">{{ $entry->name }}</a>
+      @endif
+     </th>
+     @endforeach
+  @forelse ($items as $row)
+  <tr>
+   @foreach ($row as $col)
+   <td>
+    @if (is_null($col->link))
+     {{ $col->name }}   
+    @else
+     <a href="{{ $col->link }}">{{ $col->name }}</a>
+    @endif
+   </td> 
+   @endforeach 
+  </tr>
+  @empty
+  <tr>
+   <td colspan="100">{{ __("No entries") }}</td>
+  </tr>
+  @endforelse
+   
+</table>
+<a href="{{ $prefix }}/Tags/add/{{ $key }}">{{ __('add') }}</a>
+</div>
 
-@section('datarow')
- <td>{{$item->id}}</td>
- <td>{{$item->name}}</td>
- <td>{{$class->parent}}</td>
- <td>{{$class->full_path}}</td>
- <td><a href="{{ $prefix }}/Tags/edit/{{$item->id}}">bearbeiten</a></td>
- <td><a href="{{ $prefix }}/Tags/delete/{{$item->id}}">löschen</a></td>
 @endsection

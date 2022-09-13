@@ -12,7 +12,7 @@ class ListClassesResponse extends ListResponse
     
     protected function prepareList($key,$order,$delta,$limit)
     {
-        return Classes::getAllClasses();
+        return $this->sliceList(Classes::getAllClasses(),$delta);
     }
 
     protected function prepareMatrix($input): array
@@ -29,6 +29,17 @@ class ListClassesResponse extends ListResponse
             $result[] = $entry;
         }
         return $result;        
+    }
+    
+    protected function getTotalEntryCount()
+    {
+        return Classes::getClassCount();
+    }
+    
+    
+    protected function getPaginatorLink(int $index)
+    {
+        return $this->params['prefix'].'/Classes/list/'.$index;
     }
     
     protected function prepareHeaders(): array
