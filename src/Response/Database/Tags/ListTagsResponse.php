@@ -15,10 +15,16 @@ class ListTagsResponse extends ListResponse
     
     protected function prepareList($key,$order,$delta,$limit)
     {
-       return Objects::getPartialObjectList($key,$order,$delta*$limit,$limit); 
+        $tags = Tags::getAllTags($delta*$limit,$limit); 
+        return $tags;
     }
     
-    protected function getLink($key, $order = 'id', $delta = 0)
+    protected function getTotalEntryCount()
+    {
+        return Tags::getCount();
+    }
+    
+    protected function getTagLink($key, $order = 'id', $delta = 0)
     {
         return $this->params['prefix']."/Tags/list/$key/$delta/$order";    
     }
@@ -34,10 +40,10 @@ class ListTagsResponse extends ListResponse
     protected function prepareHeaders(): array
     {
         $result = [
-            $this->createEntry(__('id'),  $this->getLink($this->params['key'],$this->params['order'],$this->params['delta'])),
-            $this->createEntry(__('name'),$this->getLink($this->params['key'],'name',$this->params['delta'])),
-            $this->createEntry(__('parent'),$this->getLink($this->params['key'],'parent',$this->params['delta'])),
-            $this->createEntry(__('fullpath'),$this->getLink($this->params['key'],'full_path',$this->params['delta'])),
+            $this->createEntry(__('id'),  $this->getTagLink($this->params['key'],$this->params['order'],$this->params['delta'])),
+            $this->createEntry(__('name'),$this->getTagLink($this->params['key'],'name',$this->params['delta'])),
+            $this->createEntry(__('parent'),$this->getTagLink($this->params['key'],'parent',$this->params['delta'])),
+            $this->createEntry(__('fullpath'),$this->getTagLink($this->params['key'],'full_path',$this->params['delta'])),
             $result[] = $this->createEntry(" "),
             $result[] = $this->createEntry(" ")
         ];    

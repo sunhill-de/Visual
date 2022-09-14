@@ -56,7 +56,7 @@ class EntryBase
      */
     public function getName(): String
     {
-        return $this->name;
+        return is_null($this->name)?"":$this->name;
     }  
   
     /**
@@ -73,7 +73,7 @@ class EntryBase
      */
     public function getDisplayName(): String
     {
-        return $this->display_name;
+        return is_null($this->display_name)?"":$this->display_name;
     }  
   
     /**
@@ -90,7 +90,7 @@ class EntryBase
      */
     public function getDescription()
     {
-        return $this->description;
+        return is_null($this->description)?"":$this->description;
     }   
 
     /**

@@ -3,7 +3,7 @@
  @if (isset($entry["active"]) && $entry["active"])
  <div class="active_navigation">
  @endif
- <a id="{{ $entry['id'] }}" href="{{ $entry['link'] }}">{{ $entry['display_name'] }}</a>
+ <a id="{{ $entry['name'] }}" href="{{ $entry['link'] }}">{{ $entry['display_name'] }}</a>
 </li> 
 @isset($entry["subentries"])
 <ul class="nav{{ $entry['depth']+1 }}">

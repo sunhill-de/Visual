@@ -13,7 +13,7 @@ class AddTagResponse extends BladeResponse
     protected function prepareResponse()
     {
         $this->params['title'] = __('Add tag');
-        $this->params['action'] = $this->getPrefix().'/Tags/execadd';
+        $this->params['action'] = $this->getPrefix().'/Tags/execaddtag';
         $this->params['name'] = '';
         $this->params['parent_name'] = '';
         $this->params['parent_id'] = '';
