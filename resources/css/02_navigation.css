@@ -45,10 +45,15 @@
 }
 
 main {
-	position: absolute;
 	left: 100px;
 	top: 100px;
 	float: top;
+	position: absolute;
+}
+
+main .mainpage {
+	position: absolute;
+	top: -100px;		
 }
 
 .content {

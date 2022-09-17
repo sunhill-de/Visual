@@ -207,4 +207,10 @@ class EntryBase
     {
        return null;
     }
+    
+    protected function getActiveSubmodule()
+    {
+        return null;
+    }
+    
 }

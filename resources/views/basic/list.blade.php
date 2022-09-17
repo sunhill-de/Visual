@@ -2,10 +2,10 @@
 @extends('visual::basic.navigation')
 
 @section('content')
+ <h2>@yield('caption')</h2>
  @hasSection('tableheader')
   @yield('tableheader')
  @endif
- <h2>@yield('caption')</h2>
  <table class="table is-bordered is-striped is-hoverable">
   <thead>
    <tr>
