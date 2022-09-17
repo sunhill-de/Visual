@@ -1,6 +1,7 @@
 @extends('visual::basic.html')
 
 @section('body')
+<!-- 
 <nav role='hamburger'>
   <div id="hamburgerToggle">
     <input type="checkbox" />
@@ -18,4 +19,5 @@
     </ul>
   </div>
 </nav>
+ -->
 @endsection

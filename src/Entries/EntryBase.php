@@ -202,4 +202,9 @@ class EntryBase
         }
         return $return;
     }
+    
+    public function getNavigation(int $level)
+    {
+       return null;
+    }
 }
