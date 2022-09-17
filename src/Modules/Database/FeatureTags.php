@@ -20,13 +20,13 @@ class FeatureTags extends ModuleBase
     {
         $this->setName('Tags');        
         $this->setDescription(__('Tags')); 
-        $this->addSubEntry('list', ListTagsResponse::class,__("list tags"));
-        $this->addSubEntry('add', AddTagResponse::class);
+        $this->addSubEntry('list', ListTagsResponse::class,__("list tags"))->setVisible()->setName(__('List tags'));
+        $this->addSubEntry('add', AddTagResponse::class)->setVisible()->setName(__('Add tag'));
         $this->addSubEntry('execadd', ExecAddTagResponse::class);
-        $this->addSubEntry('edit', EditTagResponse::class);
+        $this->addSubEntry('edit', EditTagResponse::class)->setName(__('Edit tag'));
         $this->addSubEntry('execedit', ExecEditTagResponse::class);
      //   $this->addSubEntry('delete', DeleteTagResponse::class);
-        $this->addSubEntry('show', ShowTagResponse::class); 
+        $this->addSubEntry('show', ShowTagResponse::class)->setName(__('Show tag')); 
     }
     
     

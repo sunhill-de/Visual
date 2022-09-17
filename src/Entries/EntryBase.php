@@ -189,4 +189,17 @@ class EntryBase
         }
     }
 
+    /**
+     * Creates a StdClass from the input @param $input
+     * @param unknown $input
+     * @return \StdClass
+     */
+    protected function createStdClass(array $input): \StdClass
+    {
+        $return = new \StdClass();
+        foreach ($input as $key => $value) {
+            $return->$key = $value;
+        }
+        return $return;
+    }
 }

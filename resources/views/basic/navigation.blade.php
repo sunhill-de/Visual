@@ -2,8 +2,6 @@
 
 @push('css')
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-  
 @endpush
 
 @push('js')
@@ -16,27 +14,31 @@
 
 @parent
 
-@if(isset($nav_0) && (null !== $nav_0))
-<style>
-@foreach ($nav_0 as $entry)
- #mainnav #{{$entry->id}} { background-image: url(/img/{{$entry->icon}}); } 
+<!-- Navigation -->
+@foreach ($navigation as $level)
+<nav role="navigation" id="nav_level{{ $loop->iteration }}">
+ <ul>
+@foreach ($level as $entry)
+ <li>
+ <a href="{{ $entry->link }}">{{ $entry->name }}</a>
+ </li>
+@endforeach 
+ </ul>
+</nav>
 @endforeach
-</style>
-@endif
-<ul class="nav1">
-<a href="/" id="Home">Home</a>
-@each('visual::partials.navigation',json_decode(json_encode($navigation),true),'entry')
-</ul>
-<div class="content">
+
+<!--  Breadcrumbs  -->
 @if(null !== $breadcrumbs)
-<div id="breadcrumb">
+<nav class="breadcrumb" aria-label="breadcrumbs">
  <ul>
 @foreach ($breadcrumbs as $crumb)
   <li><a href="{{$crumb->link}}">{{$crumb->name}}</a></li>
 @endforeach
  </ul>
-</div>
+</nav>
 @endif
+
+<main>
 @yield('content')
-</div>
+</main>
 @endsection
