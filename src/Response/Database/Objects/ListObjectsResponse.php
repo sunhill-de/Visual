@@ -20,7 +20,7 @@ class ListObjectsResponse extends ListResponse
        return Objects::getPartialObjectList($key,$order,$delta*$limit,$limit); 
     }
     
-    protected function getLink($key, $order = 'id', $delta = 0)
+    protected function getObjectLink($key, $order = 'id', $delta = 0)
     {
         return $this->params['prefix']."/Objects/list/$key/$delta/$order";    
     }
@@ -36,7 +36,7 @@ class ListObjectsResponse extends ListResponse
     protected function prepareHeaders(): array
     {
         $result = [
-            $this->createEntry(__('id'),$this->getLink($this->params['key'],$this->params['order'],$this->params['delta'])),
+            $this->createEntry(__('id'),$this->getObjectLink($this->params['key'],$this->params['order'],$this->params['delta'])),
             $this->createEntry(__('class'))            
         ];    
         
@@ -44,7 +44,7 @@ class ListObjectsResponse extends ListResponse
         foreach ($columns as $index => $column) {
             
             if (is_int($index)) {
-                $result[] = $this->createEntry(__($column),$this->getLink($this->params['key'],$column,$this->params['delta']));
+                $result[] = $this->createEntry(__($column),$this->getObjectLink($this->params['key'],$column,$this->params['delta']));
             } else {
                 $result[] = $this->createEntry(__($index));                
             }
@@ -77,7 +77,7 @@ class ListObjectsResponse extends ListResponse
         foreach ($input as $object) {
             $row = [];
             $row[] = $this->createEntry($object->getID(),$this->params['prefix'].'/Objects/show/'.$object->getID());
-            $row[] = $this->createEntry($object::$object_infos['name'],$this->getLink($object::$object_infos['name']));            $columns = Dialogs::getObjectListFields($this->params['key']);
+            $row[] = $this->createEntry($object::$object_infos['name'],$this->getObjectLink($object::$object_infos['name']));            $columns = Dialogs::getObjectListFields($this->params['key']);
             foreach ($columns as $index => $column) {
                 if (is_int($index)) {
                     $row[] = $this->createEntry($this->parseColumn($object,$column));

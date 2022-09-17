@@ -122,18 +122,12 @@ class ModuleBase extends EntryBase
         if ($module = $this->findSubEntry($submodule)) {
             $params['breadcrumbs'][] = $this->getBreadcrumb();
             $params['depth'] = $this->getDepth();
-            $params['nav_'.$this->getDepth()] = $this->getModuleNavigation();
+            $module->setActive();
             $params['prefix'] = $this->getPrefix();
             if ($module instanceof ModuleBase) {
                 return $module->route($remaining,$request,$params);
             } else if ($module instanceof ResponseBase) {
-                return $module->setRequest($request)->setRemaining($remaining)->setParams($params)->response();
-            } else if (is_string($module)) {
-                if (method_exists($this,$module)) {
-                    return $this->$module($remaining,$request,$params);
-                } else {
-                    return false;
-                }
+                return $module->setRequest($request)->setRemaining($remaining)->setParams($params);
             } else {                
                 throw new \Exception(__("Invalid entry in submodule list."));
             }    
@@ -162,24 +156,6 @@ class ModuleBase extends EntryBase
         return $this->doRouting($submodule,$remaining,$request,$params);        
     }
     
-    public function getLink()
-    {
-        if ($parent = $this->getParent()) {
-            return $parent->getLink().$this->getName().'/';
-        } else {
-            return '/';
-        }
-    }
-    
-    public function getPrefix()
-    {
-        if (($parent = $this->getParent()) && ($parent->getParent())) {
-            return $parent->getPrefix().$parent->getName().'/';
-        } else {
-            return '/';
-        }
-    }
-    
     public function getBreadcrumb()
     {
         $result = new \StdClass();
@@ -188,80 +164,64 @@ class ModuleBase extends EntryBase
         return $result;
     }
     
-    public function getDepth()
+    private function getSubentry($subentry)
     {
-        if ($parent = $this->getParent()) {
-            return $parent->getDepth()+1;
-        } else {
-            return 0;
+        $entry = new \StdClass();
+        $entry->name = $subentry->getName();
+        $entry->display_name = $subentry->getDisplayName();
+        $entry->description = $subentry->getDescription();
+        $entry->active = $subentry->getactive();
+        $entry->visible = $subentry->getVisible();
+        $entry->link = str_replace('//','/',$subentry->getPrefix().'/'.$subentry->getName());
+        $entry->depth = $this->getDepth()+1;
+        $entry->prefix = $subentry->getPrefix();
+        
+        if (is_a($subentry,ModuleBase::class)) {
+            $entry->icon = $subentry->getIcon();
+        } else if (is_a($subentry,ResponseBase::class)) {
+            
         }
+        return $entry;
     }
     
-    public function getModuleNavigation()
+    public function getNavigation(int $level)
     {
         $result = [];
-        foreach ($this->subentries as $subentry) {
-            if (is_a($subentry,ModuleBase::class)) {
-                $entry = new \StdClass();
-                $entry->id = $subentry->getName();
-                $entry->name = $subentry->getDescription();
-                $entry->depth = $this->getDepth()+1;
-                $entry->icon = $subentry->getIcon();
-                if (!is_null($subentry->getParent())) {
-                    $entry->prefix = $subentry->getParent()->getName();
-                } else {
-                    $entry->prefix = "";
+        
+        if (empty($this->subentries)) {
+            return $result;
+        }
+        /**
+         * This differenciation is necessary, because I don't know how to manage one vertical and one horitontal nav-bar AND a drop-down menu
+         */
+        if ($level > 2) {
+            // Tree mode
+            foreach ($this->subentries as $subentry) {
+                $entry = $this->getSubentry($subentry);
+                $entry->subentries = $subentry->getNavigation(3);
+                if ($entry->visible) {
+                 $result[] = $entry;
                 }
-                $result[] = $entry;
+            }
+        } else {
+            // Linear mode
+            foreach ($this->subentries as $subentry) {
+                $entry = $this->getSubentry($subentry);
+                if ($entry->visible) {
+                    $result[] = $entry;
+                }
             }
         }
+        
         return $result;
     }
     
-    public function getNavigationTree()
+    protected function getActiveSubmodule()
     {
-        $result = [];
-        foreach($this->subentries as $subentry)
-        {
-            $entry = new \StdClass();
-            if (is_a($subentry,ModuleBase::class)) {
-                $entry = new \StdClass();
-                $entry->id = $subentry->getName();
-                $entry->name = $subentry->getDescription();
-                $entry->depth = $this->getDepth()+1;
-                $entry->icon = $subentry->getIcon();
-                $entry->prefix = $subentry->getPrefix();
-            } else if (is_a($subentry,ResponseBase::class)) {
-            
-            }    
-            $result[] = $entry;
-        }    
-        return $result;
-    }  
-    
-    public function getNavigation()
-    {
-        $result = [];
-        foreach($this->subentries as $subentry)
-        {
-            $entry = new \StdClass();
-            if (is_a($subentry,ModuleBase::class)) {
-                $entry = new \StdClass();
-                $entry->id = $subentry->getName();
-                $entry->display_name = $subentry->getName();
-                $entry->link = str_replace('//','/',$subentry->getPrefix().'/'.$subentry->getName());
-                $entry->name = $subentry->getDescription();
-                $entry->depth = $this->getDepth()+1;
-                $entry->icon = $subentry->getIcon();
-                $entry->prefix = $subentry->getPrefix();
-                $entry->active = $subentry->getactive();
-                $entry->visible = $subentry->getVisible();
-                $entry->subentries = $subentry->getNavigation();
-            } else if (is_a($subentry,ResponseBase::class)) {
-                $entry = new \StdClass();
-            }    
-            $result[] = $entry;
-        }    
-        return $result;
-    }    
+        foreach ($this->subentries as $subentry) {
+            if ($subentry->getActive()) {
+                return $subentry;
+            }
+        }
+    }
 }

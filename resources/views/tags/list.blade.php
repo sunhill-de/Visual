@@ -1,6 +1,6 @@
 @extends('visual::basic.navigation')
 
-@section('title',{{ __('List tags') }})
+@section('title',__('List tags'))
 
 @section('caption')
 {{ __('List tags') }}
@@ -40,7 +40,7 @@
   @endforelse
    
 </table>
-<a href="{{ $prefix }}/Tags/add/{{ $key }}">{{ __('add') }}</a>
+<a href="{{ $prefix }}/Tags/add">{{ __('add') }}</a>
 </div>
 
 @endsection

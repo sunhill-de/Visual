@@ -56,7 +56,7 @@ class EntryBase
      */
     public function getName(): String
     {
-        return $this->name;
+        return is_null($this->name)?"":$this->name;
     }  
   
     /**
@@ -73,7 +73,7 @@ class EntryBase
      */
     public function getDisplayName(): String
     {
-        return $this->display_name;
+        return is_null($this->display_name)?"":$this->display_name;
     }  
   
     /**
@@ -90,7 +90,7 @@ class EntryBase
      */
     public function getDescription()
     {
-        return $this->description;
+        return is_null($this->description)?"":$this->description;
     }   
 
     /**
@@ -150,4 +150,61 @@ class EntryBase
         return $this->visible;
     }
     
+    /**
+     * Returns a link to this entry
+     * @returns string
+     */
+    public function getLink()
+    {
+        if ($parent = $this->getParent()) {
+            return $parent->getLink().$this->getName().'/';
+        } else {
+            return '/';
+        }
+    }
+    
+    /**
+     * Returns the link to the parent module
+     * @returns string
+     */
+    public function getPrefix()
+    {
+        if (($parent = $this->getParent()) && ($parent->getParent())) {
+            return $parent->getPrefix().$parent->getName().'/';
+        } else {
+            return '/';
+        }
+    }
+    
+    /**
+     * Returns the module depth (how many parent modules are there)
+     * @returns int
+     */
+    public function getDepth()
+    {
+        if ($parent = $this->getParent()) {
+            return $parent->getDepth()+1;
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * Creates a StdClass from the input @param $input
+     * @param unknown $input
+     * @return \StdClass
+     */
+    protected function createStdClass(array $input): \StdClass
+    {
+        $return = new \StdClass();
+        foreach ($input as $key => $value) {
+            $return->$key = $value;
+        }
+        return $return;
+    }
+    
+    public function getNavigation(int $level)
+    {
+       return null;
+    }
 }

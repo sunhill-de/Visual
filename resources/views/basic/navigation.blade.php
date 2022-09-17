@@ -2,8 +2,6 @@
 
 @push('css')
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-  <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-  
 @endpush
 
 @push('js')
@@ -16,27 +14,54 @@
 
 @parent
 
-@if(isset($nav_0) && (null !== $nav_0))
-<style>
-@foreach ($nav_0 as $entry)
- #mainnav #{{$entry->id}} { background-image: url(/img/{{$entry->icon}}); } 
+<!-- Navigation -->
+@isset($nav_1)
+<nav role="navigation" id="nav_level1">
+<ul>
+ <a href="/" id="Home">Home</a>
+@foreach ($nav_1 as $entry)
+ <a href="{{ $entry->link }}" id="{{ $entry->name }}">{{ $entry->display_name }}</a>
 @endforeach
-</style>
-@endif
-<ul class="nav1">
-<a href="/" id="Home">Home</a>
-@each('visual::partials.navigation',json_decode(json_encode($navigation),true),'entry')
 </ul>
-<div class="content">
+</nav>
+@endif
+@isset($nav_2)
+<nav role="navigation" id="nav_level2">
+<ul>
+@foreach ($nav_2 as $entry)
+ <a href="{{ $entry->link }}" id="{{ $entry->name }}">{{ $entry->display_name }}</a>
+@endforeach
+</ul>
+</nav>
+@endif
+
+<main>
+<!--  Dropdown menu -->
+@isset($nav_3)
+<nav class="navbar" role="navigation" aria-label="dropdown navigation">
+@foreach ($nav_3 as $entry)
+<div class="navbar-item has-dropdown is-hoverable">
+<a class="navbar-link" href="{{ $entry->link }}">{{ $entry->display_name }}</a>
+<div class="navbar-dropdown">
+@foreach ($entry->subentries as $subentry)
+<a class="navbar-item" href="{{ $subentry->link }}">{{ $subentry->display_name }}</a>
+@endforeach
+</div>
+</div>
+@endforeach
+</nav>
+@endif
+
+<!--  Breadcrumbs -->
 @if(null !== $breadcrumbs)
-<div id="breadcrumb">
+<nav class="breadcrumb" aria-label="breadcrumbs" id="breadcrumbs">
  <ul>
 @foreach ($breadcrumbs as $crumb)
   <li><a href="{{$crumb->link}}">{{$crumb->name}}</a></li>
 @endforeach
  </ul>
-</div>
+</nav>
 @endif
 @yield('content')
-</div>
+</main>
 @endsection

@@ -1,12 +1,11 @@
-.nav1 {
+#nav_level1 {
 	list-style: none;
 	float: left;
-	width: 10000px;
+	width: 100px;
 	padding: 0px;	
-	top: 100px;
 }
 
-.nav1 a {
+#nav_level1 a {
 	background-size: 100px;
 	display: block;
 	overflow: hidden;
@@ -16,7 +15,7 @@
 	text-indent :-9999px;
 }
 
-.nav2 {
+#nav_level2 {
 	position: absolute;
 	top:0px;
 	left:100px;
@@ -28,11 +27,11 @@
 	padding:0;
 }
 
-.nav2 li {
+#nav_level2 li {
 	float: left;
 }
 
-.nav2 a {
+#nav_level2 a {
 	display: block;
 	overflow: hidden;
 	width: 0;
@@ -41,10 +40,22 @@
 	background-size: 100px;	
 }
 
+#breadcrumbs {
+	float: top;
+}
+
+main {
+	position: absolute;
+	left: 100px;
+	top: 100px;
+	float: top;
+}
+
 .content {
 	left:100px;
 	top: 100px;
 }
+
 #Home { background-image: url(/img/Sonnenhuegel.png); } 
 #Computer { background-image: url(/img/computer/computer.png); } 
 #Database { background-image: url(/img/computer/database.png); }
