@@ -9,7 +9,7 @@
 @section('content')
 @parent
 <div class="list">
-    <table>
+    <table class="table">
      <caption>{{ __('Fields') }}</caption>
      <tr>
       <th>{{ __('class') }}</th>
