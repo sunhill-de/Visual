@@ -2,11 +2,11 @@
 @extends('visual::basic.navigation')
 
 @section('content')
- <h2>@yield('caption')</h2>
  @hasSection('tableheader')
   @yield('tableheader')
  @endif
  <table class="table is-bordered is-striped is-hoverable">
+  <caption>@yield('caption')</caption>
   <thead>
    <tr>
     @foreach ($headers as $entry)
