@@ -17,7 +17,10 @@ class ListObjectsResponse extends ListResponse
     
     protected function prepareList($key,$order,$delta,$limit)
     {
-       return Objects::getPartialObjectList($key,$order,$delta*$limit,$limit); 
+        if (empty($key)) {
+            $key = 'ORMObject';
+        }
+        return Objects::getPartialObjectList($key,$order,$delta*$limit,$limit); 
     }
     
     protected function getObjectLink($key, $order = 'id', $delta = 0)
@@ -103,7 +106,7 @@ class ListObjectsResponse extends ListResponse
     
     function getParams(): array
     { 
-       $result = $this->solveRemaining('key=ORMObject/delta=0/order=id');        
+       $result = $this->solveRemaining('key=object/delta=0/order=id');        
        return $result;
     }
   
