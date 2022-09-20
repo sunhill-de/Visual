@@ -2,6 +2,11 @@ main {
 	width: 100%;
 }
 
+.table {
+	clear: both;
+	float: top;
+	width: 90%;
+}
 .table caption {
 	font-size: xx-large;
 	background-color: green;
