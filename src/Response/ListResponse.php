@@ -8,7 +8,7 @@ namespace Sunhill\Visual\Response;
 /**
  * Defines how many entry per page should be displayed
  */
-define("ENTRIES_PER_PAGE", 15);
+define("ENTRIES_PER_PAGE", 12);
 
 /**
  * Defines how many paginator links should be left and right to the current entry
