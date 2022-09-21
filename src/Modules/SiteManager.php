@@ -53,4 +53,8 @@ class SiteManager extends ModuleBase
         return view('error.404',$params);
     }
     
+    public function addModule(string $name, $entry, $description="")
+    {
+        return $this->addSubEntry($name, $entry, $description);
+    }
 }
