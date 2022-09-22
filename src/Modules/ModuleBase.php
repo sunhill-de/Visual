@@ -32,7 +32,7 @@ class ModuleBase extends EntryBase
      * It return a ModuleBase object if found otherwise false
      * @param $name string The name of the subentity to search
      */
-    protected function findSubEntry(string $name)
+    public function findSubEntry(string $name)
     {
         if (isset($this->subentries[$name])) {
             return $this->subentries[$name];
@@ -47,7 +47,7 @@ class ModuleBase extends EntryBase
      * @param $name The name of the entry to add
      * @param $entry string|ModuleBase either a string of an ModuleBase class or a already initiated object of a ModuleBase class
      */
-    protected function addSubEntry(string $name, $entry, $description="")
+    public function addSubEntry(string $name, $entry, $description="")
     {
         if ($this->findSubEntry($name)) {
             throw new \Exception(__("The sub entry ':name' does already exist.",['name'=>$name]));
