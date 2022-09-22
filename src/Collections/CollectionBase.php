@@ -9,19 +9,16 @@ namespace Sunhill\Visual\Collections;
  */
 class CollectionBase
 {
+    public function __construct()
+    {
+        $this->doInitCollection();
+    }    
+    
     /**
      * This method should be overwritten by other collections
      */
     protected function doInitCollection()
     {
     }  
-  
-    /**
-     * The public interface. This method insert the given modules and features to the site manager
-     */
-    public function initCollection()
-    {
-        $this->doInitCollection();
-    }
   
 }  
