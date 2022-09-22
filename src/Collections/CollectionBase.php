@@ -1,6 +1,6 @@
 <?php
 
-namespace Sunhill\Visual\Collection;
+namespace Sunhill\Visual\Collections;
 
 /**
  * A Collection is a collection of Module/Feature combinations that belong together and can be implemented by the
