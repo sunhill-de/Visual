@@ -29,8 +29,12 @@ class SiteManager extends \Sunhill\Visual\Modules\SiteManager
     
         public function addMainModule(string $name, $module = null)
         {
-            $module = $this->getModule($name,$module);
-            return $this->addSubEntry($name,$module);
+            if ($result = $this->findSubEntry($name)) {
+                return $result;
+            } else {
+                $module = $this->getModule($name,$module);
+                return $this->addSubEntry($name,$module);
+            }
         }
     
         public function addSubModule(string $main_module, string $sub_module_name, $submodule = null)
