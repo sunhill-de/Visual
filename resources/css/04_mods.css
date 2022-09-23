@@ -12,3 +12,9 @@ main {
 	background-color: green;
 	color: white;
 }
+
+#canvas {
+	margin: auto;
+	width: 350px;
+	height: 350px;
+}
