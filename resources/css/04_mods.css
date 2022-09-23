@@ -18,3 +18,7 @@ main {
 	width: 350px;
 	height: 350px;
 }
+
+.infoblock div {
+	float: left;	
+}
