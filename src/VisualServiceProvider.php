@@ -6,7 +6,10 @@ use Illuminate\Support\ServiceProvider;
 use Sunhill\Visual\Managers\DialogManager;
 use Sunhill\Visual\Managers\SiteManager;
 use Sunhill\Visual\Components\Input;
+use Sunhill\Visual\Components\Data;
 use Illuminate\Support\Facades\Blade;
+use Sunhill\InfoMarket\Facades\InfoMarket;
+use Sunhill\Visual\Marketeers\Database;
 
 class VisualServiceProvider extends ServiceProvider
 {
@@ -25,7 +28,8 @@ class VisualServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views','visual');
     //    $this->loadViewComponentsAs('input', [Input::class]);
         Blade::component('visual-input', Input::class);
-        
+        Blade::component('visual-data', Data::class);
+        InfoMarket::installMarketeer(Database::class);
         
     }
 
