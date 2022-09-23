@@ -10,6 +10,7 @@ use Sunhill\ORM\Properties\PropertyObject;
 
 use Sunhill\Visual\Response\Database\Objects\ListObjectsResponse;
 use Sunhill\Visual\Response\Database\Objects\AddObjectResponse;
+use Sunhill\Visual\Modules\ModuleBase;
 
 class SiteManager extends \Sunhill\Visual\Modules\SiteManager
 {
