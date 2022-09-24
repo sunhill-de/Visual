@@ -11,12 +11,13 @@ use Sunhill\ORM\Properties\PropertyObject;
 use Sunhill\Visual\Response\Database\Objects\ListObjectsResponse;
 use Sunhill\Visual\Response\Database\Objects\AddObjectResponse;
 use Sunhill\Visual\Modules\ModuleBase;
+use Sunhill\Visual\Entries\EntryBase;
 
 class SiteManager extends \Sunhill\Visual\Modules\SiteManager
 {
         protected function getModule(string $name, $module=null)
         {
-            if (is_a($module,ModuleBase::class)) {
+            if (is_a($module,EntryBase::class)) {
                 $module->setName($name);
                 return $module;
             } else if (is_null($module)) {
