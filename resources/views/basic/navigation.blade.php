@@ -37,7 +37,7 @@
 
 <main>
 <!--  Dropdown menu -->
-@isset($nav_3)
+@if (isset($nav_3) && !empty($nav_3))
 <nav class="navbar" role="navigation" aria-label="dropdown navigation">
 @foreach ($nav_3 as $entry)
 <div class="navbar-item has-dropdown is-hoverable">
