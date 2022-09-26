@@ -4,10 +4,11 @@
   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 @endpush
 
-@push('js')
+@prepend('js')
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
   <script src="/js/sunhill.js"></script>
+  <script src="/js/jstree.min.js"></script>
 @endpush
 
 @section('body')
