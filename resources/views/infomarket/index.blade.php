@@ -24,12 +24,28 @@ Datenbank Hauptseite
 		},
 		"plugins": [ "wholerow" ]
 	  }).on('changed.jstree', function (e,data) {
-			$("#result").html("Gewählt: "+data.instance.get_node(data.selected).id);	
+			var id = data.instance.get_node(data.selected).id;
+			if (id.substring(0,5) == 'item:') {
+				id = id.substr(5);
+				$("#itemname").html(id);
+			}
 		  });
 	 });
 </script>
 <div class="treeview"><ul>
 @each('visual::partials.infomarket', $entries, 'entry')
 </ul></div>
-<div id="result"></div>
+<div id="info" class="footer">
+ <div class="columns">
+ <div class="column"><div class="label">{{ __("Item") }}:</div><div id="itemname"></div></div>
+ <div class="column"><div class="label">{{ __("Type") }}:</div><div id="itemname"></div></div>
+ </div>
+ <div class="columns"> 
+ <div class="column"><div class="label">{{ __("Semantic type") }}:</div><div id="itemname"></div></div>
+ <div class="column"><div class="label">{{ __("Unit") }}:</div><div id="itemname"></div></div>
+ </div>
+ <div class="columns"> 
+ <div class="column"><div class="label">{{ __("Value") }}:</div><div id="itemname"></div></div>
+ </div>
+</div>
 @endsection

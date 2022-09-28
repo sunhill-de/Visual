@@ -1,0 +1,16 @@
+.treeview {
+	overflow: scroll;
+	height: 500px;
+}
+
+.column {
+	clear: both;
+}
+
+.footer .column {
+	float: left;
+}
+
+.column div {
+	float: left;
+}
