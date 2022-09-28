@@ -10,23 +10,6 @@ Datenbank Hauptseite
 
 @section('content')
 @parent
-<div class="treeview">
-<ul>
-<li id="Entry1">Entry 1</li>
-<li id="Entry2">Entry 2
- <ul>
-  <li id="Entry1.Subentry1">Subentry 1</li>
-  <li id="Entry1.Subentry2">Subentry 2
-   <ul>
-    <li id="Entry1.Subentry2.Subsub1">Subsub1</li>
-    <li id="Entry1.Subentry2.Subsub2">Subsub2</li>
-   </ul>
-  </li>
- </ul>
-</li> 
-</ul>
-</div>
-<div id="result"></div>
 <script>
  $(function() {
 	$('.treeview').jstree({
@@ -45,4 +28,8 @@ Datenbank Hauptseite
 		  });
 	 });
 </script>
+<div class="treeview"><ul>
+@each('visual::partials.infomarket', $entries, 'entry')
+</ul></div>
+<div id="result"></div>
 @endsection
