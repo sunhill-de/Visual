@@ -60,7 +60,7 @@ class Database extends MarketeerBase
         return Tags::getCount();
     }
     
-    protected function getClassCount(): Response
+    protected function get_ClassCount(): Response
     {
         $response = new Response();
         return $response
@@ -72,7 +72,7 @@ class Database extends MarketeerBase
         ->value($this->_getClassCount());
     }
     
-    protected function getClassRootCount(): Response
+    protected function get_ClassRootCount(): Response
     {
         $result = new Response();
         return $result
@@ -84,7 +84,7 @@ class Database extends MarketeerBase
         ->value($this->_getClassRootCount());
     }
 
-    protected function getObjectCount(): Response
+    protected function get_ObjectCount(): Response
     {
         $result = new Response();
         return $result
@@ -96,7 +96,7 @@ class Database extends MarketeerBase
         ->value($this->_getObjectCount());
     }
     
-    protected function getTagCount(): Response
+    protected function get_TagCount(): Response
     {
         $result = new Response();
         return $result
