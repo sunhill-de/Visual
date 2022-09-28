@@ -1,4 +1,4 @@
-<li>{{ $entry['name'] }}</li>
+<li>{{ $entry['name'] }}
    @if (count($entry['entries']) > 0)
     <ul>
   		@foreach($entry['entries'] as $entry)
@@ -6,4 +6,4 @@
   		@endforeach
     </ul>
    @endif
-   
+   </li>
