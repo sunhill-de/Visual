@@ -114,5 +114,19 @@ class ListObjectsResponse extends ListResponse
     {
         $this->params['inheritance'] = array_reverse($this->getFixedInheritance($this->params['key']));
     }
+
+    protected function getTotalEntryCount()
+    {
+        $class_namespace = Classes::getNamespaceOfClass(isset($this->params['key'])?$this->params['key']:'object');
+        return $class_namespace::search()->count();
+    }
+    
+    
+    protected function getPaginatorLink(int $index)
+    {
+        $class = isset($this->params['key'])?$this->params['key']:'object';
+        return $this->params['prefix'].'Objects/list/'.$class.'/'.$index;
+    }
+    
     
 }  
