@@ -58,8 +58,9 @@ class DialogManager
     protected function getClassName($item)
     {
         if (is_string($item)) {
+            $exists = class_exists($item);
             // Could be already the internal class name or a php class
-            if (class_exists($item) && is_a($item,ORMObject::class)) {
+            if (class_exists($item) && is_a($item,ORMObject::class,true)) {
                 return $item; // Trivial, we already have a class
             } else {
                return Classes::getNamespaceOfClass($item); 

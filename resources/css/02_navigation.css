@@ -79,3 +79,6 @@ main .mainpage {
 #Buero { background-image: url(/img/eg/buero.png); }
 #Wohnzimmer { background-image: url(/img/eg/wohnzimmer.png); }
 #Esszimmer { background-image: url(/img/eg/esszimmer.png); }
+
+#Cameras { background-image: url(/img/mainnav/kameras.png); }
+#Rotate { background-image: url(/img/cameras/rotate.png); }

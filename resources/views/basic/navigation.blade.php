@@ -9,6 +9,7 @@
   <script src="/js/jquery-ui.min.js"></script>
   <script src="/js/sunhill.js"></script>
   <script src="/js/jstree.min.js"></script>
+  <script src="/js/jquery.cycle.all.js"></script>
 @endpush
 
 @section('body')

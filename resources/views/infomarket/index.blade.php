@@ -40,10 +40,20 @@ Datenbank Hauptseite
 						$("#itemsemantic").html( jsondata.semantic );
 						$("#itemtype").html( jsondata.type );
 						$("#itemupdate").html (jsondata.update );
+						if (jsondata.writeable) {
+							$("#setvalue").enable();
+						} else {
+							$("#setvalue").disable();
+						}
 					}
 				})
 			}
 		  });
+	 
+	 	$("#setvalue").click( function() {
+	 		var id = $("#itemname").html();
+	 		alert(id); 
+	 	});
 	 });
 </script>
 <div class="treeview"><ul>
@@ -62,5 +72,6 @@ Datenbank Hauptseite
  <div class="column"><div class="label">{{ __("Value") }}:</div><div id="itemvalue"></div></div>
  <div class="column"><div class="label">{{ __("Update") }}:</div><div id="itemupdate"></div></div>
  </div>
+ <button id="setvalue">Wert setzen</button>
 </div>
 @endsection

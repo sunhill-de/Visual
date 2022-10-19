@@ -23,7 +23,7 @@ class EditObjectResponse extends BladeResponse
         
         $fields = $object->getProperties()->where('editable',true)->get();
         $this->params['fields'] = $fields;
-        $this->params['classname'] = $object::$object_infos['name'];
+        $this->params['classname'] = $object::getInfo('name');
         $this->params['object'] = $object;
     }
     

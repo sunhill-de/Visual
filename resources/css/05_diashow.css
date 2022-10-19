@@ -1,0 +1,24 @@
+#diashow {
+	width: 1280px;
+	height: 800px;
+	overflow: hidden;
+	text-align: center;	
+}
+
+#diashow_small {
+	width: 1280px;
+	height: 800px;
+	overflow: hidden;
+	text-align: center;	
+}
+
+.diashow_image {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+}
+
+.diashow_image_small {
+	max-width: 100%;
+	max-height: 100%;
+}

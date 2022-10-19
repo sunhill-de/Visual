@@ -80,7 +80,8 @@ class ListObjectsResponse extends ListResponse
         foreach ($input as $object) {
             $row = [];
             $row[] = $this->createEntry($object->getID(),$this->params['prefix'].'/Objects/show/'.$object->getID());
-            $row[] = $this->createEntry($object::$object_infos['name'],$this->getObjectLink($object::$object_infos['name']));            $columns = Dialogs::getObjectListFields($this->params['key']);
+            $row[] = $this->createEntry($object::getInfo('name'),$this->getObjectLink($object::getInfo('name')));            
+            $columns = Dialogs::getObjectListFields($this->params['key']);
             foreach ($columns as $index => $column) {
                 if (is_int($index)) {
                     $row[] = $this->createEntry($this->parseColumn($object,$column));
