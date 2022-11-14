@@ -30,7 +30,7 @@ class Data extends Component
      */
     public function render()
     {
-        $result = json_decode(InfoMarket::readItem($this->name),true);
+        $result = json_decode(InfoMarket::getItem($this->name),true);
         if ($result['result'] == 'OK') {
             return $result['value'];
         } else {
