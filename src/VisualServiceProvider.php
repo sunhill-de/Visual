@@ -29,7 +29,7 @@ class VisualServiceProvider extends ServiceProvider
     //    $this->loadViewComponentsAs('input', [Input::class]);
         Blade::component('visual-input', Input::class);
         Blade::component('visual-data', Data::class);
-        InfoMarket::installMarketeer(Database::class);
+    //    InfoMarket::installMarketeer(Database::class);
         
     }
 
