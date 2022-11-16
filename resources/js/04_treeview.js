@@ -6,22 +6,22 @@ $(".treeview").jstree({
 			"stripes": true
         },
         // so that create works
-        "check_callback": true,
+     //   "check_callback": true,
         'data': {
-            'url': function(node) {
-				if (node.id == "#") {
+            "url": function(node) {
+				if (node.id === "#") {
 					return "/ajax/getNodes/!root!";
 				} else {
 					return "/ajax/getNodes/"+node.id; 					
 				}             
             },
-			'data-type': "json",
-            'data': function(node) {
+			"data-type": "json",
+            "data": function(node) {
                 return {
-                    'parent': node.id
+                    "id": node.id
                 };
 			}
-       }
+       } 
     },
     "types": {
         "default": {
@@ -36,7 +36,7 @@ $(".treeview").jstree({
     },
     "plugins": ["dnd", "state", "json-data", "types", "wholerow"]
 })
-
+/*
 $(".xxxtreeview").on('changed.jstree', function (e,data) {
 			var id = data.instance.get_node(data.selected).id;
 			if (id.substring(0,5) == 'item:') {
@@ -63,4 +63,5 @@ $(".xxxtreeview").on('changed.jstree', function (e,data) {
 				})
 			}
 		  });;
+*/
 });
