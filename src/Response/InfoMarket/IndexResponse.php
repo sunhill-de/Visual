@@ -12,7 +12,7 @@ class IndexResponse extends BladeResponse
  
     protected function prepareResponse()
     {
-       $this->params['entries'] = InfoMarket::getFullOfferings(true); 
+       $this->params['entries'] = InfoMarket::getOffer(false); 
        
         
     }
