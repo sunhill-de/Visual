@@ -24,6 +24,6 @@
  <div class="column"><div class="label">{{ __("Value") }}:</div><div id="itemvalue"></div></div>
  <div class="column"><div class="label">{{ __("Update") }}:</div><div id="itemupdate"></div></div>
  </div>
- <button id="setvalue">{{ __("Set value") }}/button>
+ <button id="setvalue">{{ __("Set value") }}</button>
 </div>
 @endsection
