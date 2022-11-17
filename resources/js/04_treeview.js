@@ -34,7 +34,13 @@ $(".treeview").jstree({
     "state": {
         "key": "demo3"
     },
-    "plugins": ["dnd", "state", "json-data", "types", "wholerow"]
+    "themes": {
+		"theme": "default",
+		"dots": true,
+		"icons": true
+	},
+
+    "plugins": ["dnd", "themes", "state", "json-data", "types", "wholerow"]
 })
 /*
 $(".xxxtreeview").on('changed.jstree', function (e,data) {
