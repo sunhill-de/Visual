@@ -42,11 +42,10 @@ $(".treeview").jstree({
 
     "plugins": ["dnd", "themes", "state", "json-data", "types", "wholerow"]
 })
-/*
-$(".xxxtreeview").on('changed.jstree', function (e,data) {
+
+$(".treeview").on('changed.jstree', function (e,data) {
 			var id = data.instance.get_node(data.selected).id;
-			if (id.substring(0,5) == 'item:') {
-				id = id.substr(5);
+				
 				$.ajax('/ajax/getItem/'+id,
 				{
 					dataType: 'json',
@@ -60,14 +59,13 @@ $(".xxxtreeview").on('changed.jstree', function (e,data) {
 						$("#itemsemantic").html( jsondata.semantic );
 						$("#itemtype").html( jsondata.type );
 						$("#itemupdate").html (jsondata.update );
-						if (jsondata.writeable) {
+		/*				if (jsondata.writeable) {
 							$("#setvalue").enable();
 						} else {
 							$("#setvalue").disable();
-						}
+						}*/
 					}
 				})
-			}
 		  });;
-*/
+
 });
