@@ -23,7 +23,7 @@ class AddObjectResponse extends BladeResponse
         $class->name = $classname;
         $class->namespace = $classnamespace;
         $class->fields = $this->getEditable($classnamespace);
-        $class->tablename = $classnamespace::getInfo('table');
+        $class->tablename = $classnamespace::$object_infos['table'];
         $this->params['key'] = $result['key'];
         $this->params['class'] = $class;
     }
