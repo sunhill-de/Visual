@@ -1,10 +1,13 @@
-<div class="inputgroup">
- <fieldset>
- <legend>{{ __( "Tags" ) }}</legend>
- <input type="text" name="input_tags" id="input_tags" />
+<div class="field has-addons">
+ <label class="label">{{ __( "Tags" ) }}</label>
+ <div class="control">
+  <input class="input" type="text" name="input_tags" id="input_tags" />
+ </div>
+ <div class="control">
+  <input class="button is-info" type="button" value="+" onClick="addEntry( 'tags', false )">
+ </div>
  <input type="hidden" name="value_tags" id="value_tags" /> <!-- only for compatibility -->
  
- <input type="button" value="+" onClick="addEntry( 'tags', false )">
  
  <ul class="selectable" name="list_tags" id="list_tags">
   @isset($values)
@@ -17,5 +20,5 @@
  <script>
  	$( function() { tags('{{ $class}}'); } );
  </script>
- </fieldset>	     
+ </siv>	     
 </div>
