@@ -1,6 +1,6 @@
-<div class="inputgroup">
- <fieldset>
-  <legend>{{__($name)}}</legend>>
-  <input type="number" name="{{$name}}" id="{{$name}}" @isset($value)) value="{{ $value }}" @endisset/>
- </fieldset> 
+<div class="field">
+ <label>{{__($name)}}</label>>
+ <div class="control">
+  <input class="input" type="number" name="{{$name}}" id="{{$name}}" @isset($value)) value="{{ $value }}" @endisset/>
+ </div> 
 </div>
