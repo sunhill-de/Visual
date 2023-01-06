@@ -64,6 +64,7 @@
  </ul>
 </nav>
 @endif
+@yield('caption')
 @yield('content')
 </main>
 @endsection
