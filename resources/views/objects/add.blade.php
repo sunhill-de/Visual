@@ -10,16 +10,15 @@
   </style>
 @endpush
 
-@section('title',{{ __('add object') }} )
+@section('title',__('add object'))
 
 @section('caption')
-{{ __('Add object of :classname',['classname'=>$class->name]) }}
+ {{ __("Add object of ':classname'",['classname'=>$class->name]) }}
 @endsection
 
 @section('content')
 @parent
 <form method="post" id="add" name="add" action="{{ $prefix }}/Objects/execadd">
- <div class="dialogelements">
  @csrf
  <input type="hidden" name="_class" value="{{ $class->name }}" />
  @foreach ($class->fields as $field)
@@ -36,7 +35,6 @@
   </div>
  </div>
 
-</div>
 </form>
 @endsection
   
