@@ -10,10 +10,10 @@
   </style>
 @endpush
 
-@section('title','Objekt hinzufügen')
+@section('title',{{ __('add object') }} )
 
 @section('caption')
-Objekt von '{{ $class->name }}' hinzufügen
+{{ __('Add object of :classname',['classname'=>$class->name]) }}
 @endsection
 
 @section('content')
@@ -21,14 +21,21 @@ Objekt von '{{ $class->name }}' hinzufügen
 <form method="post" id="add" name="add" action="{{ $prefix }}/Objects/execadd">
  <div class="dialogelements">
  @csrf
- Klassenname: {{ $class->name }}<br />
- Tabellenname: {{ $class->tablename }}<br />
  <input type="hidden" name="_class" value="{{ $class->name }}" />
  @foreach ($class->fields as $field)
   <x-visual-input id="{{ $class->name }}" name="{{ $field->name }}" action="add" />
  @endforeach
  <x-visual-input id="{{ $class->name }}" name="tags" action="add" />
- <input type="submit" value="abschicken" />
+ 
+ <div class="field is-grouped">
+  <div class="control">
+    <button class="button is-link">Submit</button>
+  </div>
+  <div class="control">
+    <button class="button is-link is-light">Cancel</button>
+  </div>
+ </div>
+
 </div>
 </form>
 @endsection
