@@ -59,5 +59,7 @@
   "Tag name":"Tagname",
   "Tag parent":"Elterntag",
   "leafable":"Darf einem Objekt zugeordnet werden",
-  "send":"abschicken"
+  "send":"abschicken",
+  "Add object":"Objekt hinzufügen",
+  "Add object of ':classname'":"Objekt der Klasse ':classname' hinzufügen"
 }
