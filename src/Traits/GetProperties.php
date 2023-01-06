@@ -36,7 +36,7 @@ trait GetProperties
         if (is_int($item)) {
             // We think item is the id of an object
         } else if (is_string($item)) {
-            if (class_exists($item)) {
+            if (class_exists($item) && is_a($item, ORMObject::class)) {
                 // trivial, it's
                 return $item;
             } else {
