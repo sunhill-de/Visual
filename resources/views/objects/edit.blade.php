@@ -1,9 +1,9 @@
 @extends('visual::basic.navigation')
 
-@section('title','Objekt bearbeiten')
+@section('title',{{ __('edit object') }} )
 
 @section('caption')
-Objekt mit der ID '{{ $object->id }}' bearbeiten
+{{ __("Edit object of ':classname' with ID ':id'",['classname'=>$class->name,'id'=>$object->id]) }}
 @endsection
 
 @section('content')
@@ -15,8 +15,17 @@ Objekt mit der ID '{{ $object->id }}' bearbeiten
   <x-visual-input id="{{ $object->getID() }}" name="{{ $field->name }}" action="edit" />
  @endforeach
  <x-visual-input id="{{ $object->getID() }}" name="tags" action="edit" />
- <input type="submit" value="abschicken" />
+
+ <div class="field is-grouped">
+  <div class="control">
+    <button class="button is-link">Submit</button>
+  </div>
+  <div class="control">
+    <button class="button is-link is-light">Cancel</button>
+  </div>
  </div>
+ 
+</div>
 </form>
 @endsection
   
