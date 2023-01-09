@@ -1,22 +1,32 @@
-<div class="inputgroup">
- <fieldset>
- <legend>{{ __( $name ) }}</legend>
- <input type="text" name="input_{{ $name }}" id="input_{{ $name }}" />
- <input type="hidden" name="value_{{ $name }}" id="value_{{ $name }}" />
- 
- <input type="button" value="+" onClick="addEntry('{{ $name }}', true)" />
- 
- <ul class="selectable" name="list_{{ $name }}" id="list_{{ $name }}">
-  @isset($values)
-  @foreach($values as $value)
- <li>{{ $value->key }}<input type="hidden" name="value_{{ $name }}{{ $loop->index+1 }}" value="{{ $value->value }}"/></li>
-  @endforeach
- @endisset
- </ul>
+<div class="field">
+ <label class="label">{{ __( $name ) }}</label>
+ <div class="columns">
+  <div class="column">
+   <label class="label">{{__( "Search" ) }}</label>
+   <div class="control">
+    <input class="input" type="text" name="input_{{ $name }}" id="input_{{ $name }}" />
+    <input type="hidden" name="value_{{ $name }}" id="value_{{ $name }}" /> <!-- only for compatibility -->
+    <div class="control">
+     <input class="button is-info" type="button" value="+" onClick="addEntry( 'tags', false )">
+    </div>
+  </div>
+  
+  <div class="column">
+   <label class="label">{{__( "Current setting" ) }}</label>  
+  <div class="dynamic_list">
+   @isset($values)
+   @foreach($values as $value)
+   <div class="control">
+    <input type="input" class="input dynamic_entry" readonly name="{{ $name }}[]" />
+    <input type="hidden" name="value_{{ $name }}[]" value="{{ $value->value}}" />
+   </div>
+   @endforeach
+   @endisset
+   </div>
+  </div>
+ </div>
+</div>
 
- <input type="hidden" name="count_{{ $name }}" id="count_{{$name}}" value="@isset($values){{ count($values) }} @else 0 @endisset" />
  <script>
  	$( function() { objectArrayField('{{ $name }}', '{{ $class}}'); } );
  </script>
- </fieldset>	     
-</div>
