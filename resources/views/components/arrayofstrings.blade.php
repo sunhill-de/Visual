@@ -9,18 +9,19 @@
     <div class="control">
      <input class="button is-info" type="button" value="+" onClick="addEntry( 'tags', false )">
     </div>
-  </div>
-  
-  <div class="column">
-   <label class="label">{{__( "Current setting" ) }}</label>  
-  <div class="dynamic_list">
-   @isset($values)
-   @foreach($values as $value)
-   <div class="control">
-    <input class="input dynamic_entry" readonly name="{{ $name }}[]" />
    </div>
-   @endforeach
-   @endisset
+  
+   <div class="column">
+    <label class="label">{{__( "Current setting" ) }}</label>  
+    <div class="dynamic_list" id="list_"{{ $name }}">
+     @isset($values)
+     @foreach($values as $value)
+     <div class="control">
+      <input class="input dynamic_entry" readonly name="{{ $name }}[]" />
+     </div>
+     @endforeach
+     @endisset
+    </div>
    </div>
   </div>
  </div>
