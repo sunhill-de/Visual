@@ -10,7 +10,7 @@
      <input class="button is-info" type="button" value="+" onClick="addEntry( '{{  $name }}', false )">
     </div>
    </div>
-  
+  </div>
    <div class="column">
     <label class="label">{{__( "Current setting" ) }}</label>  
     <div class="dynamic_list" id="list_{{ $name }}">
@@ -23,7 +23,6 @@
      @endisset
     </div>
    </div>
-  </div>
  </div>
 </div>
 
