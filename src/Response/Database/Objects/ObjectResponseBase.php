@@ -121,60 +121,43 @@ abstract class ObjectResponseBase extends RedirectResponse
         return false;
     }
     
-    protected function getObject($value,$field)
+    protected function checkAndCreateObject($value, $field)
     {
-        $value = $this->request->input('value_'.$field->getName());
         if (empty($value)) {
             return null;
         }
         if (!is_numeric($value)) {
             throw new \Exception(__("':value' is not an object-id",['value'=>$value]));
         }
-        if (is_numeric($value)) {
-            $value = Objects::load(intval($value));
-        }
+        $value = Objects::load(intval($value));
         if (empty($value)) {
             throw new \Exception(__("':value' is not a valid object id",['value'=>$value]));
-        }    
+        }
         if (!$this->isAllowedObject($value,$field->getAllowedObjects())) {
             throw new \Exception(__("':value' is not an allowed object for this field",['value'=>$value]));
         }
-        return $value;
+        return $value;        
+    }
+    
+    protected function getObject($value,$field)
+    {
+        return $this->checkAndCreateObject($this->request->input('value_'.$field->getName()), $field);
     }
     
 
-    protected function getArrayOfStrings($value,$field)
+    protected function getArrayOfStrings($value, $field)
     {
-        $result = [];
-        $name = $field->getName();
-        $count = $this->request->input("count_".$name,0);
-        for ($i=1;$i<=$count;$i++) {
-            if ($this->request->has("value_".$name.$i)) {
-                $result[] = $this->request->input("value_".$name.$i);                
-            }
-        }
-        return $result;
+        $value = $this->request->input('value_'.$field->getName());
+        return $value;
     }
     
-    protected function getArrayOfObjects($value,$field)
+    protected function getArrayOfObjects($value, $field)
     {
         $result = [];
-        $name = $field->getName();
-        $count = $this->request->input("count_".$name,0);
-        for ($i=1;$i<=$count;$i++) {
-            if ($this->request->has("value_".$name.$i)) {
-                $id = $this->request->input("value_".$name.$i);
-                $obj = Objects::load(intval($id));
-                if (empty($obj)) {
-                    throw new \Exception(__("':value' is not a valid object id",['value'=>$obj]));
-                }    
-                if (!$this->isAllowedObject($obj,$field->getAllowedObjects())) {
-                    throw new \Exception(__("':value' is not an allowed object for this field",['value'=>$value]));
-                }
-                $result[] = $obj;
-            }            
+        $values = $this->request->input('value_'.$field->getName());
+        foreach ($values as $value) {
+            $result[] = $this->checkAndCreateObject($value, $field);
         }
-        
         return $result;
     }
     

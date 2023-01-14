@@ -7,17 +7,17 @@
     <input class="input" type="text" name="input_{{ $name }}" id="input_{{ $name }}" />
     <input type="hidden" name="value_{{ $name }}" id="value_{{ $name }}" /> <!-- only for compatibility -->
     <div class="control">
-     <input class="button is-info" type="button" value="+" onClick="addEntry( 'tags', false )">
+     <input class="button is-info" type="button" value="+" onClick="addEntry( '{{ $name }}', true )">
     </div>
+   </div>
   </div>
-  
   <div class="column">
    <label class="label">{{__( "Current setting" ) }}</label>  
-  <div class="dynamic_list">
+  <div class="dynamic_list" id="list_{{ $name }}">
    @isset($values)
    @foreach($values as $value)
    <div class="control">
-    <input type="input" class="input dynamic_entry" readonly name="{{ $name }}[]" />
+    <input type="text" class="input dynamic_entry" readonly name="{{ $name }}[]" />
     <input type="hidden" name="value_{{ $name }}[]" value="{{ $value->value}}" />
    </div>
    @endforeach
