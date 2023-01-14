@@ -17,7 +17,7 @@
      @isset($values)
      @foreach($values as $value)
      <div class="control">
-      <input class="input dynamic_entry" readonly name="{{ $name }}[]" />
+      <input type="text" class="input dynamic_entry" readonly name="{{ $name }}[]" />
      </div>
      @endforeach
      @endisset
