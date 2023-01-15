@@ -30,6 +30,10 @@ class ModuleDatabase extends ModuleBase
             ->setVisible()
             ->setName('Tags')
             ->setDisplayName(__('Tags'));
+        $this->addSubEntry('Import', FeatureImport::class)
+            ->setVisible()
+            ->setName('Import')
+            ->setDisplayName(__('Import'));
     }
         
 }

@@ -4,9 +4,45 @@ namespace Sunhill\Visual\Modules;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Sunhill\Visual\Entries\EntryBase;
 
 class SiteManager extends ModuleBase
 {
+    
+    protected $icon = '';
+
+    protected $name = '';
+    
+    protected $description = '';
+    
+    public function setIcon($name): EntryBase
+    {
+        $this->icon = $name;
+        return $this;
+    }
+    
+    public function setName($name): EntryBase
+    {
+        $this->name = $name;
+        return $this;
+    }
+    
+    public function setDescription($name): EntryBase
+    {
+        $this->description = $name;
+        return $this;
+    }
+    
+    public function getParameters($breadcrumbs)
+    {
+        $result = [
+            'nav_1'=>$this->getLevel1(),
+            'breadcrumbs'=>[]            
+        ];
+        
+        return $result;
+    }
+    
     /**
      * Tries to route the given request inside the 
      * @param Request $request

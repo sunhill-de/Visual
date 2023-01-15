@@ -48,5 +48,17 @@ Datenbank Hauptseite
   </article>
  </div>
 </div>
-
+<div class="tile is-ancestor">
+ <div class="tile is-parent">
+  <article class="tile is-child box">
+   <p class="title">Import</p>
+   <div class="content">
+   <div class="block">
+	 <a class="button" href="/Computer/Database/Import/persons">Personen</a>
+	 <a class="button" href="/Computer/Database/Import/movies">Filme</a>   
+	</div>
+   </div>
+  </article>
+ </div>
+</div>
 @endsection
