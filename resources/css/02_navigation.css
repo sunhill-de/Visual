@@ -1,65 +1,23 @@
-#nav_level1 {
-	list-style: none;
-	float: left;
-	width: 100px;
-	padding: 0px;	
-}
-
-#nav_level1 a {
-	background-size: 100px;
-	display: block;
-	overflow: hidden;
-	width: 100px;
-	padding:0px;
-	height: 100px;
-	text-indent :-9999px;
-}
-
-#nav_level2 {
-	position: absolute;
-	top:0px;
-	left:100px;
-	float: top;
-	height: 100px;
-	padding: 0;
-	list-style-type:none;
-	margin:0;
-	padding:0;
-}
-
-#nav_level2 li {
-	float: left;
-}
-
-#nav_level2 a {
-	float: left;
-	display: block;
-	overflow: hidden;
-	width: 0;
-	padding-left:100px;
-	height: 100px;
-	background-size: 100px;	
-}
-
-#breadcrumbs {
-	float: top;
-}
-
-main {
-	left: 100px;
-	top: 100px;
-	float: top;
-	position: absolute;
-}
-
-main .mainpage {
-	position: absolute;
-	top: -100px;		
+.page {
+  display: flex;  
 }
 
 .content {
-	left:100px;
-	top: 100px;
+  display: flex;
+  align-self: flex-start;
+}
+.main-navigation {
+  display: flex;
+  flex-direction: column;
+}
+
+.sub-navigation {
+  display: flex;
+  flex-direction: row;
+}
+
+.navigation-tile {
+  padding-right: 5px;
 }
 
 #Home { background-image: url(/img/Sonnenhuegel.png); } 
