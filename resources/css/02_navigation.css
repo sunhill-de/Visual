@@ -20,23 +20,3 @@
   padding-right: 5px;
 }
 
-#Home { background-image: url(/img/Sonnenhuegel.png); } 
-#Computer { background-image: url(/img/computer/computer.png); } 
-#Database { background-image: url(/img/computer/database.png); }
-#Infomarket { background-image: url(/img/computer/infomarket.png); }
-
-#DG { background-image: url(/img/dg/dg.png); }
-#Dachboden_gross { background-image: url(/img/dg/gross.png); }
-#Dachboden_klein { background-image: url(/img/dg/klein.png); }
-
-#OG { background-image: url(/img/og/og.png); }
-#Schlafzimmer { background-image: url(/img/og/schlafzimmer.png); }
-#Elternbad { background-image: url(/img/og/elternbad.png); }
-
-#EG { background-image: url(/img/eg/eg.png); }
-#Buero { background-image: url(/img/eg/buero.png); }
-#Wohnzimmer { background-image: url(/img/eg/wohnzimmer.png); }
-#Esszimmer { background-image: url(/img/eg/esszimmer.png); }
-
-#Cameras { background-image: url(/img/mainnav/kameras.png); }
-#Rotate { background-image: url(/img/cameras/rotate.png); }
