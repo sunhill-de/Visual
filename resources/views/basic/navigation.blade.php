@@ -15,56 +15,62 @@
 @section('body')
 
 @parent
-
-<!-- Navigation -->
-@isset($nav_1)
-<nav role="navigation" id="nav_level1">
-<ul>
- <a href="/" id="Home">Home</a>
-@foreach ($nav_1 as $entry)
- <a href="{{ $entry->link }}" id="{{ $entry->name }}">{{ $entry->display_name }}</a>
-@endforeach
-</ul>
-</nav>
-@endif
-@isset($nav_2)
-<nav role="navigation" id="nav_level2">
-<ul>
-@foreach ($nav_2 as $entry)
- <a href="{{ $entry->link }}" id="{{ $entry->name }}">{{ $entry->display_name }}</a>
-@endforeach
-</ul>
-</nav>
-@endif
-
-<main>
-<!--  Dropdown menu -->
-@if (isset($nav_3) && !empty($nav_3))
-<nav class="navbar" role="navigation" aria-label="dropdown navigation">
-@foreach ($nav_3 as $entry)
-<div class="navbar-item has-dropdown is-hoverable">
-<a class="navbar-link" href="{{ $entry->link }}">{{ $entry->display_name }}</a>
-<div class="navbar-dropdown">
-@foreach ($entry->subentries as $subentry)
-<a class="navbar-item" href="{{ $subentry->link }}">{{ $subentry->display_name }}</a>
-@endforeach
+<div class="page">
+ <!-- Main navigation -->
+ @isset($nav_1)
+ <nav role="navigation" class="main-navigation">
+  <div class="navigation-tile">
+   <a href="/" id="Home">Home</a>
+  </div>
+  @foreach ($nav_1 as $entry)
+  <div class="navigation-tile">
+   <a href="{{ $entry->link }}" id="{{ $entry->name }}">{{ $entry->display_name }}</a>
+  </div>
+  @endforeach
+ </nav>
+ @endif
+ <div class="optional-part">
+  <!-- Subnavigation -->
+  @isset($nav_2)
+  <nav role="navigation" class="sub-navigation">
+   @foreach ($nav_2 as $entry)
+   <div class="navigation-tile">
+    <a href="{{ $entry->link }}" id="{{ $entry->name }}">{{ $entry->display_name }}</a>
+   </div> 
+   @endforeach
+  </nav>
+  @endif
+  <!--  Dropdown menu -->
+  @if (isset($nav_3) && !empty($nav_3))
+  <nav class="navbar" role="navigation" aria-label="dropdown navigation">
+   @foreach ($nav_3 as $entry)
+   <div class="navbar-item has-dropdown is-hoverable">
+    <a class="navbar-link" href="{{ $entry->link }}">{{ $entry->display_name }}</a>
+    <div class="navbar-dropdown">
+    @foreach ($entry->subentries as $subentry)
+     <a class="navbar-item" href="{{ $subentry->link }}">{{ $subentry->display_name }}</a>
+    @endforeach
+   </div>
+  </div>
+  @endforeach
+  </nav>
+  @endif
+  
+  <!--  Breadcrumbs -->
+  @if(null !== $breadcrumbs)
+  <nav class="breadcrumb" aria-label="breadcrumbs" id="breadcrumbs">
+   <ul>
+   @foreach ($breadcrumbs as $crumb)
+    <li><a href="{{$crumb->link}}">{{$crumb->name}}</a></li>
+   @endforeach
+  </ul>
+ </nav>
+ @endif
+ <!-- content -->
+  <div class="content">
+  @yield('caption')
+  @yield('content')
+  </div>
+ </div> 
 </div>
-</div>
-@endforeach
-</nav>
-@endif
-
-<!--  Breadcrumbs -->
-@if(null !== $breadcrumbs)
-<nav class="breadcrumb" aria-label="breadcrumbs" id="breadcrumbs">
- <ul>
-@foreach ($breadcrumbs as $crumb)
-  <li><a href="{{$crumb->link}}">{{$crumb->name}}</a></li>
-@endforeach
- </ul>
-</nav>
-@endif
-@yield('caption')
-@yield('content')
-</main>
 @endsection
