@@ -19,24 +19,27 @@
  <!-- Main navigation -->
  @isset($nav_1)
  <nav role="navigation" class="main-navigation">
-  <div class="navigation-tile">
-   <a href="/" id="Home">Home</a>
-  </div>
+  <a href="/" ><div id="Home" class="navigation-tile">
+   Home
+  </div></a>
   @foreach ($nav_1 as $entry)
-  <div class="navigation-tile">
-   <a href="{{ $entry->link }}" id="{{ $entry->name }}">{{ $entry->display_name }}</a>
-  </div>
+  <a href="{{ $entry->link }}" id="{{ $entry->name }}"><div class="navigation-tile">
+   {{ $entry->display_name }}
+  </div></a>
   @endforeach
  </nav>
  @endif
+ 
  <div class="optional-part">
   <!-- Subnavigation -->
   @isset($nav_2)
   <nav role="navigation" class="sub-navigation">
    @foreach ($nav_2 as $entry)
-   <div class="navigation-tile">
-    <a href="{{ $entry->link }}" id="{{ $entry->name }}">{{ $entry->display_name }}</a>
-   </div> 
+   <a href="{{ $entry->link }}" id="{{ $entry->name }}">
+    <div class="navigation-tile">
+    {{ $entry->display_name }}
+    </div>
+   </a> 
    @endforeach
   </nav>
   @endif

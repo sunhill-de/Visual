@@ -18,5 +18,8 @@
 
 .navigation-tile {
   padding-right: 5px;
+  width: 100px;
+  height: 100px;
+  text-indent: -9999px;
 }
 
