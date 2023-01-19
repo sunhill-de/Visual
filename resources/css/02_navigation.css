@@ -3,7 +3,7 @@
 }
 
 .content {
-  display: flex;
+  display: block;
   align-self: flex-start;
 }
 .main-navigation {
