@@ -70,7 +70,7 @@
  </nav>
  @endif
  <!-- content -->
-  <div class="content">
+  <div class="mycontent">
   @yield('caption')
   @yield('content')
   </div>

@@ -2,9 +2,10 @@
   display: flex;  
 }
 
-.content {
+.mycontent {
   display: block;
   align-self: flex-start;
+  width: 1700px;
 }
 .main-navigation {
   display: flex;
