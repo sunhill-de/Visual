@@ -47,5 +47,10 @@ class SiteManager extends \Sunhill\Visual\Modules\SiteManager
             // $module points to the main module
             return $module->addSubEntry($sub_module_name,$this->getModule($sub_module_name,$submodule));
         }
-    
+ 
+        public function addRoutes()
+        {
+            
+        }
+        
 }

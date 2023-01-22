@@ -5,6 +5,7 @@ namespace Sunhill\Visual;
 use Illuminate\Support\ServiceProvider;
 use Sunhill\Visual\Managers\DialogManager;
 use Sunhill\Visual\Managers\SiteManager;
+use Sunhill\Visual\Managers\SunhillSiteManager;
 use Sunhill\Visual\Components\Input;
 use Sunhill\Visual\Components\Data;
 use Illuminate\Support\Facades\Blade;
@@ -19,6 +20,8 @@ class VisualServiceProvider extends ServiceProvider
         $this->app->alias(DialogManager::class,'dialogmanager');
         $this->app->singleton(SiteManager::class, function () { return new SiteManager(); } );
         $this->app->alias(SiteManager::class,'sitemanager');
+        $this->app->singleton(SunhillSiteManager::class, function () { return new SunhillSiteManager(); } );
+        $this->app->alias(SunhillSiteManager::class,'sunhillsitemanager');
     }
     
     public function boot()
