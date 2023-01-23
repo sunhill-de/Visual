@@ -17,6 +17,16 @@ class SunhillSiteManager extends SunhillModuleBase
     
     public function getMainNavigation()
     {
-        return [];
+        $result = [];
+        foreach ($this->submodules as $module)
+        {
+           $result[] = $this->getStdClass(
+               [
+                   'name'=>$module->getName(),
+                   'display_name'=>$module->getDisplayName(),
+                   'link'=>$module->getRoute()                   
+               ]); 
+        }
+        return $result;
     }
 }

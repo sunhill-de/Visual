@@ -13,6 +13,7 @@ trait SunhillModuleTrait
         return [
             'breadcrumbs'=>SunhillSiteManager::getCurrentBreadcumbs(),
             'nav_1'=>SunhillSiteManager::getMainNavigation(),
+            'nav_2'=>SunhillSiteManager::getSubNavigation(),
             'sitename'=>SunhillSiteManager::getDisplayName()            
         ];
     }

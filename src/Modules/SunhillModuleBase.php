@@ -393,4 +393,11 @@ class SunhillModuleBase
         $this->addBreadcrumb($result);
         return $result;
     }
+    
+    public function getNavigationLinks(bool $add_sublinks) 
+    {
+        $result = [];
+        
+        return $result;
+    }
 }
