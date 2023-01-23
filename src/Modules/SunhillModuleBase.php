@@ -54,6 +54,7 @@ class SunhillModuleBase
     
     /**
      * Getter for $this->name
+     * @test /tests/Unit/SunhillModuleTest::testGetterSetter()
      */
     public function getName(): String
     {
@@ -62,6 +63,7 @@ class SunhillModuleBase
     
     /**
      * Setter for $this->name
+     * @test /tests/Unit/SunhillModuleTest::testGetterSetter()
      */
     public function setDisplayName(string $name): SunhillModuleBase
     {
@@ -71,6 +73,7 @@ class SunhillModuleBase
     
     /**
      * Getter for $this->name
+     * @test /tests/Unit/SunhillModuleTest::testGetterSetter()
      */
     public function getDisplayName(): String
     {
@@ -79,6 +82,7 @@ class SunhillModuleBase
     
     /**
      * Setter for description
+     * @test /tests/Unit/SunhillModuleTest::testGetterSetter()
      */
     public function setDescription(string $description): SunhillModuleBase
     {
@@ -88,23 +92,34 @@ class SunhillModuleBase
     
     /**
      * Getter for description
+     * @test /tests/Unit/SunhillModuleTest::testGetterSetter()
      */
     public function getDescription()
     {
         return is_null($this->description)?"":$this->description;
     }
     
+    protected function assertParentNotThis(SunhillModuleBase $parent)
+    {
+        if ($parent === $this) {
+            throw new \Exception("Parent mustn't be this");
+        }
+    }
+    
     /**
      * Setter for parent
+     * @test /tests/Unit/SunhillModuleTest::testGetterSetter()
      */
     public function setParent(SunhillModuleBase $parent): SunhillModuleBase
     {
+        $this->assertParentNotThis($parent);
         $this->parent = $parent;
         return $this;
     }
     
     /**
      * Getter for parent
+     * @test /tests/Unit/SunhillModuleTest::testGetterSetter()
      */
     public function getParent()
     {
@@ -115,6 +130,7 @@ class SunhillModuleBase
      * Setter for active variable
      * @param $value: bool What value should active be (default true)
      * @return $this
+     * @test /tests/Unit/SunhillModuleTest::testGetterSetter()
      */
     public function setActive(bool $value=true): SunhillModuleBase
     {
@@ -125,6 +141,7 @@ class SunhillModuleBase
     /**
      * Returns the current value of active
      * @return bool Current value of active
+     * @test /tests/Unit/SunhillModuleTest::testGetterSetter()
      */
     public function getActive(): bool
     {
@@ -135,6 +152,7 @@ class SunhillModuleBase
      * Setter for visible variable
      * @param $value: bool Is this entry visible
      * @return $this
+     * @test /tests/Unit/SunhillModuleTest::testGetterSetter()
      */
     public function setVisible(bool $value=true): SunhillModuleBase
     {
@@ -145,6 +163,7 @@ class SunhillModuleBase
     /**
      * Returns the current value of visible
      * @return bool Current value of visible
+     * @test /tests/Unit/SunhillModuleTest::testGetterSetter()
      */
     public function getVisible(): bool
     {
@@ -154,6 +173,7 @@ class SunhillModuleBase
     /**
      * Adds the given submodule to the internal submodule storage
      * @param SunhillModuleBase $submodule
+     * @test /tests/Unit/SunhillModuleTest::testAddSubmoduleEntry()
      */
     protected function addSubmoduleEntry(SunhillModuleBase $submodule)
     {
@@ -161,6 +181,12 @@ class SunhillModuleBase
         $this->submodules[$submodule->getName()] = $submodule;
     }
     
+    /**
+     * Adds given submodule to internal storage and calls $callback with the submodule as param (if callable) 
+     * @param SunhillModuleBase $submodule
+     * @param unknown $callback
+     * @test /tests/Unit/SunhillModuleTest::testSubmodule()
+     */
     public function addSubmodule(SunhillModuleBase $submodule, $callback = null)
     {
         if (is_callable($callback)) {
@@ -169,6 +195,15 @@ class SunhillModuleBase
         $this->addSubmoduleEntry($submodule);
     }
     
+    /**
+     * Adds an submodule with the given parameters
+     * @param string $name
+     * @param string $display_name
+     * @param string $description
+     * @param unknown $callback
+     * @return SunhillModuleBase
+     * @test /tests/Unit/SunhillModuleTest::testAddDefaultSubmodule()
+     */
     public function addDefaultSubmodule(
                             string $name, 
                             string $display_name = '', 
@@ -183,6 +218,13 @@ class SunhillModuleBase
         return $submodule;
     }
     
+    /**
+     * Return the (translated) display name for this module
+     * @param string $display_name
+     * @param string $name
+     * @return \Sunhill\Visual\Modules\string|string|array|NULL
+     * @test /tests/Feature/SunhillModuleTest::testGetCurrentDisplayName()
+     */
     protected function getCurrentDisplayName(string $display_name, string $name)
     {
         if (empty($display_name)) {
@@ -191,11 +233,26 @@ class SunhillModuleBase
         return __($display_name);
     }
     
+    /**
+     * Adds a default index response to this module
+     * @param unknown $controller
+     * @param string $action
+     * @test /tests/Feature/SunhillModuleTest::testAddIndex()
+     */
     public function addIndex($controller, string $action="index")
     {
         $this->addAction('index')->addControllerAction([$controller, $action]);
     }
     
+    /**
+     * Adds an action to this module
+     * @param string $name
+     * @param string $display_name
+     * @param string $description
+     * @param bool $visible
+     * @return \Sunhill\Visual\Modules\SunhillAction
+     * @test /tests/Feature/SunhillModuleTest::testAddAction()
+     */
     public function addAction(string $name, 
                               string $display_name = "", 
                               string $description = "", 
@@ -210,6 +267,10 @@ class SunhillModuleBase
         return $action;
     }
     
+    /**
+     * Installs the routes of all submodules to laravel
+     * @test /tests/Feature/SunhillModuleTest::testInstallRoutes()
+     */
     public function installRoutes()
     {
         foreach ($this->submodules as $submodule) {
@@ -217,6 +278,11 @@ class SunhillModuleBase
         }
     }
     
+    /**
+     * If there is a parent return its route otherwise return empty string
+     * @return string
+     * @test /tests/Unit/SunhillModuleTest::testGetParentRoute()
+     */
     protected function getParentRoute()
     {
         if (!empty($this->parent)) {
@@ -224,20 +290,41 @@ class SunhillModuleBase
         }
         return '';
     }
-    
+
+    /**
+     * If name is index return empty string otherwise name
+     * @return string|\Sunhill\Visual\Modules\string
+     * @test /tests/Unit/SunhillModuleTest::testGetRouteName()
+     */
     protected function getRouteName()
     {
-        if ($this->name == 'index') {
+        if (empty($this->parent) || ($this->name == 'index')) {
             return '';
         }
         return $this->name;
     }
-    
+
+    /**
+     * Return the path of the parent and add own path to it
+     * @return string
+     * @test /tests/Unit/SunhillModuleTest::testGetRoute()
+     */
     public function getRoute()
     {
-        return $this->getParentRoute().'/'.$this->getRouteName();    
+        $parent = $this->getParentRoute();
+        $result = ($parent == '/')?'/'.$this->getRouteName():$parent.'/'.$this->getRouteName();
+        if (empty($result)) {
+            return '/';
+        } 
+        return $result;
     }
     
+    /**
+     * Creates a stdclass object with the given parameters
+     * @param array $params
+     * @return \StdClass
+     * @test /tests/Unit/SunhillModuleTest::testGetStdclass()        
+     */
     protected function getStdClass(array $params)
     {
         $result = new \StdClass();
@@ -246,23 +333,50 @@ class SunhillModuleBase
         }
         return $result;
     }
-    
+
+    /**
+     * If the remaining path $path is found in the submodule called $module return it 
+     * otherwise return null
+     * @param string $module
+     * @param string $path
+     * @return \Sunhill\Visual\Modules\SunhillModuleBase|unknown|NULL
+     */
     protected function hasActiveModule(string $module, string $path)
     {
-        if (empty($path)) {
+        if (empty($module)) {
             return $this;
         }
+        if (empty($path)) {
+            return isset($this->submodules[$module])?$this->submodules[$module]:null;
+        }
         if (isset($this->submodules[$module])) {
-            return $this->submodule[$module]->getActiveModule($path);
+            return $this->submodules[$module]->getActiveModule($path);
         }
         return null;
     }
     
-    protected function getActiveModule(string $path)
+    protected function cleanPath(string $path)
     {
+        $path = str_replace('//','/',$path);
+        if (substr($path,0,1) == '/') {
+            $path = substr($path,1);
+        }
+        if (substr($path,-1) == '/') {
+            $path = substr($path,0,-1);
+        }
+        return $path;
+    }
+    
+    public function getActiveModule(string $path)
+    {
+        $path = $this->cleanPath($path);
         $parts = explode('/',$path);
-        $module = array_pop($parts);
+        $module = array_shift($parts);
         return $this->hasActiveModule($module,implode('/',$parts));
+    }
+    
+    protected function getLink()
+    {
     }
     
     protected function addBreadcrumb(array &$breadcrumbs)
@@ -270,7 +384,7 @@ class SunhillModuleBase
         if (!is_null($this->getParent())) {
             $this->getParent()->addBreadcrumb($breadcrumbs);
         }
-        $breadcrumbs[] = $this->getStdClass(['name'=>$this->getDisplayName(),'link'=>'/']);
+        $breadcrumbs[] = $this->getStdClass(['name'=>$this->getDisplayName(),'link'=>$this->getRoute()]);
     }
     
     public function getBreadcrumbs()
