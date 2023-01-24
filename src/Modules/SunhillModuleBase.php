@@ -394,10 +394,30 @@ class SunhillModuleBase
         return $result;
     }
     
-    public function getNavigationLinks(bool $add_sublinks) 
+    protected function handleSubLinks(SunhillModuleBase $module, bool $add_sublinks)
+    {
+        if ($add_sublinks) {
+            return $module->getNavigationLinks($add_sublinks);
+        }
+        return [];
+    }
+    
+    protected function processModule(SunhillModuleBase $module, bool $add_sublinks)
+    {
+        return $this->getStdClass([
+            'name'=>$module->getName(),
+            'display_name'=>$module->getDisplayName(),
+            'link'=>$module->getRoute()
+            'subentries'=>$this->handleSubLinks($module, $add_sublinks);
+        ]);            
+    }
+    
+    public function getNavigationLinks(bool $add_sublinks = false) 
     {
         $result = [];
-        
+        foreach ($this->submodules as $module) {
+            $result[] = $this->processModule($module, $add_sublinks);
+        }    
         return $result;
     }
 }
