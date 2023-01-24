@@ -11,9 +11,10 @@ class SunhillFeatureClasses extends SunhillModuleBase
     
     protected function setupModule()
     {
-        $this->setName('Classes');        
+        $this->setName('Classes');
+        $this->setDisplayName('Classes');        
         $this->setDescription('Classes');
-        $this->addIndex();
+        $this->addIndex(\Sunhill\Visual\Controllers\Database\ClassesController::class);
         
 /*        $this->addSubEntry('add', AddObjectResponse::class);
         $this->addSubEntry('execadd', ExecAddObjectResponse::class);
