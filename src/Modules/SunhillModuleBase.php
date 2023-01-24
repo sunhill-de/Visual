@@ -367,16 +367,12 @@ class SunhillModuleBase
         return $path;
     }
     
-    public function getActiveModule(string $path)
+    public function getActiveModule(string $path, int $maxlevel=999)
     {
         $path = $this->cleanPath($path);
-        $parts = explode('/',$path);
+        $parts = array_slice(explode('/',$path),0,$maxlevel);
         $module = array_shift($parts);
         return $this->hasActiveModule($module,implode('/',$parts));
-    }
-    
-    protected function getLink()
-    {
     }
     
     protected function addBreadcrumb(array &$breadcrumbs)
