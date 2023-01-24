@@ -7,7 +7,7 @@ use Sunhill\Visual\Facades\SiteManager;
 use Sunhill\Objects\Objects\Person;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use Sunhill\Modules\SunhillModuleTrait;
+use Sunhill\Visual\Modules\SunhillModuleTrait;
 
 class ClassesController extends Controller
 {
@@ -16,6 +16,7 @@ class ClassesController extends Controller
     
     public function index()
     {
+        echo "Test";
     }
     
     public function list(Request $request)
