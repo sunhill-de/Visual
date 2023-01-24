@@ -35,7 +35,7 @@ class SunhillModuleBase
      * Marks if this module is currently visible in the navigation
      * @var boolean
      */
-    protected $visible = false;
+    protected $visible = true;
     
     /**
      * Stores the submodules of this modules (if any)
@@ -170,6 +170,15 @@ class SunhillModuleBase
         return $this->visible;
     }
     
+    public function __construct()
+    {
+        $this->setupModule();        
+    }
+    
+    protected function setupModule()
+    {
+    }
+    
     /**
      * Adds the given submodule to the internal submodule storage
      * @param SunhillModuleBase $submodule
@@ -241,7 +250,7 @@ class SunhillModuleBase
      */
     public function addIndex($controller, string $action="index")
     {
-        $this->addAction('index')->addControllerAction([$controller, $action]);
+        $this->addAction('index')->addControllerAction([$controller, $action])->setVisible(false);
     }
     
     /**
@@ -344,7 +353,7 @@ class SunhillModuleBase
     protected function hasActiveModule(string $module, string $path)
     {
         if (empty($module)) {
-            return $this;
+            return null;
         }
         if (empty($path)) {
             return isset($this->submodules[$module])?$this->submodules[$module]:null;
@@ -367,12 +376,23 @@ class SunhillModuleBase
         return $path;
     }
     
-    public function getActiveModule(string $path, int $maxlevel=999)
+    protected function implodeOrEmpty(string $glue, array $items)
+    {
+        if (empty($items)) {
+            return "";
+        }
+        return implode($glue, $items);
+    }
+    
+    public function getActiveModule(string $path, int $start_with=0, int $max_depth=999)
     {
         $path = $this->cleanPath($path);
-        $parts = array_slice(explode('/',$path),0,$maxlevel);
+        $parts = array_slice(explode('/',$path),$start_with, $max_depth);
         $module = array_shift($parts);
-        return $this->hasActiveModule($module,implode('/',$parts));
+        if (is_null($module)) {
+            $module = "";
+        }
+        return $this->hasActiveModule($module,$this->implodeOrEmpty('/',$parts));
     }
     
     protected function addBreadcrumb(array &$breadcrumbs)
@@ -403,8 +423,8 @@ class SunhillModuleBase
         return $this->getStdClass([
             'name'=>$module->getName(),
             'display_name'=>$module->getDisplayName(),
-            'link'=>$module->getRoute()
-            'subentries'=>$this->handleSubLinks($module, $add_sublinks);
+            'link'=>$module->getRoute(),
+            'subentries'=>$this->handleSubLinks($module, $add_sublinks)
         ]);            
     }
     
@@ -412,7 +432,9 @@ class SunhillModuleBase
     {
         $result = [];
         foreach ($this->submodules as $module) {
-            $result[] = $this->processModule($module, $add_sublinks);
+            if ($module->getVisible()) {
+                $result[] = $this->processModule($module, $add_sublinks);
+            }
         }    
         return $result;
     }
