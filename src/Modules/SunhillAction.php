@@ -32,7 +32,8 @@ class SunhillAction extends SunhillModuleBase
     protected function addControllerActionArray(array $controller)
     {
         $this->assertTwoParts($controller);
-        $this->controller = $controller;        
+        $this->controller = $controller; 
+        return $this;
     }
         
     public function addControllerAction($controller, string $action="")
