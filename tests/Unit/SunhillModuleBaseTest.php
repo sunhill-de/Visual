@@ -145,7 +145,7 @@ class SunhillModuleBaseTest extends SunhillNoAppTestCase
     public function hasActiveModuleProvider()
     {
         return [
-            ['','','main'],
+            ['','',null],
             ['sub','','sub'],
             ['sub','subsub','subsub'],
             ['sub','dontexists',null],
@@ -208,8 +208,8 @@ class SunhillModuleBaseTest extends SunhillNoAppTestCase
     public function getActiveModuleProvider()
     {
         return [
-            ['','main'],
-            ['/','main'],
+            ['',null],
+            ['/',null],
             ['/sub','sub'],
             ['/sub/','sub'],
             ['/sub/subsub','subsub'],
