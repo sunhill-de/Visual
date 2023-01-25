@@ -6,6 +6,10 @@
  <div class="tile is-parent">
 	{!! $tile->content !!}
  </div>
+ @if ($loop->iteration % 3 == 0)
+ </div>
+ <div class="tile is-ancestor">
+ @endif
  @endforeach
 </div>
 @endsection
