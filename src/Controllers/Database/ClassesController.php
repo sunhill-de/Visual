@@ -14,8 +14,9 @@ class ClassesController extends Controller
         return $response->response();
     }
     
-    public function list(Request $request)
+    public function list(int $page=0)
     {
+        
     }
     
 }
