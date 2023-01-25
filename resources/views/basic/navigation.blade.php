@@ -64,7 +64,9 @@
   <nav class="breadcrumb" aria-label="breadcrumbs" id="breadcrumbs">
    <ul>
    @foreach ($breadcrumbs as $crumb)
-    <li><a href="{{$crumb->link}}">{{$crumb->name}}</a></li>
+    <li @if ($loop->last)class="is-active"@endif>
+     <a href="{{$crumb->link}}">{{$crumb->name}}</a>
+    </li>
    @endforeach
   </ul>
  </nav>
