@@ -320,12 +320,17 @@ class SunhillModuleBase
      */
     public function getRoute()
     {
+        return $this->getLink();
+    }
+    
+    public function getLink()
+    {
         $parent = $this->getParentRoute();
         $result = ($parent == '/')?'/'.$this->getRouteName():$parent.'/'.$this->getRouteName();
         if (empty($result)) {
             return '/';
-        } 
-        return $result;
+        }
+        return $result;        
     }
     
     /**
@@ -423,7 +428,7 @@ class SunhillModuleBase
         return $this->getStdClass([
             'name'=>$module->getName(),
             'display_name'=>$module->getDisplayName(),
-            'link'=>$module->getRoute(),
+            'link'=>$module->getLink(),
             'subentries'=>$this->handleSubLinks($module, $add_sublinks)
         ]);            
     }
