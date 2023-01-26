@@ -4,6 +4,7 @@ namespace Sunhill\Visual\Controllers\Database;
 
 use Illuminate\Routing\Controller;
 use Sunhill\Visual\Response\SunhillTileViewResponse;
+use Sunhill\Visual\Response\Database\Classes\ListClassesResponse;
 
 class ClassesController extends Controller
 {
@@ -14,9 +15,11 @@ class ClassesController extends Controller
         return $response->response();
     }
     
-    public function list(int $page=0)
+    public function list($page=0)
     {
-        
+        $response = new ListClassesResponse();
+        $response->setdelta($page);
+        return $response->response();
     }
     
 }
