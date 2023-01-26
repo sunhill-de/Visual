@@ -12,7 +12,7 @@ class SunhillAction extends SunhillModuleBase
     protected $method = 'get';
     
     protected $route_addition = '';
-    
+        
     /**
      * Checks if the given array has exactly 2 entries. If not raises an exception
      * @param array $test

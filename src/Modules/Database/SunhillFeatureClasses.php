@@ -15,6 +15,11 @@ class SunhillFeatureClasses extends SunhillModuleBase
         $this->setDisplayName('Classes');        
         $this->setDescription('Classes');
         $this->addIndex(\Sunhill\Visual\Controllers\Database\ClassesController::class);
+        $this->addAction('List')
+            ->addControllerAction([\Sunhill\Visual\Controllers\Database\ClassesController::class, 'list'])
+            ->setVisible(true)
+            ->setRouteAddition('/{page?}');
+        
         
 /*        $this->addSubEntry('add', AddObjectResponse::class);
         $this->addSubEntry('execadd', ExecAddObjectResponse::class);
