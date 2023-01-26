@@ -22,7 +22,7 @@ class SunhillSiteManager extends SunhillModuleBase
      
     public function getSubNavigation()
     {
-         if ($submodule = $this->getActiveModule(request()->path(),0,1)) {
+         if ($submodule = $this->getModuleOfLevel(request()->path(),1)) {
                return $submodule->getNavigationLinks();
          }     
          return [];
@@ -30,7 +30,7 @@ class SunhillSiteManager extends SunhillModuleBase
     
     public function get3rdLevelNavigation()
     {
-          if ($module = $this->getActiveModule(request()->path())) {
+          if ($module = $this->getModuleOfLevel(request()->path(),2)) {
                return $module->getNavigationLinks(true);
           }
          return [];

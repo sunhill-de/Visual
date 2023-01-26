@@ -389,15 +389,32 @@ class SunhillModuleBase
         return implode($glue, $items);
     }
     
-    public function getActiveModule(string $path, int $start_with=0, int $max_depth=999)
+    public function getActiveModule(string $path)
     {
         $path = $this->cleanPath($path);
-        $parts = array_slice(explode('/',$path),$start_with, $max_depth);
+        $parts = explode('/',$path);
         $module = array_shift($parts);
         if (is_null($module)) {
             $module = "";
         }
         return $this->hasActiveModule($module,$this->implodeOrEmpty('/',$parts));
+    }
+    
+    public function getModuleOfLevel(string $path, int $level=1)
+    {
+        if ($level <= 0) {
+            return $this;
+        }
+        if (empty($path)) {
+            return null;
+        }
+        $parts = explode('/',$this->cleanPath($path));
+        $module = array_shift($parts);
+        $path = implode('/',$parts);
+        if (isset($this->submodules[$module])) {
+            return $this->submodules[$module]->getModuleOfLevel($path, $level -1);
+        }
+        return null;
     }
     
     protected function addBreadcrumb(array &$breadcrumbs)
