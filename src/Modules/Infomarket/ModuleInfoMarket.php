@@ -2,19 +2,17 @@
 
 namespace Sunhill\Visual\Modules\Infomarket;
 
-use Sunhill\Visual\Modules\ModuleBase;
-use Sunhill\Visual\Response\InfoMarket\IndexResponse;
+use Sunhill\Visual\Modules\SunhillModuleBase;
 
-class ModuleInfoMarket extends ModuleBase
+class ModuleInfoMarket extends SunhillModuleBase
 {
     
     protected function setupModule()
     {
-        $this->setIcon('computer/infomarket.png');  // Icon der Hauptseite
         $this->setName('Infomarket');        // Name der Hauptseite
         $this->setDisplayName('Infomarket');
         $this->setDescription('Anzeigen und Verwalten des Infomarktes'); // Beschreibung
-        $this->addSubEntry('index', IndexResponse::class);
+        $this->addIndex(\Sunhill\Visual\Controllers\Infomarket\InfomarketController::class);
     }
         
 }
