@@ -18,10 +18,6 @@ class ModuleDatabase extends ModuleBase
         $this->setDisplayName('Datenbank');
         $this->setDescription('Verwaltung der Datenbank'); // Beschreibung
         $this->addSubEntry('index', IndexResponse::class);
-        $this->addSubEntry('Classes', FeatureClasses::class)
-            ->setVisible()
-            ->setName('Classes')
-            ->setDisplayName(__('Classes'));
         $this->addSubEntry('Objects', FeatureObjects::class)
             ->setVisible()
             ->setName('Objects')
