@@ -17,6 +17,21 @@ class SunhillResponseBase
     
     protected $params;
     
+    /**
+     * Creates a stdclass object with the given parameters
+     * @param array $params
+     * @return \StdClass
+     * @test /tests/Unit/SunhillModuleTest::testGetStdclass()
+     */
+    protected function getStdClass(array $params)
+    {
+        $result = new \StdClass();
+        foreach ($params as $key => $value) {
+            $result->$key = $value;
+        }
+        return $result;
+    }
+    
     public function setParams(array $params)
     {
         $this->params = $params;
