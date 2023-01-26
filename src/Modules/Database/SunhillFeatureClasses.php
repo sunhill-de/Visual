@@ -19,16 +19,10 @@ class SunhillFeatureClasses extends SunhillModuleBase
             ->addControllerAction([\Sunhill\Visual\Controllers\Database\ClassesController::class, 'list'])
             ->setVisible(true)
             ->setRouteAddition('/{page?}');
-        
-        
-/*        $this->addSubEntry('add', AddObjectResponse::class);
-        $this->addSubEntry('execadd', ExecAddObjectResponse::class);
-        $this->addSubEntry('edit', EditObjectResponse::class);
-        $this->addSubEntry('execedit', ExecEditObjectResponse::class);
-        $this->addSubEntry('groupedit', GroupEditObjectResponse::class);
-        $this->addSubEntry('execgroupedit', ExecGroupEditObjectResponse::class);
-        $this->addSubEntry('delete', DeleteObjectResponse::class);
-        $this->addSubEntry('show', ShowObjectResponse::class); */
+        $this->addAction('Show')
+            ->addControllerAction([\Sunhill\Visual\Controllers\Database\ClassesController::class, 'show'])
+            ->setVisible(false)
+            ->setRouteAddition('/{class}');
     }
     
     
