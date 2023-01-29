@@ -4,7 +4,7 @@ namespace Sunhill\Visual\Modules\Infomarket;
 
 use Sunhill\Visual\Modules\SunhillModuleBase;
 
-class ModuleInfoMarket extends SunhillModuleBase
+class FeatureInfoMarket extends SunhillModuleBase
 {
     
     protected function setupModule()
