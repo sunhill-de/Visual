@@ -48,6 +48,11 @@ class SunhillResponseBase
         
     }
     
+    protected function getLinkPrefix()
+    {
+        return '/Computer';    
+    }
+    
     public function response()
     {
         $this->prepareResponse();
