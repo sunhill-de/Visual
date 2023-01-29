@@ -18,7 +18,7 @@ class SunhillFeatureObjects extends SunhillModuleBase
         $this->addAction('List')
             ->addControllerAction([\Sunhill\Visual\Controllers\Database\ObjectsController::class, 'list'])
             ->setVisible(true)
-            ->setRouteAddition('/{page?}');
+            ->setRouteAddition('/{key?}/{page?}');
         $this->addAction('Show')
             ->addControllerAction([\Sunhill\Visual\Controllers\Database\ObjectsController::class, 'show'])
             ->setVisible(false)

@@ -18,10 +18,6 @@ class FeatureObjects extends ModuleBase
     {
         $this->setName('Objects');        
         $this->setDescription(__('Objects')); 
-        $this->addSubEntry('list', ListObjectsResponse::class,__("list objects"))
-            ->setName('list')
-            ->setDisplayName('list objects')
-            ->setVisible();
         $this->addSubEntry('add', AddObjectResponse::class,__("add object"))
             ->setName('add')
             ->setDisplayName('add object')
