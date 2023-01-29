@@ -4,8 +4,8 @@ namespace Sunhill\Visual\Controllers\Database;
 
 use Illuminate\Routing\Controller;
 use Sunhill\Visual\Response\SunhillTileViewResponse;
-use Sunhill\Visual\Response\Database\Classes\ListClassesResponse;
-use Sunhill\Visual\Response\Database\Classes\ShowClassResponse;
+use Sunhill\Visual\Response\Database\Objects\ListObjectsResponse;
+use Sunhill\Visual\Response\Database\Objects\ShowObjectResponse;
 
 class ObjectsController extends Controller
 {
@@ -16,10 +16,11 @@ class ObjectsController extends Controller
         return $response->response();
     }
     
-    public function list($page=0)
+    public function list($key='Object',$page=0)
     {
         $response = new ListObjectsResponse();
-        $response->setdelta($page);
+        $response->setDelta($page);
+        $response->setKey($key);
         return $response->response();
     }
     
