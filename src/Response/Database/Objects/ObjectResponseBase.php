@@ -4,7 +4,7 @@ namespace Sunhill\Visual\Response\Database\Objects;
 
 use Illuminate\Http\Request;
 
-use Sunhill\Visual\Response\RedirectResponse;
+use Sunhill\Visual\Response\SunhillRedirectResponse;
 use Sunhill\ORM\Facades\Objects;
 use Sunhill\ORM\Facades\Classes;
 use Sunhill\ORM\Utils\ObjectList;
@@ -13,7 +13,7 @@ use Sunhill\Visual\Traits\GetProperties;
 /**
  * A baseclass for adding oder modifying objects
  */
-abstract class ObjectResponseBase extends RedirectResponse
+abstract class ObjectResponseBase extends SunhillRedirectResponse
 {
 
     use GetProperties;
@@ -33,7 +33,7 @@ abstract class ObjectResponseBase extends RedirectResponse
           if (!method_exists($this,'get'.$fieldtype)) {
               throw new \Exception(__("No handler for ':fieldtype'",['fieldtype'=>$fieldtype]));
           }
-          $value = $this->$handler($this->request->input($fieldname,null),$property);
+          $value = $this->$handler(request()->input($fieldname,null),$property);
           
           if (is_array($value)) {
               foreach ($value as $single) {
@@ -45,10 +45,10 @@ abstract class ObjectResponseBase extends RedirectResponse
               }
           }
         }
-        if ($this->request->has('tagcount')) {
+        if (request()->has('tagcount')) {
             $this->getTags($object);
         }
-        if ($this->request->has('attributecount')) {
+        if (request()->has('attributecount')) {
             $this->getAttributes($object);   
         }
         $object->commit();
@@ -141,7 +141,7 @@ abstract class ObjectResponseBase extends RedirectResponse
     
     protected function getObject($value,$field)
     {
-        return $this->checkAndCreateObject($this->request->input('value_'.$field->getName()), $field);
+        return $this->checkAndCreateObject(request()->input('value_'.$field->getName()), $field);
     }
     
 

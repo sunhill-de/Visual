@@ -14,8 +14,8 @@ class ExecAddObjectResponse extends ObjectResponseBase
 
     protected function getWorkingObject()
     {
-        $classname = $this->request->input('_class');
-        $this->target = $this->params['prefix'].'/Objects/list/'.$classname;
+        $classname = request()->input('_class');
+        $this->target = '/Computer/Database/Objects/List/'.$classname;
         
         return Classes::createObject($classname);       
     }

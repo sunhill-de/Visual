@@ -2,30 +2,36 @@
 
 namespace Sunhill\Visual\Response\Database\Objects;
 
-use Sunhill\Visual\Response\BladeResponse;
+use Sunhill\Visual\Response\SunhillBladeResponse;
 use Sunhill\ORM\Facades\Objects;
 use Sunhill\ORM\Utils\ObjectList;
 use Sunhill\Visual\Traits\GetProperties;
 
-class AddObjectResponse extends BladeResponse
+class AddObjectResponse extends SunhillBladeResponse
 {
 
     use GetProperties;
     
     protected $template = 'visual::objects.add';
     
+    protected $class = '';
+    
     protected function prepareResponse()
     {
-        $result = $this->solveRemaining('key=ORMObject');
-        $classname = $result['key'];
-        $classnamespace = $this->getNamespace($classname);
+        parent::prepareResponse();
+        $classnamespace = $this->getNamespace($this->class);
         $class = new \StdClass();
-        $class->name = $classname;
+        $class->name = $this->class;
         $class->namespace = $classnamespace;
         $class->fields = $this->getEditable($classnamespace);
         $class->tablename = $classnamespace::$object_infos['table'];
-        $this->params['key'] = $result['key'];
+        $this->params['key'] = $this->class;
         $this->params['class'] = $class;
     }
     
+    public function setClass(string $class)
+    {
+        $this->class = $class;
+        return $this;
+    }
 }  
