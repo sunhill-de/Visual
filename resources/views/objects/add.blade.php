@@ -18,7 +18,7 @@
 
 @section('content')
 @parent
-<form method="post" id="add" name="add" action="{{ $prefix }}/Objects/execadd">
+<form method="post" id="add" name="add" action="{{ $prefix }}/Objects/ExecAdd">
  @csrf
  <input type="hidden" name="_class" value="{{ $class->name }}" />
  @foreach ($class->fields as $field)
@@ -31,10 +31,10 @@
  </div>
  <div class="field is-grouped">
   <div class="control">
-    <button class="button is-link">Submit</button>
+    <button class="button is-link">{{ __('submit') }}</button>
   </div>
   <div class="control">
-    <button class="button is-link is-light">Cancel</button>
+    <button class="button is-link is-light">{{ __('cancel') }}</button>
   </div>
  </div>
 
