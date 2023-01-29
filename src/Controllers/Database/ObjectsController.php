@@ -6,6 +6,9 @@ use Illuminate\Routing\Controller;
 use Sunhill\Visual\Response\SunhillTileViewResponse;
 use Sunhill\Visual\Response\Database\Objects\ListObjectsResponse;
 use Sunhill\Visual\Response\Database\Objects\ShowObjectResponse;
+use Sunhill\Visual\Response\Database\Objects\AddObjectResponse;
+use Sunhill\Visual\Response\Database\Classes\ChooseClassResponse;
+use Sunhill\Visual\Response\Database\Objects\ExecAddObjectResponse;
 
 class ObjectsController extends Controller
 {
@@ -33,12 +36,20 @@ class ObjectsController extends Controller
     
     public function add($class=null)
     {
-        
+        if (is_null($class)) {
+            $response = new ChooseClassResponse();
+            $response->setAction('add');
+        } else {
+            $response = new AddObjectResponse();
+            $response->setClass($class);
+        }
+        return $response->response();
     }
     
-    public function execAdd($class)
+    public function execAdd()
     {
-        
+        $response = new ExecAddObjectResponse();
+        return $response->response();
     }
     
     public function edit($id)
