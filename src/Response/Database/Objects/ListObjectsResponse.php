@@ -2,13 +2,13 @@
 
 namespace Sunhill\Visual\Response\Database\Objects;
 
-use Sunhill\Visual\Response\ListResponse;
+use Sunhill\Visual\Response\SunhillListResponse;
 use Sunhill\ORM\Facades\Objects;
 use Sunhill\ORM\Facades\Classes;
 use Sunhill\ORM\Utils\ObjectList;
 use Sunhill\Visual\Facades\Dialogs;
 
-class ListObjectsResponse extends ListResponse
+class ListObjectsResponse extends SunhillListResponse
 {
 
     protected $columns = ['uuid'];
@@ -25,7 +25,7 @@ class ListObjectsResponse extends ListResponse
     
     protected function getObjectLink($key, $order = 'id', $delta = 0)
     {
-        return $this->params['prefix']."/Objects/list/$key/$delta/$order";    
+        return $this->getLinkPrefix()."/Objects/List/$key/$delta/$order";    
     }
     
     protected function createEntry($name,$link=null)
@@ -79,7 +79,7 @@ class ListObjectsResponse extends ListResponse
         $result = [];
         foreach ($input as $object) {
             $row = [];
-            $row[] = $this->createEntry($object->getID(),$this->params['prefix'].'/Objects/show/'.$object->getID());
+            $row[] = $this->createEntry($object->getID(),$this->getLinkPrefix().'/Objects/Show/'.$object->getID());
             $row[] = $this->createEntry($object::getInfo('name'),$this->getObjectLink($object::getInfo('name')));            
             $columns = Dialogs::getObjectListFields($this->params['key']);
             foreach ($columns as $index => $column) {
@@ -89,8 +89,8 @@ class ListObjectsResponse extends ListResponse
                     $row[] = $this->createEntry($this->parseColumn($object,$column));                    
                 }
             }
-            $row[] = $this->createEntry(__("edit"),$this->params['prefix'].'/Objects/edit/'.$object->getID());
-            $row[] = $this->createEntry(__("delete"),$this->params['prefix'].'/Objects/delete/'.$object->getID());
+            $row[] = $this->createEntry(__("edit"),$this->getLinkPrefix().'/Objects/Edit/'.$object->getID());
+            $row[] = $this->createEntry(__("delete"),$this->getLinkPrefix().'/Objects/Delete/'.$object->getID());
             $result[] = $row;
         }
         return $result;
@@ -107,8 +107,7 @@ class ListObjectsResponse extends ListResponse
     
     function getParams(): array
     { 
-       $result = $this->solveRemaining('key=object/delta=0/order=id');        
-       return $result;
+       return ['key'=>$this->key,'delta'=>$this->delta,'order'=>$this->order];
     }
   
     protected function processAdditional()
@@ -126,8 +125,7 @@ class ListObjectsResponse extends ListResponse
     protected function getPaginatorLink(int $index)
     {
         $class = isset($this->params['key'])?$this->params['key']:'object';
-        return $this->params['prefix'].'Objects/list/'.$class.'/'.$index;
+        return $this->$this->getLinkPrefix().'Objects/List/'.$class.'/'.$index;
     }
-    
-    
+        
 }  
