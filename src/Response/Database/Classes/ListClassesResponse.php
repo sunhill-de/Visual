@@ -40,6 +40,9 @@ class ListClassesResponse extends SunhillListResponse
         $result = [];        
         foreach ($input as $name => $description)
         {
+            if ($description['name'] == 'object') {
+                $description['name'] = 'ORMObject'; // @todo: Dirty hack to remove error in list objects
+            }
             $row = [];
             $row[] = $this->getStdClass(['name'=>$description['class'],'link'=>null]);
             $row[] = $this->getStdClass(['name'=>$description['name'],'link'=>null]);
