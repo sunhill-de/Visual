@@ -58,11 +58,13 @@ class SunhillAction extends SunhillModuleBase
     public function setMethod(string $method)
     {
         $this->method = $method;
+        return $this;
     }
     
     public function setRouteAddition(string $route_addition)
     {
         $this->route_addition = $route_addition;
+        return $this;
     }
     
     public function getRoute()
