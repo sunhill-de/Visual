@@ -35,5 +35,9 @@ class SunhillSiteManager extends SunhillModuleBase
           }
          return [];
     }
-     
+    
+    public function getPrefix()
+    {
+        return '/Computer/Database';
+    }
 }
