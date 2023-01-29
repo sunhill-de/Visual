@@ -30,4 +30,30 @@ class ObjectsController extends Controller
         $response->setID($id);
         return $response->response();
     }
+    
+    public function add($class=null)
+    {
+        
+    }
+    
+    public function execAdd($class)
+    {
+        
+    }
+    
+    public function edit($id)
+    {
+        
+    }
+    
+    public function execEdit($id)
+    {
+        
+    }
+    
+    public function delete($id)
+    {
+        
+    }
+    
 }
