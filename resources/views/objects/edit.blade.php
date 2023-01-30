@@ -1,14 +1,14 @@
 @extends('visual::basic.navigation')
 
-@section('title',{{ __('edit object') }} )
+@section('title',__('edit object') )
 
 @section('caption')
-{{ __("Edit object of ':classname' with ID ':id'",['classname'=>$class->name,'id'=>$object->id]) }}
+{{ __("Edit object of ':classname' with ID ':id'",['classname'=>$classname,'id'=>$object->id]) }}
 @endsection
 
 @section('content')
 @parent
-<form method="post" action="{{ $prefix }}/Objects/execedit/{{ $object->id }}">
+<form method="post" action="{{ $currentFeaturePath }}/execedit/{{ $object->id }}">
  <div class="dialogelements">
  @csrf
  @foreach ($fields as $field)

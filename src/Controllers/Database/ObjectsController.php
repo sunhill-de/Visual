@@ -7,8 +7,11 @@ use Sunhill\Visual\Response\SunhillTileViewResponse;
 use Sunhill\Visual\Response\Database\Objects\ListObjectsResponse;
 use Sunhill\Visual\Response\Database\Objects\ShowObjectResponse;
 use Sunhill\Visual\Response\Database\Objects\AddObjectResponse;
+use Sunhill\Visual\Response\Database\Objects\EditObjectResponse;
 use Sunhill\Visual\Response\Database\Classes\ChooseClassResponse;
 use Sunhill\Visual\Response\Database\Objects\ExecAddObjectResponse;
+use Sunhill\Visual\Response\Database\Objects\ExecEditObjectResponse;
+use Sunhill\Visual\Response\Database\Objects\DeleteObjectResponse;
 
 class ObjectsController extends Controller
 {
@@ -29,7 +32,7 @@ class ObjectsController extends Controller
     
     public function show($id)
     {
-        $response = new ShowObjectsResponse();
+        $response = new ShowObjectResponse();
         $response->setID($id);
         return $response->response();
     }
@@ -54,17 +57,23 @@ class ObjectsController extends Controller
     
     public function edit($id)
     {
-        
+        $response = new EditObjectResponse();
+        $response->setID($id);
+        return $response->response();
     }
     
     public function execEdit($id)
     {
-        
+        $response = new ExecEditObjectResponse();
+        $response->setID($id);
+        return $response->response();
     }
     
     public function delete($id)
     {
-        
+        $response = new DeleteObjectResponse();
+        $response->setID($id);
+        return $response->response();
     }
     
 }

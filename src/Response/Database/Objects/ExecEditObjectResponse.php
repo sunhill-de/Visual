@@ -15,12 +15,11 @@ class ExecEditObjectResponse extends ObjectResponseBase
 
     protected function getWorkingObject()
     {
-        $result = $this->solveRemaining('id');
-        $object_id = $result['id'];
+        $object_id = request()->input('id');
         $object = Objects::load($object_id);        
         
         $this->clearLists($object);
-        $this->target = $this->params['prefix'].'/Objects/show/'.$object_id;
+        $this->target = SunhillSiteManager::getCurrentFeaturePath().'/Show/'.$object_id;
         
         return $object;       
     }

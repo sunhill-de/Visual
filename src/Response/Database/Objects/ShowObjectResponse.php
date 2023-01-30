@@ -2,7 +2,7 @@
 
 namespace Sunhill\Visual\Response\Database\Objects;
 
-use Sunhill\Visual\Response\BladeResponse;
+use Sunhill\Visual\Response\SunhillBladeResponse;
 use Sunhill\ORM\Facades\Objects;
 use Sunhill\ORM\Utils\ObjectList;
 use Sunhill\ORM\Facades\Classes;
@@ -10,18 +10,19 @@ use Sunhill\ORM\Properties\PropertyTags;
 use Sunhill\ORM\Properties\PropertyExternalHooks;
 use Sunhill\Visual\Facades\Dialogs;
 
-class ShowObjectResponse extends BladeResponse
+class ShowObjectResponse extends SunhillBladeResponse
 {
 
     protected $template = 'visual::objects.show';
     
+    protected $id;
+
     protected function prepareResponse()
     {
-        $result = $this->solveRemaining('id');
-        $this->params['id'] = $result['id'];
-        $this->params['fields'] = $this->getFields($this->params['id']);
-        $this->params['tags'] = $this->getTags($this->params['id']);
-        $this->params['attributes'] = $this->getAttributes($this->params['id']);
+        parent::prepareResponse();
+        $this->params['fields'] = $this->getFields($this->id);
+        $this->params['tags'] = $this->getTags($this->id);
+        $this->params['attributes'] = $this->getAttributes($this->id);
     }
     
     protected function getFields(int $id)
@@ -119,6 +120,12 @@ class ShowObjectResponse extends BladeResponse
     {
         $result = [];
         return $result;        
+    }
+  
+    public function setID($id)
+    {
+        $this->id = $id;
+        return $this;
     }
     
 }  

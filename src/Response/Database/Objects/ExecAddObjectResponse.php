@@ -15,7 +15,7 @@ class ExecAddObjectResponse extends ObjectResponseBase
     protected function getWorkingObject()
     {
         $classname = request()->input('_class');
-        $this->target = '/Computer/Database/Objects/List/'.$classname;
+        $this->target = SunhillSiteManager::getCurrentFeaturePath().'/List/'.$classname;
         
         return Classes::createObject($classname);       
     }
