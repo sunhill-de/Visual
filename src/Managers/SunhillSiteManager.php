@@ -49,7 +49,7 @@ class SunhillSiteManager extends SunhillModuleBase
     protected function getPathOf($module)
     {
         if (is_null($module)) {
-            '';
+            return '';
         }
         return $module->getLink();
     }
