@@ -7,6 +7,8 @@
  */
 namespace Sunhill\Visual\Response;
 
+use Sunhill\Visual\Facades\SunhillSiteManager;
+
 /**
  * Baseclass for responses. Responses are simplified controller actions.
  * @author klaus
@@ -46,11 +48,6 @@ class SunhillResponseBase
     protected function getResponse()
     {
         
-    }
-    
-    protected function getLinkPrefix()
-    {
-        return '/Computer';    
     }
     
     public function response()

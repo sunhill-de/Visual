@@ -16,7 +16,10 @@ trait SunhillModuleTrait
             'nav_2'=>SunhillSiteManager::getSubNavigation(),
             'nav_3'=>SunhillSiteManager::get3rdLevelNavigation(),
             'sitename'=>SunhillSiteManager::getDisplayName(),
-            'prefix'=>SunhillSiteManager::getPrefix()
+            'currentEndpointPath'=>SunhillSiteManager::getCurrentEndpointPath(),
+            'currentFeaturePath'=>SunhillSiteManager::getCurrentFeaturePath(),
+            'currentSubModulePath'=>SunhillSiteManager::getCurrentSubModulePath(),
+            'currentMainModulePath'=>SunhillSiteManager::getCurrentMainModulePath(),
         ];
     }
     
