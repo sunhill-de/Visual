@@ -7,6 +7,7 @@ use Sunhill\ORM\Facades\Objects;
 use Sunhill\ORM\Facades\Classes;
 use Sunhill\ORM\Utils\ObjectList;
 use Sunhill\Visual\Facades\Dialogs;
+use Sunhill\Visual\Facades\SunhillSiteManager;
 
 class ListObjectsResponse extends SunhillListResponse
 {
@@ -25,7 +26,7 @@ class ListObjectsResponse extends SunhillListResponse
     
     protected function getObjectLink($key, $order = 'id', $delta = 0)
     {
-        return $this->getLinkPrefix()."/Objects/List/$key/$delta/$order";    
+        return SunhillSiteManager::getCurrentEndpointPath()."/$key/$delta/$order";    
     }
     
     protected function createEntry($name,$link=null)
@@ -79,7 +80,7 @@ class ListObjectsResponse extends SunhillListResponse
         $result = [];
         foreach ($input as $object) {
             $row = [];
-            $row[] = $this->createEntry($object->getID(),$this->getLinkPrefix().'/Objects/Show/'.$object->getID());
+            $row[] = $this->createEntry($object->getID(),SunhillSiteManager::getCurrentFeaturePath().'/Show/'.$object->getID());
             $row[] = $this->createEntry($object::getInfo('name'),$this->getObjectLink($object::getInfo('name')));            
             $columns = Dialogs::getObjectListFields($this->params['key']);
             foreach ($columns as $index => $column) {
@@ -89,8 +90,8 @@ class ListObjectsResponse extends SunhillListResponse
                     $row[] = $this->createEntry($this->parseColumn($object,$column));                    
                 }
             }
-            $row[] = $this->createEntry(__("edit"),$this->getLinkPrefix().'/Objects/Edit/'.$object->getID());
-            $row[] = $this->createEntry(__("delete"),$this->getLinkPrefix().'/Objects/Delete/'.$object->getID());
+            $row[] = $this->createEntry(__("edit"),SunhillSiteManager::getCurrentFeaturePath().'/Edit/'.$object->getID());
+            $row[] = $this->createEntry(__("delete"),SunhillSiteManager::getCurrentFeaturePath().'/Delete/'.$object->getID());
             $result[] = $row;
         }
         return $result;
@@ -125,7 +126,7 @@ class ListObjectsResponse extends SunhillListResponse
     protected function getPaginatorLink(int $index)
     {
         $class = isset($this->params['key'])?$this->params['key']:'object';
-        return $this->$this->getLinkPrefix().'Objects/List/'.$class.'/'.$index;
+        return SunhillSiteManager::getCurrentEndpointPath().'/'.$class.'/'.$index;
     }
         
 }  
