@@ -3,6 +3,6 @@
 @section('tilecaption', __('Classes'))
 
 @section('tilebody')
-Number of Classes: {{ $number_of_classes }}
+Number of Classes: <x-visual-data name="database.classes.count" />
 
 @endsection
