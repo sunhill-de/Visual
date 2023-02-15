@@ -8,13 +8,23 @@ use Sunhill\ORM\Facades\Objects;
 class DatabaseObjectsEntryItem extends ObjectLeaf
 {
     
+    protected $id;
+    
     protected $object;
     
     public function __construct($id)
     {
-        $this->object = Objects::load($id);
+        $this->id = $id;
     }
         
+    protected function loadCache()
+    {
+        if (!is_null($this->object)) {
+            return;
+        }
+        $this->object =  Objects::load($id);        
+    }
+    
     protected function getAllowedFields()
     {
         return ['id'];
@@ -22,6 +32,7 @@ class DatabaseObjectsEntryItem extends ObjectLeaf
     
     protected function getObjectValue(string $name, array $remaining)
     {
+        $this->loadCache();
         switch ($name)
         {
             case 'id':
