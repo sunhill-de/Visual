@@ -4,8 +4,7 @@ namespace Sunhill\Visual\Controllers\Database;
 
 use Illuminate\Routing\Controller;
 use Sunhill\Visual\Response\SunhillTileViewResponse;
-use Sunhill\Visual\Response\Database\Classes\ListClassesResponse;
-use Sunhill\Visual\Response\Database\Classes\ShowClassResponse;
+use Sunhill\Visual\Response\Database\Import\ListMoviesImportResponse;
 
 class ImportsController extends Controller
 {
@@ -14,6 +13,13 @@ class ImportsController extends Controller
     {
         $response = new SunhillTileViewResponse();
         return $response->response();
+    }
+    
+    public function listMovies($page = 0)
+    {
+        $response = new ListMoviesImportResponse();
+        $response->setdelta($page);
+        return $response->response();        
     }
     
     public function list($page=0)

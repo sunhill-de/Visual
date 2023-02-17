@@ -15,8 +15,8 @@ class SunhillFeatureImports extends SunhillModuleBase
         $this->setDisplayName('Imports');        
         $this->setDescription('Imports');
         $this->addIndex(\Sunhill\Visual\Controllers\Database\ImportsController::class);
-        $this->addAction('List')
-            ->addControllerAction([\Sunhill\Visual\Controllers\Database\ImportsController::class, 'list'])
+        $this->addAction('Movies')
+            ->addControllerAction([\Sunhill\Visual\Controllers\Database\ImportsController::class, 'ListMovies'])
             ->setVisible(true)
             ->setRouteAddition('/{page?}');
         $this->addAction('Show')

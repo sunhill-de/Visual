@@ -9,6 +9,9 @@
 		}
 	],
 	"minimum-stability" : "dev",
+	"require": {
+		"imdbphp/imdbphp":"*"
+	},
 	"autoload" : {
 		"psr-4" : {
 			"Sunhill\\Visual\\Tests\\" : "tests",
