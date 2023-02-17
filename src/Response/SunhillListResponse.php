@@ -108,7 +108,7 @@ abstract class SunhillListResponse extends SunhillBladeResponse
      */
     private function processList()
     {
-        $this->params['items'] = $this->prepareMatrix($this->prepareList($this->params['key'],$this->params['order'],$this->params['delta'],ENTRIES_PER_PAGE));
+        $this->params['items'] = $this->prepareMatrix($this->prepareList($this->params['key'],$this->params['order'],$this->params['delta'],self::ENTRIES_PER_PAGE));
     }
     
     /**
