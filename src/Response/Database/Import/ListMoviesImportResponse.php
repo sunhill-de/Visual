@@ -5,6 +5,7 @@ namespace Sunhill\Visual\Response\Database\Import;
 use Sunhill\Visual\Response\SunhillListResponse;
 use Sunhill\ORM\Facades\Classes;
 use Sunhill\Visual\Facades\SunhillSiteManager;
+use Illuminate\Support\Facades\DB;
 
 class ListMoviesImportResponse extends SunhillListResponse
 {
@@ -21,13 +22,14 @@ class ListMoviesImportResponse extends SunhillListResponse
             $this->getStdClass(['name'=>"",'link'=>null]),
             $this->getStdClass(['name'=>"",'link'=>null]),
             $this->getStdClass(['name'=>"",'link'=>null]),
+            $this->getStdClass(['name'=>"",'link'=>null]),
         ];
         return $this->params['headers'];
     }
     
     protected function prepareList($key,$order,$delta,$limit)
     {
-        return [];
+        return DB::table('import_movies')->offset($delta*self::ENTRIES_PER_PAGE)->limit(self::ENTRIES_PER_PAGE)->get(['id','title','imdb_id','object_id']);
     }
 
     protected function getPrefix()
@@ -40,17 +42,16 @@ class ListMoviesImportResponse extends SunhillListResponse
         $result = [];        
         foreach ($input as $name => $description)
         {
-            if ($description['name'] == 'object') {
-                $description['name'] = 'ORMObject'; // @todo: Dirty hack to remove error in list objects
-            }
             $row = [];
-            $row[] = $this->getStdClass(['name'=>$description['class'],'link'=>null]);
-            $row[] = $this->getStdClass(['name'=>$description['name'],'link'=>null]);
-            $row[] = $this->getStdClass(['name'=>(isset($description['description'])?$description['description']:""),'link'=>null]);
-            $row[] = $this->getStdClass(['name'=>$description['parent'],'link'=>null]);
-            $row[] = $this->getStdClass(['name'=>__('list'),'link'=>SunhillSiteManager::getCurrentSubmodulePath().'/Objects/List/'.$description['name']]);
-            $row[] = $this->getStdClass(['name'=>__('add'),'link'=>SunhillSiteManager::getCurrentSubmodulePath().'/Objects/Add/'.$description['name']]);
-            $row[] = $this->getStdClass(['name'=>__('show'),'link'=>SunhillSiteManager::getCurrentFeaturePath().'/Show/'.$description['name']]);
+            $row[] = $this->getStdClass(['name'=>$description->id,'link'=>null]);
+            $row[] = $this->getStdClass(['name'=>$description->title,'link'=>null]);
+            $row[] = $this->getStdClass(['name'=>$description->imdb_id,'link'=>null]);
+            $row[] = $this->getStdClass(['name'=>($description->object_id > 0)?__('yes'):__('no'),'link'=>null]);
+            
+            $row[] = $this->getStdClass(['name'=>__('lookup'),'link'=>SunhillSiteManager::getCurrentFeaturePath().'/LookupMovie/'.$description->id]);
+            $row[] = $this->getStdClass(['name'=>__('import'),'link'=>SunhillSiteManager::getCurrentFeaturePath().'/ImportMovie/'.$description->id]);
+            $row[] = $this->getStdClass(['name'=>__('edit'),'link'=>SunhillSiteManager::getCurrentFeaturePath().'/EditMovie/'.$description->id]);
+            $row[] = $this->getStdClass(['name'=>__('delete'),'link'=>SunhillSiteManager::getCurrentFeaturePath().'/DeleteMovie/'.$description->id]);
             $result[] = $row;
         }
         return $result;        
@@ -58,7 +59,7 @@ class ListMoviesImportResponse extends SunhillListResponse
     
     protected function getTotalEntryCount()
     {
-        return Classes::getClassCount();
+        return DB::table('import_movies')->count();
     }
     
     
