@@ -5,6 +5,7 @@ namespace Sunhill\Visual\Controllers\Database;
 use Illuminate\Routing\Controller;
 use Sunhill\Visual\Response\SunhillTileViewResponse;
 use Sunhill\Visual\Response\Database\Import\ListMoviesImportResponse;
+use Sunhill\Visual\Response\Database\Import\LookupMovieResponse;
 
 class ImportsController extends Controller
 {
@@ -18,21 +19,35 @@ class ImportsController extends Controller
     public function listMovies($page = 0)
     {
         $response = new ListMoviesImportResponse();
-        $response->setdelta($page);
+        $response->setDelta($page);
         return $response->response();        
     }
     
-    public function list($page=0)
+    public function showMovie($id)
     {
-        $response = new ListImportsResponse();
-        $response->setdelta($page);
-        return $response->response();
+        
     }
     
-    public function show($id)
+    public function importMovie($id)
     {
-        $response = new ShowImportResponse();
+        
+    }
+    
+    public function editMovie($id)
+    {
+        
+    }
+    
+    public function deleteMove($id)
+    {
+        
+    }
+    
+    public function lookupMovie($id)
+    {
+        $response = new LookupMovieResponse();
         $response->setID($id);
         return $response->response();
     }
+    
 }

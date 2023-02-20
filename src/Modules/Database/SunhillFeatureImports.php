@@ -19,8 +19,21 @@ class SunhillFeatureImports extends SunhillModuleBase
             ->addControllerAction([\Sunhill\Visual\Controllers\Database\ImportsController::class, 'ListMovies'])
             ->setVisible(true)
             ->setRouteAddition('/{page?}');
-        $this->addAction('Show')
-            ->addControllerAction([\Sunhill\Visual\Controllers\Database\ImportsController::class, 'show'])
+        $this->addAction('ShowMovie')
+            ->addControllerAction([\Sunhill\Visual\Controllers\Database\ImportsController::class, 'ShowMovie'])
+            ->setVisible(false)
+            ->setRouteAddition('/{id}');
+        $this->addAction('EditMovie')
+            ->addControllerAction([\Sunhill\Visual\Controllers\Database\ImportsController::class, 'EditMovie'])
+            ->setVisible(false)
+            ->setRouteAddition('/{id}');
+        $this->addAction('DeleteMovie')
+            ->addControllerAction([\Sunhill\Visual\Controllers\Database\ImportsController::class, 'DeleteMovie'])
+            ->setVisible(false)
+            ->setRouteAddition('/{id}');
+        $this->addAction('LookupMovie')
+            ->setDisplayName('Lookup movie')
+            ->addControllerAction([\Sunhill\Visual\Controllers\Database\ImportsController::class, 'Lookupmovie'])
             ->setVisible(false)
             ->setRouteAddition('/{id}');
     }
