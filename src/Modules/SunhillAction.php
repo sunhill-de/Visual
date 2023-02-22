@@ -103,7 +103,10 @@ class SunhillAction extends SunhillModuleBase
         $method     = $this->method;
         $route = str_replace('//','/',$this->getRoute());
         $controller = $this->getController();
-        Route::$method($this->getRoute(), $this->getController());    
+        $route = Route::$method($this->getRoute(), $this->getController());
+        if (!empty($this->getAlias())) {
+            $route->name($this->getAlias());
+        }
     }
    
     public function getActiveModule(string $path)

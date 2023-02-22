@@ -18,11 +18,13 @@ class SunhillFeatureTags extends SunhillModuleBase
         $this->addAction('List')
             ->addControllerAction([\Sunhill\Visual\Controllers\Database\TagsController::class, 'list'])
             ->setVisible(true)
-            ->setRouteAddition('/{page?}');
+            ->setRouteAddition('/{page?}')
+            ->setAlias('tags.list');
         $this->addAction('Show')
             ->addControllerAction([\Sunhill\Visual\Controllers\Database\TagsController::class, 'show'])
             ->setVisible(false)
-            ->setRouteAddition('/{id}');
+            ->setRouteAddition('/{id}')
+            ->setAlias('tags.show');
     }
     
     

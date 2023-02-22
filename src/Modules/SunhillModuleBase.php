@@ -2,6 +2,8 @@
 
 namespace Sunhill\Visual\Modules;
 
+use Sunhill\ORM\Database\Seeders\SearchStringObjectAssignsTableSeeder;
+
 class SunhillModuleBase
 {
     
@@ -42,6 +44,12 @@ class SunhillModuleBase
      * @var array
      */
     protected $submodules = [];
+    
+    /**
+     * optional Alias for named routes
+     * @var unknown
+     */
+    protected $alias = '';
     
     /**
      * Setter for $this->name
@@ -168,6 +176,26 @@ class SunhillModuleBase
     public function getVisible(): bool
     {
         return $this->visible;
+    }
+    
+    /**
+     * Setter for alias
+     * @param string $alias
+     * @return SunhillModuleBase
+     */
+    public function setAlias(string $alias): SunhillModuleBase
+    {
+        $this->alias = $alias;
+        return $this;
+    }
+    
+    /**
+     * Getter for alias
+     * @return String
+     */
+    public function getAlias(): String
+    {
+        return $this->alias;    
     }
     
     public function __construct()

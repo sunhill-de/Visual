@@ -18,11 +18,13 @@ class SunhillFeatureAttributes extends SunhillModuleBase
         $this->addAction('List')
             ->addControllerAction([\Sunhill\Visual\Controllers\Database\AttributesController::class, 'list'])
             ->setVisible(true)
-            ->setRouteAddition('/{page?}');
+            ->setRouteAddition('/{page?}')
+            ->setAlias('attributes.list');
         $this->addAction('Show')
             ->addControllerAction([\Sunhill\Visual\Controllers\Database\AttributesController::class, 'show'])
             ->setVisible(false)
-            ->setRouteAddition('/{id}');
+            ->setRouteAddition('/{id}')
+            ->setAlias('attributes.show');
     }
     
     

@@ -48,9 +48,9 @@ class ListClassesResponse extends SunhillListResponse
             $row[] = $this->getStdClass(['name'=>$description['name'],'link'=>null]);
             $row[] = $this->getStdClass(['name'=>(isset($description['description'])?$description['description']:""),'link'=>null]);
             $row[] = $this->getStdClass(['name'=>$description['parent'],'link'=>null]);
-            $row[] = $this->getStdClass(['name'=>__('list'),'link'=>SunhillSiteManager::getCurrentSubmodulePath().'/Objects/List/'.$description['name']]);
-            $row[] = $this->getStdClass(['name'=>__('add'),'link'=>SunhillSiteManager::getCurrentSubmodulePath().'/Objects/Add/'.$description['name']]);
-            $row[] = $this->getStdClass(['name'=>__('show'),'link'=>SunhillSiteManager::getCurrentFeaturePath().'/Show/'.$description['name']]);
+            $row[] = $this->getStdClass(['name'=>__('list'),'link'=>route('objects.list',['key'=>$description['name']])]);
+            $row[] = $this->getStdClass(['name'=>__('add'),'link'=>route('objects.add',['class'=>$description['name']])]);
+            $row[] = $this->getStdClass(['name'=>__('show'),'link'=>route('classes.show',['class'=>$description['name']])]);
             $result[] = $row;
         }
         return $result;        
@@ -64,7 +64,7 @@ class ListClassesResponse extends SunhillListResponse
     
     protected function getPaginatorLink(int $index)
     {
-        return SunhillSiteManager::getCurrentFeaturePath().'/List/'.$index;
+        return route('classes.list',['page'=>$index]); 
     }
     
 }  

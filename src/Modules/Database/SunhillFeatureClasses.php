@@ -18,11 +18,13 @@ class SunhillFeatureClasses extends SunhillModuleBase
         $this->addAction('List')
             ->addControllerAction([\Sunhill\Visual\Controllers\Database\ClassesController::class, 'list'])
             ->setVisible(true)
-            ->setRouteAddition('/{page?}');
+            ->setRouteAddition('/{page?}')
+            ->setAlias('classes.list');
         $this->addAction('Show')
             ->addControllerAction([\Sunhill\Visual\Controllers\Database\ClassesController::class, 'show'])
             ->setVisible(false)
-            ->setRouteAddition('/{class}');
+            ->setRouteAddition('/{class}')
+            ->setAlias('classes.show');
     }
     
     
