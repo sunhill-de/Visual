@@ -22,7 +22,7 @@ class ObjectsController extends Controller
         return $response->response();
     }
     
-    public function list($key='Object',$page=0)
+    public function list($key='object',$page=0)
     {
         $response = new ListObjectsResponse();
         $response->setDelta($page);
