@@ -8,7 +8,7 @@
 
 @section('content')
 @parent
-<form method="post" action="{{ $currentFeaturePath }}/execedit/{{ $object->id }}">
+<form method="post" action="{{ route('objects.execedit', ['id'=> $object->id]) }}">
  <div class="dialogelements">
  @csrf
  @foreach ($fields as $field)

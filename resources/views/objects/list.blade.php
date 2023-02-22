@@ -11,7 +11,7 @@ Objekte von '{{ $key }}' auflisten
  <ul>
  <li>Objekthirarchie</li>  
   @foreach ($inheritance as $ancestor)
-  <li><a href="{{ $currentEndpointPath }}/{{ $ancestor }}">{{ $ancestor }}</a></li>
+  <li><a href="{{ route('objects.list',['key'=>$ancestor]) }}">{{ $ancestor }}</a></li>
   @endforeach  
  </ul>
 </div>
@@ -19,7 +19,7 @@ Objekte von '{{ $key }}' auflisten
 
 @section('tablefooter')
 <button>   
-<a href="{{ $currentFeaturePath }}/Add/{{ $key }}">{{ __('add') }}</a>
+<a href="{{ route('objects.add',['key'=> $key]) }}">{{ __('add') }}</a>
 </button>
 @endsection
 

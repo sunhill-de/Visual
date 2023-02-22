@@ -26,7 +26,7 @@ class ListObjectsResponse extends SunhillListResponse
     
     protected function getObjectLink($key, $order = 'id', $delta = 0)
     {
-        return SunhillSiteManager::getCurrentEndpointPath()."/$key/$delta/$order";    
+        return route('objects.list',['key'=>$key,'delta'=>$delta,'order'=>$order]); 
     }
     
     protected function createEntry($name,$link=null)
@@ -80,7 +80,7 @@ class ListObjectsResponse extends SunhillListResponse
         $result = [];
         foreach ($input as $object) {
             $row = [];
-            $row[] = $this->createEntry($object->getID(),SunhillSiteManager::getCurrentFeaturePath().'/Show/'.$object->getID());
+            $row[] = $this->createEntry($object->getID(),route('objects.show',['id'=>$object->getID()]));
             $row[] = $this->createEntry($object::getInfo('name'),$this->getObjectLink($object::getInfo('name')));            
             $columns = Dialogs::getObjectListFields($this->params['key']);
             foreach ($columns as $index => $column) {
@@ -90,8 +90,8 @@ class ListObjectsResponse extends SunhillListResponse
                     $row[] = $this->createEntry($this->parseColumn($object,$column));                    
                 }
             }
-            $row[] = $this->createEntry(__("edit"),SunhillSiteManager::getCurrentFeaturePath().'/Edit/'.$object->getID());
-            $row[] = $this->createEntry(__("delete"),SunhillSiteManager::getCurrentFeaturePath().'/Delete/'.$object->getID());
+            $row[] = $this->createEntry(__("edit"),route('objects.edit',['id'=>$object->getID()]));
+            $row[] = $this->createEntry(__("delete"),route('objects.delete',['id'=>$object->getID()]));
             $result[] = $row;
         }
         return $result;
@@ -126,7 +126,7 @@ class ListObjectsResponse extends SunhillListResponse
     protected function getPaginatorLink(int $index)
     {
         $class = isset($this->params['key'])?$this->params['key']:'object';
-        return SunhillSiteManager::getCurrentEndpointPath().'/'.$class.'/'.$index;
+        return route('objects.list',['key'=>$class,'page'=>$index]); 
     }
         
 }  

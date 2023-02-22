@@ -18,7 +18,7 @@
 
 @section('content')
 @parent
-<form method="post" id="add" name="add" action="{{ $currentFeaturePath }}/ExecAdd">
+<form method="post" id="add" name="add" action="{{ route('objects.add') }}">
  @csrf
  <input type="hidden" name="_class" value="{{ $class->name }}" />
  @foreach ($class->fields as $field)
