@@ -10,9 +10,9 @@ $(".treeview").jstree({
         'data': {
             "url": function(node) {
 				if (node.id === "#") {
-					return "/ajax/getNodes/!root!";
+					return "{{ asset("/ajax/getNodes/!root!") }}";
 				} else {
-					return "/ajax/getNodes/"+node.id; 					
+					return "{{ asset("/ajax/getNodes/") }}/"+node.id; 					
 				}             
             },
 			"data-type": "json",
@@ -46,7 +46,7 @@ $(".treeview").jstree({
 $(".treeview").on('changed.jstree', function (e,data) {
 			var id = data.instance.get_node(data.selected).id;
 				
-				$.ajax('/ajax/getItem/'+id,
+				$.ajax("{{ asset('/ajax/getItem/') }}/"+id,
 				{
 					dataType: 'json',
 					timeout: 500,

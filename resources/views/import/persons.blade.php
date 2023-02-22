@@ -6,7 +6,7 @@ Personen importieren
 
 @section('content')
 @parent
-<form action="/Computer/Database/Import/ExecImportPersons" method="post">
+<form action="{{ asset('/Computer/Database/Import/ExecImportPersons') }}" method="post">
  @csrf
  <table class="table is-bordered is-striped is-hoverable">
   <caption>Personen importieren</caption>
@@ -24,7 +24,7 @@ Personen importieren
     <td><input type="checkbox" name="import{{ $row->id }}" checked></td>
     <td>{{ $row->first_names }}</td>
     <td>{{ $row->last_names }}</td>
-    <td><a href="/Computer/Database/Import/CorrectPerson/{{ $row->id }}">Korrigieren</a></td>
+    <td><a href="{{ asset("/Computer/Database/Import/CorrectPerson/$row->id")  }}">Korrigieren</a></td>
    </tr>
    @empty
    <tr><td colspan="99">Keine Eintr&auml;ge</td></tr>

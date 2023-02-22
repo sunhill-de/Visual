@@ -1,7 +1,7 @@
 @extends('visual::basic.navigation')
 
 @push('css')
-  <link rel="stylesheet" href="/css/style.min.css" />
+  <link rel="stylesheet" href="{{ asset('/css/style.min.css') }}" />
 @endpush
 
 @section('title')

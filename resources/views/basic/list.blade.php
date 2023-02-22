@@ -14,7 +14,7 @@
      @if (is_null($entry->link))
       {{ $entry->name }}
      @else
-      <a href="{{ $entry->link }}">{{ $entry->name }}</a>
+      <a href="{{ asset( $entry->link ) }}">{{ $entry->name }}</a>
      @endif
     </th>
     @endforeach
@@ -28,7 +28,7 @@
     @if (is_null($col->link))
      {{ $col->name }}   
     @else
-     <a href="{{ $col->link }}">{{ $col->name }}</a>
+     <a href="{{ asset( $col->link ) }}">{{ $col->name }}</a>
     @endif
    </td> 
    @endforeach 
@@ -46,7 +46,7 @@
 <ul class="pagination-list">
 @foreach ($pages as $page) 
 <li>
-<a href="{{ $page->link }}" class="pagination-link">{{ $page->text }}</a>
+<a href="{{ asset( $page->link ) }}" class="pagination-link">{{ $page->text }}</a>
 </li>
 @endforeach
 </ul>

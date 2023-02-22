@@ -18,8 +18,6 @@ class VisualServiceProvider extends ServiceProvider
     {
         $this->app->singleton(DialogManager::class, function () { return new DialogManager(); } );
         $this->app->alias(DialogManager::class,'dialogmanager');
-        $this->app->singleton(SiteManager::class, function () { return new SiteManager(); } );
-        $this->app->alias(SiteManager::class,'sitemanager');
         $this->app->singleton(SunhillSiteManager::class, function () { return new SunhillSiteManager(); } );
         $this->app->alias(SunhillSiteManager::class,'sunhillsitemanager');
     }

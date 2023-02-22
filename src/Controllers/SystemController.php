@@ -3,6 +3,7 @@
 namespace Sunhill\Visual\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Blade;
 
 class SystemController extends Controller
 {
@@ -42,7 +43,7 @@ class SystemController extends Controller
         $d->close(); 
         sort($files);
         foreach ($files as $file) {
-            $result[] = file_get_contents($file);
+            $result[] = Blade::render(file_get_contents($file));
         }
     }
       
