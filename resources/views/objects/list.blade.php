@@ -19,7 +19,7 @@ Objekte von '{{ $key }}' auflisten
 
 @section('tablefooter')
 <button>   
-<a href="{{ route('objects.add',['key'=> $key]) }}">{{ __('add') }}</a>
+<a href="{{ route('objects.add',['class'=> $key]) }}">{{ __('add') }}</a>
 </button>
 @endsection
 
