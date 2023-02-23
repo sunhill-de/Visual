@@ -18,7 +18,7 @@ class SunhillFeatureObjects extends SunhillModuleBase
         $this->addAction('List')
             ->addControllerAction([\Sunhill\Visual\Controllers\Database\ObjectsController::class, 'list'])
             ->setVisible(true)
-            ->setRouteAddition('/{key?}/{page?}')
+            ->setRouteAddition('/{key?}/{page?}/{order?}')
             ->setAlias('objects.list');
         $this->addAction('Show')
             ->addControllerAction([\Sunhill\Visual\Controllers\Database\ObjectsController::class, 'show'])
@@ -34,7 +34,8 @@ class SunhillFeatureObjects extends SunhillModuleBase
             ->setMethod('post')
             ->addControllerAction([\Sunhill\Visual\Controllers\Database\ObjectsController::class, 'execadd'])
             ->setVisible(false)
-            ->setAlias('objects.execadd');
+            ->setAlias('objects.execadd')
+            ->setMethod('post');
         $this->addAction('Edit')
             ->addControllerAction([\Sunhill\Visual\Controllers\Database\ObjectsController::class, 'edit'])
             ->setVisible(false)
@@ -43,6 +44,7 @@ class SunhillFeatureObjects extends SunhillModuleBase
         $this->addAction('ExecEdit')
             ->addControllerAction([\Sunhill\Visual\Controllers\Database\ObjectsController::class, 'execedit'])
             ->setVisible(false)
+            ->setMethod('post')
             ->setRouteAddition('/{id}')
             ->setAlias('objects.execedit');
         $this->addAction('Delete')
