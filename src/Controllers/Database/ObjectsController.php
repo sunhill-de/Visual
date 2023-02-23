@@ -22,11 +22,12 @@ class ObjectsController extends Controller
         return $response->response();
     }
     
-    public function list($key='object',$page=0)
+    public function list($key='object',$page=0,$order='id')
     {
         $response = new ListObjectsResponse();
         $response->setDelta($page);
         $response->setKey($key);
+        $response->setOrder($order);
         return $response->response();
     }
     
