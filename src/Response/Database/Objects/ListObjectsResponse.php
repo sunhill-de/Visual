@@ -26,7 +26,7 @@ class ListObjectsResponse extends SunhillListResponse
     
     protected function getObjectLink($key, $order = 'id', $delta = 0)
     {
-        return route('objects.list',['key'=>$key,'delta'=>$delta,'order'=>$order]); 
+        return route('objects.list',['key'=>$key,'page'=>$delta,'order'=>$order]); 
     }
     
     protected function createEntry($name,$link=null)
