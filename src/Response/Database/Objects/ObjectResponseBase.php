@@ -147,14 +147,14 @@ abstract class ObjectResponseBase extends SunhillRedirectResponse
 
     protected function getArrayOfStrings($value, $field)
     {
-        $value = $this->request->input('value_'.$field->getName());
+        $value = request()->input('value_'.$field->getName());
         return $value;
     }
     
     protected function getArrayOfObjects($value, $field)
     {
         $result = [];
-        $values = $this->request->input('value_'.$field->getName());
+        $values = request()->input('value_'.$field->getName());
         foreach ($values as $value) {
             $result[] = $this->checkAndCreateObject($value, $field);
         }
