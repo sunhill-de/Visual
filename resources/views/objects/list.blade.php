@@ -18,9 +18,11 @@ Objekte von '{{ $key }}' auflisten
 @endsection
 
 @section('tablefooter')
+@if ($namespace::getInfo('instantiable'))
 <button>   
 <a href="{{ route('objects.add',['class'=> $key]) }}">{{ __('add') }}</a>
 </button>
+@endif
 @endsection
 
 

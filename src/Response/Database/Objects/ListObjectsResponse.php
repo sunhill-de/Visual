@@ -21,6 +21,7 @@ class ListObjectsResponse extends SunhillListResponse
         if (empty($key)) {
             $key = 'ORMObject';
         }
+        $this->params['namespace'] = Classes::getNamespaceOfClass($key);
         return Objects::getPartialObjectList($key,$order,$delta*$limit,$limit); 
     }
     
