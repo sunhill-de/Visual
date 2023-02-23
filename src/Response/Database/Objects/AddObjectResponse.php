@@ -20,6 +20,9 @@ class AddObjectResponse extends SunhillBladeResponse
     {
         parent::prepareResponse();
         $classnamespace = $this->getNamespace($this->class);
+        if (!$classnamespace::getInfo('instantiable')) {
+            throw new \Exception('Tried to instantiate object of uninstantiable class: '.$this->class);
+        }
         $class = new \StdClass();
         $class->name = $this->class;
         $class->namespace = $classnamespace;
