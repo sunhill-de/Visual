@@ -49,7 +49,12 @@ class ListClassesResponse extends SunhillListResponse
             $row[] = $this->getStdClass(['name'=>(isset($description['description'])?$description['description']:""),'link'=>null]);
             $row[] = $this->getStdClass(['name'=>$description['parent'],'link'=>null]);
             $row[] = $this->getStdClass(['name'=>__('list'),'link'=>route('objects.list',['key'=>$description['name']])]);
-            $row[] = $this->getStdClass(['name'=>__('add'),'link'=>route('objects.add',['class'=>$description['name']])]);
+            $classname = $description['class'];
+            if ($classname::getInfo('instantiable')) {
+                $row[] = $this->getStdClass(['name'=>__('add'),'link'=>route('objects.add',['class'=>$description['name']])]);
+            } else {
+                $row[] = $this->getStdClass(['name'=>__('add'),'link'=>null]);                
+            }
             $row[] = $this->getStdClass(['name'=>__('show'),'link'=>route('classes.show',['class'=>$description['name']])]);
             $result[] = $row;
         }
