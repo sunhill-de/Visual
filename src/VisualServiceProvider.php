@@ -28,9 +28,7 @@ class VisualServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__.'/Routes/web.php');
         $this->loadViewsFrom(__DIR__.'/../resources/views','visual');
     //    $this->loadViewComponentsAs('input', [Input::class]);
-        Blade::component('visual-input', Input::class);
         Blade::component('visual-data', Data::class);
-        InfoMarket::installMarketeer(Database::class);
         
     }
 
