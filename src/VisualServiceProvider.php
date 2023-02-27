@@ -4,8 +4,9 @@ namespace Sunhill\Visual;
 
 use Illuminate\Support\ServiceProvider;
 use Sunhill\Visual\Managers\DialogManager;
-use Sunhill\Visual\Managers\SiteManager;
 use Sunhill\Visual\Managers\SunhillSiteManager;
+use Sunhill\Visual\Facades\Dialogs;
+
 use Sunhill\Visual\Components\Input;
 use Sunhill\Visual\Components\Data;
 use Illuminate\Support\Facades\Blade;
@@ -30,6 +31,8 @@ class VisualServiceProvider extends ServiceProvider
     //    $this->loadViewComponentsAs('input', [Input::class]);
         Blade::component('visual-data', Data::class);
         
+        Dialogs::addCSSResource(__DIR__.'/../resources/css');
+        Dialogs::addJSResource(__DIR__.'/../resources/js');
     }
 
 }

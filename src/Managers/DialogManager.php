@@ -10,6 +10,7 @@ use Sunhill\ORM\Properties\PropertyObject;
 
 use Sunhill\Visual\Response\Database\Objects\ListObjectsResponse;
 use Sunhill\Visual\Response\Database\Objects\AddObjectResponse;
+use Illuminate\Support\Facades\Blade;
 
 class DialogManager
 {
@@ -22,6 +23,10 @@ class DialogManager
     protected $object_keyfields;
     
     protected $object_list_fields;
+    
+    protected $css_resources = [];
+    
+    protected $js_resources = [];
     
     private $object_allowed_actions = ['add','edit','groupedit','list','show'];
     
@@ -374,4 +379,68 @@ class DialogManager
     {
         
     }
+    
+    /**
+     * Adds a module css resource to the global sunhill css composer
+     * @param string $path
+     */
+    public function addCSSResource(string $path)
+    {
+        $this->css_resources[] = $path;
+    }
+    
+    /**
+     * Adds a module js resource to the global sunhill js composer
+     * @param string $path
+     */
+    public function addJSResource(string $path)
+    {
+        $this->js_resources[] = $path;
+    }
+    
+    public function composeCSS()
+    {
+        $content = view('visual::basic.build',[
+            'files'=>$this->getFiles('css')
+        ]);
+        return response($content)->header('Content-Type','text/css');        
+    }
+    
+    public function composeJS()
+    {
+        $content = view('visual::basic.build',[
+            'files'=>$this->getFiles('js')
+        ]);
+        return response($content)->header('Content-Type','text/javascript');        
+    }
+    
+    protected function getFiles(string $resources) 
+    {
+        $result = [];
+        $resources = $resources.'_resources';
+        foreach ($this->$resources as $dir) {
+            $this->composeDir($result, $dir);
+        }
+        return $result;
+    }
+    
+    protected function composeDir(array &$result, string $effective_dir)
+    {
+        $files = [];
+        if (!file_exists($effective_dir)) {
+            return;
+        }
+        $d = dir($effective_dir);
+        while (false !== ($entry = $d->read())) {
+            if (is_file($effective_dir.'/'.$entry)) {
+                $files[] = $effective_dir.'/'.$entry;
+            }
+        }
+        $d->close();
+        sort($files);
+        foreach ($files as $file) {
+            $result[] = Blade::render(file_get_contents($file));
+        }
+    }
+    
 }
