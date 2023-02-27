@@ -265,7 +265,7 @@ class SunhillModuleBase
     protected function getCurrentDisplayName(string $display_name, string $name)
     {
         if (empty($display_name)) {
-            return $name;
+            return __($name);
         }
         return __($display_name);
     }
