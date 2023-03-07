@@ -73,7 +73,9 @@
  @endif
  <!-- content -->
   <div class="mycontent">
+  <div class="title">
   @yield('caption')
+  </div>
   @yield('content')
   </div>
  </div> 
