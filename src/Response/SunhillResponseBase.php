@@ -19,6 +19,8 @@ class SunhillResponseBase
     
     protected $params;
     
+    protected $error_response;
+    
     /**
      * Creates a stdclass object with the given parameters
      * @param array $params
@@ -32,6 +34,11 @@ class SunhillResponseBase
             $result->$key = $value;
         }
         return $result;
+    }
+    
+    protected function setError(SunhillResponseBase $error_response)
+    {
+        $this->error_response = $error_response;    
     }
     
     public function setParams(array $params)
@@ -52,7 +59,11 @@ class SunhillResponseBase
     
     public function response()
     {
-        $this->prepareResponse();
-        return $this->getResponse();
+        try {
+            $this->prepareResponse();
+            return $this->getResponse();
+        } catch (SunhillResponseException $e) {
+            return $this->error_response->response();   
+        }
     }
 }

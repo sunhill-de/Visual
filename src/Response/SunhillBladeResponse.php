@@ -24,7 +24,11 @@ class SunhillBladeResponse extends SunhillResponseBase
     protected function prepareResponse()
     {
         parent::prepareResponse();
-        $this->setParams($this->getBasicParams());
+        if (is_array($this->params)) {
+            $this->params = array_merge($this->params, $this->getBasicParams());
+        } else {
+            $this->params = $this->getBasicParams();            
+        }
     }
     
     protected function getResponse()
