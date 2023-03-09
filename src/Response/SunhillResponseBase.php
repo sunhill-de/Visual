@@ -47,6 +47,12 @@ class SunhillResponseBase
         return $this;
     }
     
+    public function mergeParams(array $params)
+    {
+        $this->params = array_merge($this->params, $params);
+        return $this;
+    }
+    
     protected function prepareResponse()
     {
         

@@ -21,6 +21,11 @@ class SunhillBladeResponse extends SunhillResponseBase
     
     protected $template;
     
+    public function setTemplate(string $template)
+    {
+        $this->template = $template;    
+    }
+    
     protected function prepareResponse()
     {
         parent::prepareResponse();
