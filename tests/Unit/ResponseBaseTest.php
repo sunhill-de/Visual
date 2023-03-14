@@ -5,7 +5,7 @@ namespace Sunhill\Visual\Tests\Unit;
 use Sunhill\Visual\Modules\ModuleBase;
 use Sunhill\Visual\Response\ResponseBase;
 use Sunhill\Visual\Tests\CreatesApplication;
-use Sunhill\Basic\Tests\SunhillTestCase;
+use Sunhill\Basic\Tests\SunhillOrchestraTestCase;
 use Illuminate\Http\Request;
 
 class ResponseTestResponse extends ResponseBase
@@ -18,7 +18,7 @@ class ResponseTestResponse extends ResponseBase
     
 }
 
-class ResponseBaseTest extends SunhillTestCase
+class ResponseBaseTest extends SunhillOrchestraTestCase
 {
   
   use CreatesApplication;
