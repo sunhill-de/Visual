@@ -9,7 +9,28 @@
 		}
 	],
 	"minimum-stability" : "dev",
-        "require" : {
+        "repositories" : [{
+                        "type" : "path",
+                        "url" : "../basic",
+                        "options" : {
+                                "symlink" : true
+                        }
+                },
+                {
+                        "type" : "path",
+                        "url" : "../orm",
+                        "options" : {
+                                "symlink" : true
+                        }
+                },
+                {
+                        "type" : "path",
+                        "url" : "../infomarket",
+                        "options" : {
+                                "symlink" : true
+                        }
+                }],
+         "require" : {
                 "laravel/framework" : "^9.2",
                 "sunhill/basic": "*",
                 "sunhill/orm": "*",
