@@ -4,7 +4,6 @@ namespace Sunhill\Visual\Tests\Unit;
 
 use Sunhill\Visual\Modules\ModuleBase;
 use Sunhill\Visual\Response\ResponseBase;
-use Sunhill\Visual\Tests\CreatesApplication;
 use Sunhill\Basic\Tests\SunhillOrchestraTestCase;
 use Illuminate\Http\Request;
 
@@ -61,12 +60,9 @@ class SuperModule extends ModuleBase
     }
 }
 
-class ModuleBaseTest extends SunhillOrchestraTestCase
+class ModuleBaseTest extends SunhillVisualTestCase
 {
   
-  use CreatesApplication;
-    
-
   public function testName()
   {
      $test = new SubModule();

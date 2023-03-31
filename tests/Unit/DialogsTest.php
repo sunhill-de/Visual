@@ -4,6 +4,8 @@ namespace Sunhill\Visual\Tests\Unit;
 
 use Sunhill\Visual\Facades\Dialogs;
 use Sunhill\Visual\Managers\DialogManager;
+use Sunhill\Visual\Tests\SunhillVisualTestCase;
+
 use Sunhill\ORM\Objects\ORMObject;
 use Sunhill\Visual\Response\ResponseBase;
 use Sunhill\Visual\Tests\CreatesApplication;
@@ -71,7 +73,7 @@ class TestResponse extends ResponseBase
    
 }
 
-class DialogsTest extends DBSearchTestCase
+class DialogsTest extends SunhillVisualTestCase
 {
   
   use CreatesApplication;
