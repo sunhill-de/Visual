@@ -7,7 +7,7 @@ use Sunhill\Visual\Managers\DialogManager;
 use Sunhill\Visual\Tests\SunhillVisualTestCase;
 
 use Sunhill\ORM\Objects\ORMObject;
-use Sunhill\Visual\Response\ResponseBase;
+use Sunhill\Visual\Response\SunhillResponseBase;
 use Sunhill\Visual\Tests\CreatesApplication;
 use Sunhill\ORM\Facades\Classes;
 
@@ -20,50 +20,55 @@ use Sunhill\ORM\Tests\Objects\SearchtestD;
 
 class TestObject extends ORMObject
 {
-    public static $table_name = 'testobjects';
     
-    public static $object_infos = [
-        'name'=>'TestObject',       // A repetition of static:$object_name @todo see above
-        'table'=>'testobjects',     // A repitition of static:$table_name
-        'name_s' => 'testobject',
-        'name_p' => 'testobjects',
-        'description' => 'Test class 1',
-        'options'=>0,           // Reserved for later purposes
-    ];
+    protected static function setupInfos()
+    {
+        static::addInfo('name','TestObject');
+        static::addInfo('table','testobjects');
+        static::addInfo('name_s','test object',true);
+        static::addInfo('name_p','test objects',true);
+        static::addInfo('description','Test object for visual test', true);
+        static::addInfo('options',0);
+        static::addInfo('editable',true);
+        static::addInfo('instantiable',true);
+    }
     
 }
 
 class ChildObject extends TestObject
 {
-    public static $table_name = 'childobjects';
-    
-    public static $object_infos = [
-        'name'=>'ChildObject',       // A repetition of static:$object_name @todo see above
-        'table'=>'childobjects',     // A repitition of static:$table_name
-        'name_s' => 'childobject',
-        'name_p' => 'childobjects',
-        'description' => 'Test class 2',
-        'options'=>0,           // Reserved for later purposes
-    ];
+
+    protected static function setupInfos()
+    {
+        static::addInfo('name','ChildObject');
+        static::addInfo('table','childobjects');
+        static::addInfo('name_s','Child object',true);
+        static::addInfo('name_p','Child objects',true);
+        static::addInfo('description','Child object for visual tests', true);
+        static::addInfo('options',0);
+        static::addInfo('editable',true);
+        static::addInfo('instantiable',true);
+    }
     
 }
 
 class DummyObject extends ORMObject
 {
-    public static $table_name = 'dummyobjects';
-    
-    public static $object_infos = [
-        'name'=>'DummyObject',       // A repetition of static:$object_name @todo see above
-        'table'=>'dummyobjects',     // A repitition of static:$table_name
-        'name_s' => 'dummyobject',
-        'name_p' => 'dummyobjects',
-        'description' => 'Test class 3',
-        'options'=>0,           // Reserved for later purposes
-    ];
+    protected static function setupInfos()
+    {
+        static::addInfo('name','DummyObject');
+        static::addInfo('table','dummyobjects');
+        static::addInfo('name_s','Dummy object',true);
+        static::addInfo('name_p','Dummy objects',true);
+        static::addInfo('description','Dummy object for visual tests', true);
+        static::addInfo('options',0);
+        static::addInfo('editable',true);
+        static::addInfo('instantiable',true);
+    }
     
 }
 
-class TestResponse extends ResponseBase
+class TestResponse extends SunhillResponseBase
 {
    
    protected function getResponse()
@@ -75,8 +80,6 @@ class TestResponse extends ResponseBase
 
 class DialogsTest extends SunhillVisualTestCase
 {
-  
-  use CreatesApplication;
   
   protected function setupClasses()
   {

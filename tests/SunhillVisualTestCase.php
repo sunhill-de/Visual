@@ -5,12 +5,10 @@ namespace Sunhill\Visual\Tests;
 use Sunhill\Basic\SunhillBasicServiceProvider;
 use Sunhill\Basic\Tests\SunhillOrchestraTestCase;
 use Sunhill\ORM\SunhillServiceProvider;
-use Sunhill\Visual\SunhillVisualProvider;
+use Sunhill\Visual\VisualServiceProvider;
 
 class SunhillVisualTestCase extends SunhillOrchestraTestCase
 {
-    
-    use SunhillTrait;
     
     public function setUp(): void
     {
@@ -22,7 +20,7 @@ class SunhillVisualTestCase extends SunhillOrchestraTestCase
         return [
             SunhillBasicServiceProvider::class,
             SunhillServiceProvider::class,
-            SunhillVisualProvider::class
+            VisualServiceProvider::class
         ];
     }
     
