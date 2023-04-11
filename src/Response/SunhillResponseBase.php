@@ -68,8 +68,11 @@ class SunhillResponseBase
         try {
             $this->prepareResponse();
             return $this->getResponse();
-        } catch (SunhillResponseException $e) {
-            return $this->error_response->response();   
+        } catch (SunhillUserException $e) {
+            report($e);
+            $params = $this->getBasicParams();
+            $params['e'] = $e;
+            return response()->view('visual::basic.usererror',$params, 500);
         }
     }
 }
