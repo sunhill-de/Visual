@@ -127,21 +127,54 @@ abstract class SunhillListResponse extends SunhillBladeResponse
     {
         return $this->params['delta'];
     }
+
+    /**
+     * Checks if there are less entries than in the ENTRIES_PER_PAGE constant. If yes
+     * Clear the paginator and return true otherwise return false 
+     * @return bool
+     */
+    protected function checkForLessEntriesThanEntriesPerPage(): bool
+    {        
+        if (self::ENTRIES_PER_PAGE < $this->getTotalEntryCount()) {
+            return false;
+        }
+        $this->params['pages'] = [];
+        return true;
+    }
+
+    protected function getNumberOfPages(): int
+    {
+        return ceil($this->getTotalEntryCount() / self::ENTRIES_PER_PAGE); // Number of pages        
+    }
+
+    /**
+     * Checks if the given index $page_index is below 0 or higher than number_of_pages. If yes
+     * it raises an UserException
+     * @param int $page_index
+     * @param int $number_of_pages
+     * @throws SunhillUserException
+     */
+    protected function checkWrongPageIndex(int $page_index, int $number_of_pages)
+    {
+        if (($page_index < 0) || ($page_index >= $number_of_pages)) {
+            throw new SunhillUserException(__("The index ':index' is out of range.",['index'=>$page_index]));
+        }
+    }
     
     protected function processPaginator()
     {
-        if (self::ENTRIES_PER_PAGE >= $this->getTotalEntryCount()) {
-            $this->params['pages'] = [];
+        if ($this->checkForLessEntriesThanEntriesPerPage()) {
             return;
         }
-        $pages = ceil($this->getTotalEntryCount() / self::ENTRIES_PER_PAGE); // Number of pages
+        $pages = $this->getNumberOfPages();
         $current_page = $this->getCurrentPage();
+        $this->checkWrongPageIndex($current_page, $pages);
         
         if (($current_page - self::PAGINATOR_NEIGHBOURS)<1) {
             $start = 1;
             $this->params['left_ellipse'] = '';
         } else {
-            $start = ($current_page - self::PAGINATOR_NEIGHBORS);
+            $start = ($current_page - self::PAGINATOR_NEIGHBOURS);
             $this->params['left_ellipse'] = '...';
         }
         if (($current_page + self::PAGINATOR_NEIGHBOURS)>($pages-1)) {
