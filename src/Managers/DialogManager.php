@@ -11,6 +11,7 @@ use Sunhill\ORM\Properties\PropertyObject;
 use Sunhill\Visual\Response\Database\Objects\ListObjectsResponse;
 use Sunhill\Visual\Response\Database\Objects\AddObjectResponse;
 use Illuminate\Support\Facades\Blade;
+use Sunhill\Visual\Tests\Unit\DialogManagerResourceTest;
 
 class DialogManager
 {
@@ -383,6 +384,8 @@ class DialogManager
     /**
      * Adds a module css resource to the global sunhill css composer
      * @param string $path
+     * 
+     * Test: Unit/Managers/DialogManager/DialogManagerResourceTest::testaddCSSResources()
      */
     public function addCSSResource(string $path)
     {
@@ -392,12 +395,18 @@ class DialogManager
     /**
      * Adds a module js resource to the global sunhill js composer
      * @param string $path
+     * 
+     * Test: Unit/Managers/DialogManager/DialogManagerResourceTest::testaddJSResources()
      */
     public function addJSResource(string $path)
     {
         $this->js_resources[] = $path;
     }
     
+    /* Builds together all css files of the project and returns the result
+     *
+     * Test: Unit/Managers/DialogManager/DialogManagerResourceTest::testComposeCSS()
+     */
     public function composeCSS()
     {
         $content = view('visual::basic.build',[
@@ -406,6 +415,10 @@ class DialogManager
         return response($content)->header('Content-Type','text/css');        
     }
     
+    /* Builds together all js files of the project and returns the result
+     *
+     * Test: Unit/Managers/DialogManager/DialogManagerResourceTest::testComposeJS()
+     */
     public function composeJS()
     {
         $content = view('visual::basic.build',[
