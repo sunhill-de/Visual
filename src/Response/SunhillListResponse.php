@@ -163,12 +163,12 @@ abstract class SunhillListResponse extends SunhillBladeResponse
     
     protected function processPaginator()
     {
-        if ($this->checkForLessEntriesThanEntriesPerPage()) {
-            return;
-        }
         $pages = $this->getNumberOfPages();
         $current_page = $this->getCurrentPage();
         $this->checkWrongPageIndex($current_page, $pages);
+        if ($this->checkForLessEntriesThanEntriesPerPage()) {
+            return;
+        }
         
         if (($current_page - self::PAGINATOR_NEIGHBOURS)<1) {
             $start = 1;
