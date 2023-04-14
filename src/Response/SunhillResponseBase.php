@@ -23,9 +23,11 @@ class SunhillResponseBase
     
     /**
      * Creates a stdclass object with the given parameters
+     * 
      * @param array $params
      * @return \StdClass
-     * @test /tests/Unit/SunhillModuleTest::testGetStdclass()
+     * 
+     * @test /tests/Unit/Response/SunhillReponseBaseTest::testGetStdclass()
      */
     protected function getStdClass(array $params)
     {
