@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @file SunhillBlaseResponse
+ * @file SunhillListResponse
  * Basic class that return blade templates
  *
  */
@@ -13,10 +13,20 @@ use Sunhill\Visual\Modules\SunhillModuleTrait;
  * Baseclass list responses
  * @author klaus
  *
+ * Every link has the following format:
+ * /List/key?/offset/order?/filter?/filter_condition
+ * Meaning:
+ * key: a key is a kind of filter that tells the list, which entries should be displayer (Example: Class of objects). 
+ *      This parameter is oprional
+ * offset: The offset means which page of the list should be displayed. If omitted defaults to 0
+ * order: The order parameter tells the list, in what order the entries should be displayed. This parameter is optional
+ * filter: The filter parameter is a identifier that is resolved to a specialized filter (optional)
+ * filter_condition: Optional parameter that describes the filter (optional)
+ * 
  */
 abstract class SunhillListResponse extends SunhillBladeResponse
 {
-    
+ 
     /**
      * Defines how many entry per page should be displayed
      */
@@ -27,204 +37,95 @@ abstract class SunhillListResponse extends SunhillBladeResponse
      */
     const PAGINATOR_NEIGHBOURS = 10;
     
-    protected $key = 'id';
+    /**
+     * The key of this list (see above)
+     * @var string
+     */
+    protected $key = '';
     
-    protected $delta = 0;
+    /**
+     * The offset (page) of this list (see above)
+     * @var integer
+     */
+    protected $offset = 0;
     
+    /**
+     * The ordering of the list (see above)
+     * @var string
+     */
     protected $order = 'id';
+
+    /**
+     * The current set filter of this list (see above)
+     * @var string
+     */
+    protected $filter = '';
     
-    public function setKey(string $key)
+    /**
+     * The current filter condition of this list (see above)
+     * @var string
+     */
+    protected $filter_condition = '';
+    
+    public function setKey(string $key): SunhillListResponse
     {
         $this->key = $key;
         return $this;
     }
     
-    public function setDelta(int $delta)
+    public function setOffset(int $offset): SunhillListResponse
     {
-        $this->delta = $delta;
+        $this->offset = $offset;
         return $this;
     }
     
-    public function setOrder(string $order)
+    public function setOrder(string $order): SunhillListResponse
     {
         $this->order = $order;
         return $this;
     }
     
-    /**
-     * Returns a list of all entries of the given item
-     * @param $key if given the key is a sub amount of entries
-     * @returns array the unsorted, unliced list of all entries
-     */
-    abstract protected function prepareList($key,$order,$delta,$limit);
-    
-    abstract protected function prepareMatrix($input): array;
-    
-    abstract protected function prepareHeaders(): array;
-    
-    /**
-     * Slices the given list
-     */
-    protected function sliceList($list,int $page): array
+    public function setFilter(string $filter): SunhillListResponse
     {
-        $result = [];
-        $start = $page*self::ENTRIES_PER_PAGE;
-        $end = ($page+1)*self::ENTRIES_PER_PAGE-1;
-        $i=0;
-        foreach ($list as $key => $entry) {
-            if (($i >= $start) && ($i <= $end)) {
-                $result[$key] = $entry;
-            }
-            $i++;
-        }
-        return $result;
+        $this->filter = $filter;
+        return $this;
     }
     
-    protected function getPaginator(array $list): array
+    public function setFilterCondition(string $filter_condition): SunhillListResponse
     {
+        $this->filter_condition = $filter_condition;
+        return $this;
     }
     
     /**
-     * The default param processing expects a delta field and a order field, key is defaulted to empty
+     * This method has to be implemented by any derrived list to define what columns should be displayed
+     * @param ListDescription $descriptor
      */
-    function getParams(): array
-    {
-        return ['delta'=>$this->delta, 'order'=>$this->order, 'key'=>$this->key];
-    }
+    abstract protected function defineList(ListDescriptor &$descriptor);
     
     /**
-     * Extracts the params and set defaults to those that needn't to be processed
+     * Returns the count of entries for the given filter (if any)
+     * @param string $filter
      */
-    private function processParams()
-    {
-        $params = $this->getParams();
-        $this->params['key'] = $params['key'];
-        $this->params['delta'] = $params['delta'];
-        $this->params['order'] = $params['order'];
-    }
+    abstract protected function getEntryCount(string $filter = '');
     
     /**
-     * Retrieves the list of items, sorts it and then slices it
+     * Creates a list descriptor and calls defineLIst()
+     * @return \Sunhill\Visual\Response\ListDescriptor
      */
-    private function processList()
+    protected function getListDescriptor()
     {
-        $this->params['items'] = $this->prepareMatrix($this->prepareList($this->params['key'],$this->params['order'],$this->params['delta'],self::ENTRIES_PER_PAGE));
-    }
-    
-    /**
-     * Returns the total number of entries in this list
-     * @return int
-     */
-    protected function getTotalEntryCount()
-    {
-    }
-    
-    protected function getPaginatorLink(int $index)
-    {
-    }
-    
-    protected function getCurrentPage()
-    {
-        return $this->params['delta'];
-    }
-
-    /**
-     * Checks if there are less entries than in the ENTRIES_PER_PAGE constant. If yes
-     * Clear the paginator and return true otherwise return false 
-     * @return bool
-     */
-    protected function checkForLessEntriesThanEntriesPerPage(): bool
-    {        
-        if (self::ENTRIES_PER_PAGE < $this->getTotalEntryCount()) {
-            return false;
-        }
-        $this->params['pages'] = [];
-        return true;
-    }
-
-    protected function getNumberOfPages(): int
-    {
-        return ceil($this->getTotalEntryCount() / self::ENTRIES_PER_PAGE); // Number of pages        
-    }
-
-    /**
-     * Checks if the given index $page_index is below 0 or higher than number_of_pages. If yes
-     * it raises an UserException
-     * @param int $page_index
-     * @param int $number_of_pages
-     * @throws SunhillUserException
-     */
-    protected function checkWrongPageIndex(int $page_index, int $number_of_pages)
-    {
-        if (($page_index < 0) || ($page_index >= $number_of_pages)) {
-            throw new SunhillUserException(__("The index ':index' is out of range.",['index'=>$page_index]));
-        }
-    }
-    
-    protected function processPaginator()
-    {
-        $pages = $this->getNumberOfPages();
-        $current_page = $this->getCurrentPage();
-        $this->checkWrongPageIndex($current_page, $pages);
-        if ($this->checkForLessEntriesThanEntriesPerPage()) {
-            return;
-        }
-        
-        if (($current_page - self::PAGINATOR_NEIGHBOURS)<1) {
-            $start = 1;
-            $this->params['left_ellipse'] = '';
-        } else {
-            $start = ($current_page - self::PAGINATOR_NEIGHBOURS);
-            $this->params['left_ellipse'] = '...';
-        }
-        if (($current_page + self::PAGINATOR_NEIGHBOURS)>($pages-1)) {
-            $end = $pages - 1;
-            $this->params['right_ellipse'] = '';
-        } else {
-            $end = ($current_page + self::PAGINATOR_NEIGHBOURS);
-            $this->params['right_ellipse'] = '...';
-        }
-        
-        $result = [];
-        $entry = new \StdClass();
-        $entry->link = $this->getPaginatorLink(0);
-        $entry->text = "1";
-        $result[] = $entry;
-        for ($i=$start;$i<$end;$i++) {
-            $entry = new \StdClass();
-            $entry->link = $this->getPaginatorLink($i);
-            $entry->text = $i+1;
-            $result[] = $entry;
-        }
-        $entry = new \StdClass();
-        $entry->link = $this->getPaginatorLink($pages-1);
-        $entry->text = $pages;
-        $result[] = $entry;
-        
-        $this->params['pages'] = $result;
-    }
-    
-    /**
-     * This method could be overwritten to do some additional processing
-     */
-    protected function processAdditional()
-    {
-    }
-    
-    protected function processHeaders()
-    {
-        $this->params['headers'] = $this->prepareHeaders();
+        $list_descriptor = new ListDescriptor();
+        $this->defineList($list_descriptor);
+        return $list_descriptor;
     }
     
     protected function prepareResponse()
     {
         parent::prepareResponse();
-        $this->processParams();
-        $this->processHeaders();
-        $this->processList();
         
-        $this->processPaginator();
-        $this->processAdditional();
+        $list_descriptor = $this->getListDescriptor();
+        
     }
-        
+    
 }
