@@ -120,12 +120,29 @@ abstract class SunhillListResponse extends SunhillBladeResponse
         return $list_descriptor;
     }
     
+    protected function processHeader()
+    {
+        
+    }
+    
+    protected function processBody()
+    {
+        
+    }
+    
+    protected function processPaginator()
+    {
+        
+    }
+    
     protected function prepareResponse()
     {
         parent::prepareResponse();
         
         $list_descriptor = $this->getListDescriptor();
-        
+        $this->processHeader();
+        $this->processBody();
+        $this->processPaginator();
     }
     
 }

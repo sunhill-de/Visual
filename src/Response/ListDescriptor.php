@@ -16,4 +16,25 @@ namespace Sunhill\Visual\Response;
 class ListDescriptor
 {
     
+    public function column(string $name): ListDescriptor
+    {
+        return $this;
+    }
+    
+    public function title(string $title) : ListDescriptor
+    {
+        return $this;
+        
+    }
+    
+    public function link(string $route, array $params): ListDescriptor
+    {
+        return $this;
+        
+    }
+    
+    public function searchable(): ListDescriptor
+    {
+        return $this;
+    }
 }
