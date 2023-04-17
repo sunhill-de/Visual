@@ -15,7 +15,8 @@ namespace Sunhill\Visual\Response;
  */
 class ListEntry
 {
-    
+    use AccessData;
+   
     protected $name = '';
         
     protected $title = '';
@@ -56,18 +57,18 @@ class ListEntry
         return $this;        
     }
     
-    protected function getCurrentParams(array $current)
+    protected function getCurrentParams($current)
     {
         $result = [];
         
         foreach ($this->link_params as $key => $value) {
-            $result[$key] = $current[$value];    
+            $result[$key] = $this->accessData($current, $value); 
         }
         
         return $result;
     }
     
-    public function getLink(array $current)
+    public function getLink($current)
     {
         if (empty($this->link_route)) {
            return null;  
