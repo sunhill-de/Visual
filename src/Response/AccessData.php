@@ -45,9 +45,13 @@ trait AccessData
             case 'keyfield':
                 return Dialogs::getObjectKeyfield($data);
             case 'id':
-                return $data->getID();
+                if (is_a($data, ORMObject::class)) {
+                    return $data->getID();
+                }
             case 'class':
-                return $data::getInfo('name');
+                if (is_a($data, ORMObject::class)) {
+                    return $data::getInfo('name');
+                }
         }
         if (is_array($data)) {
             return $this->getArrayData($data, $item);
