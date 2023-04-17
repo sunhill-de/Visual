@@ -37,6 +37,8 @@ abstract class SunhillListResponse extends SunhillBladeResponse
      */
     const PAGINATOR_NEIGHBOURS = 10;
     
+    protected $route = '';
+    
     /**
      * The key of this list (see above)
      * @var string
@@ -107,7 +109,9 @@ abstract class SunhillListResponse extends SunhillBladeResponse
      * Returns the count of entries for the given filter (if any)
      * @param string $filter
      */
-    abstract protected function getEntryCount(string $filter = '');
+    abstract protected function getEntryCount(): int;
+    
+    abstract protected function getData(): array;
     
     /**
      * Creates a list descriptor and calls defineLIst()
@@ -120,19 +124,152 @@ abstract class SunhillListResponse extends SunhillBladeResponse
         return $list_descriptor;
     }
     
-    protected function processHeader()
+    protected function getSortLink(ListEntry $entry)
     {
-        
+        if ($entry->getSearchable()) {
+            return route($this->route,['page'=>0,'order'=>$entry->getName()]);
+        } 
+        return null;
     }
     
-    protected function processBody()
+    protected function processHeader(ListDescriptor $descriptor)
     {
+        $header = [];
         
+        foreach ($descriptor as $entry) {
+            $list_entry = new \StdClass();
+            $list_entry->name = $entry->getTitle();
+            $list_entry->link = $this->getSortLink($entry);
+            
+            $header[] = $list_entry;
+        }
+        
+        $this->params['headers'] = $header;
+    }
+
+    protected function sliceData(array $data, int $offset = null): array
+    {
+        $offset = is_null($offset)?$this->offset:$offset;
+        return array_slice($data, $offset * self::ENTRIES_PER_PAGE, self::ENTRIES_PER_PAGE);    
     }
     
-    protected function processPaginator()
+    protected function getDataRow(array $data_row, ListDescriptor $descriptor)
     {
+        $result = [];
         
+        foreach ($descriptor as $entry) {
+            $data_entry = new \StdClass();
+            if (isset($data_row[$entry->getName()])) {
+                $data_entry->name = $data_row[$entry->getName()];                
+            } else {
+                $data_entry->name = __($entry->getName());
+            }
+            $data_entry->link = $entry->getLink($data_row);
+            
+            $result[] = $data_entry;
+        }
+        
+        return $result;
+    }
+    
+    protected function processBody(ListDescriptor $descriptor)
+    {
+        $table_data = [];
+        $data = $this->getData();
+        foreach ($data as $data_row) {
+            $table_data[] = $this->getDataRow($data_row, $descriptor);
+        }
+        $this->params['items'] = $table_data;
+    }
+    
+    protected function getCurrentPage()
+    {
+        return $this->offset;
+    }
+    
+    /**
+     * Checks if there are less entries than in the ENTRIES_PER_PAGE constant. If yes
+     * Clear the paginator and return true otherwise return false
+     * @return bool
+     */
+    protected function checkForLessEntriesThanEntriesPerPage(): bool
+    {
+        if (self::ENTRIES_PER_PAGE < $this->getEntryCount()) {
+            return false;
+        }
+        $this->params['pages'] = [];
+        return true;
+    }
+    
+    protected function getNumberOfPages(): int
+    {
+        return ceil($this->getEntryCount() / self::ENTRIES_PER_PAGE); // Number of pages
+    }
+    
+    /**
+     * Checks if the given index $page_index is below 0 or higher than number_of_pages. If yes
+     * it raises an UserException
+     * @param int $page_index
+     * @param int $number_of_pages
+     * @throws SunhillUserException
+     */
+    protected function checkWrongPageIndex(int $page_index, int $number_of_pages)
+    {
+        if (($page_index < 0) || ($page_index >= $number_of_pages)) {
+            throw new SunhillUserException(__("The index ':index' is out of range.",['index'=>$page_index]));
+        }
+    }
+    
+    protected function getPaginatorLink(int $offset)
+    {
+        $route_data = ['page'=>$offset,'order'=>$this->order];
+        if (!empty($this->key)) {
+            $route_data['key'] = $this->key;
+        }
+        return route($this->route,$route_data);
+    }
+    
+    protected function processPaginator(ListDescriptor $descriptor)
+    {
+        $pages = $this->getNumberOfPages();
+        $current_page = $this->getCurrentPage();
+        $this->checkWrongPageIndex($current_page, $pages);
+        if ($this->checkForLessEntriesThanEntriesPerPage()) {
+            return;
+        }
+        
+        if (($current_page - self::PAGINATOR_NEIGHBOURS)<1) {
+            $start = 1;
+            $this->params['left_ellipse'] = '';
+        } else {
+            $start = ($current_page - self::PAGINATOR_NEIGHBOURS);
+            $this->params['left_ellipse'] = '...';
+        }
+        if (($current_page + self::PAGINATOR_NEIGHBOURS)>($pages-1)) {
+            $end = $pages - 1;
+            $this->params['right_ellipse'] = '';
+        } else {
+            $end = ($current_page + self::PAGINATOR_NEIGHBOURS);
+            $this->params['right_ellipse'] = '...';
+        }
+        
+        $result = [];
+        $entry = new \StdClass();
+        $entry->link = $this->getPaginatorLink(0);
+        $entry->text = "1";
+        $result[] = $entry;
+        for ($i=$start;$i<$end;$i++) {
+            $entry = new \StdClass();
+            $entry->link = $this->getPaginatorLink($i);
+            $entry->text = $i+1;
+            $result[] = $entry;
+        }
+        $entry = new \StdClass();
+        $entry->link = $this->getPaginatorLink($pages-1);
+        $entry->text = $pages;
+        $result[] = $entry;
+        
+        $this->params['pages'] = $result;
     }
     
     protected function prepareResponse()
@@ -140,9 +277,9 @@ abstract class SunhillListResponse extends SunhillBladeResponse
         parent::prepareResponse();
         
         $list_descriptor = $this->getListDescriptor();
-        $this->processHeader();
-        $this->processBody();
-        $this->processPaginator();
+        $this->processHeader($list_descriptor);
+        $this->processBody($list_descriptor);
+        $this->processPaginator($list_descriptor);
     }
     
 }

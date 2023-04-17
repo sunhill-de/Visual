@@ -13,28 +13,43 @@ namespace Sunhill\Visual\Response;
  * @author lokal
  *
  */
-class ListDescriptor
+class ListDescriptor implements \Iterator
 {
     
-    public function column(string $name): ListDescriptor
-    {
-        return $this;
-    }
+    protected $entries = [];
+
+    protected $current = 0;
     
-    public function title(string $title) : ListDescriptor
-    {
-        return $this;
+    public function column(string $name): ListEntry
+    {        
+        $entry = new ListEntry($name);
+        $this->entries[] = $entry;
         
+        return $entry;
     }
     
-    public function link(string $route, array $params): ListDescriptor
+    public function current(): mixed
     {
-        return $this;
-        
+        return $this->entries[$this->current];
     }
     
-    public function searchable(): ListDescriptor
+    public function key(): mixed
     {
-        return $this;
+        return $this->current;    
+    }
+    
+    public function next(): void
+    {
+        $this->current++;
+    }
+    
+    public function rewind(): void
+    {
+        $this->current = 0;
+    }
+    
+    public function valid(): bool
+    {
+       return isset($this->entries[$this->current]);
     }
 }
