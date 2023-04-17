@@ -27,6 +27,8 @@ use Sunhill\Visual\Modules\SunhillModuleTrait;
 abstract class SunhillListResponse extends SunhillBladeResponse
 {
  
+    use AccessData;
+    
     /**
      * Defines how many entry per page should be displayed
      */
@@ -111,7 +113,7 @@ abstract class SunhillListResponse extends SunhillBladeResponse
      */
     abstract protected function getEntryCount(): int;
     
-    abstract protected function getData(): array;
+    abstract protected function getData();
     
     /**
      * Creates a list descriptor and calls defineLIst()
@@ -152,15 +154,15 @@ abstract class SunhillListResponse extends SunhillBladeResponse
         $offset = is_null($offset)?$this->offset:$offset;
         return array_slice($data, $offset * self::ENTRIES_PER_PAGE, self::ENTRIES_PER_PAGE);    
     }
-    
-    protected function getDataRow(array $data_row, ListDescriptor $descriptor)
+        
+    protected function getDataRow($data_row, ListDescriptor $descriptor)
     {
         $result = [];
         
         foreach ($descriptor as $entry) {
             $data_entry = new \StdClass();
-            if (isset($data_row[$entry->getName()])) {
-                $data_entry->name = $data_row[$entry->getName()];                
+            if (!is_null($data_item = $this->accessData($data_row, $entry->getName()))) {
+                $data_entry->name = $data_item;
             } else {
                 $data_entry->name = __($entry->getName());
             }
@@ -215,6 +217,9 @@ abstract class SunhillListResponse extends SunhillBladeResponse
      */
     protected function checkWrongPageIndex(int $page_index, int $number_of_pages)
     {
+        if (!$page_index) {
+            return;
+        }
         if (($page_index < 0) || ($page_index >= $number_of_pages)) {
             throw new SunhillUserException(__("The index ':index' is out of range.",['index'=>$page_index]));
         }
@@ -272,10 +277,19 @@ abstract class SunhillListResponse extends SunhillBladeResponse
         $this->params['pages'] = $result;
     }
     
+    protected function addStdFields()
+    {
+        $this->params['key'] = $this->key;    
+        $this->params['order'] = $this->order;
+        $this->params['filter'] = $this->filter;
+        $this->params['page'] = $this->offset;
+    }
+    
     protected function prepareResponse()
     {
         parent::prepareResponse();
         
+        $this->addStdFields();
         $list_descriptor = $this->getListDescriptor();
         $this->processHeader($list_descriptor);
         $this->processBody($list_descriptor);
