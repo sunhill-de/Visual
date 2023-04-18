@@ -27,6 +27,8 @@ class ListEntry
     
     protected $searchable = false;
     
+    protected $return_if_null = null;
+    
     public function __construct(string $name)
     {
         $this->name = $name;    
@@ -96,5 +98,17 @@ class ListEntry
     public function getSearchable(): bool
     {
         return $this->searchable;
+    }
+    
+    public function nullable(string $return_if_null = ""): ListEntry
+    {
+        $this->return_if_null = $return_if_null;
+        
+        return $this;
+    }
+    
+    public function getReturnIfNull()
+    {
+        return $this->return_if_null;
     }
 }
