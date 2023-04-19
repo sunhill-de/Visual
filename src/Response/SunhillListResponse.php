@@ -286,6 +286,7 @@ abstract class SunhillListResponse extends SunhillBladeResponse
         $result[] = $entry;
         
         $this->params['pages'] = $result;
+        $this->params['current_page'] = $current_page;
     }
     
     protected function addStdFields()
