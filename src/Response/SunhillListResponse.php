@@ -59,6 +59,8 @@ abstract class SunhillListResponse extends SunhillBladeResponse
      */
     protected $order = 'id';
 
+    protected $order_dir = 'asc';
+    
     /**
      * The current set filter of this list (see above)
      * @var string
@@ -85,7 +87,13 @@ abstract class SunhillListResponse extends SunhillBladeResponse
     
     public function setOrder(string $order): SunhillListResponse
     {
-        $this->order = $order;
+        if (substr($order,0,4) == 'rev_') {
+            $this->order = substr($order,4);
+            $this->order_dir = 'desc';
+        } else {
+            $this->order = $order;
+            $this->order_dir = 'asc';
+        }
         return $this;
     }
     
@@ -129,7 +137,11 @@ abstract class SunhillListResponse extends SunhillBladeResponse
     protected function getSortLink(ListEntry $entry)
     {
         if ($entry->getSearchable()) {
-            return route($this->route,['page'=>0,'order'=>$entry->getName()]);
+            if (($this->order == $entry->getName()) && ($this->order_dir == 'asc')) {
+                return route($this->route,['page'=>0,'order'=>'rev_'.$entry->getName()]);                
+            } else {
+                return route($this->route,['page'=>0,'order'=>$entry->getName()]);
+            }
         } 
         return null;
     }
