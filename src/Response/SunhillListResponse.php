@@ -8,7 +8,7 @@
 namespace Sunhill\Visual\Response;
 
 use Sunhill\Visual\Modules\SunhillModuleTrait;
-
+use Illuminate\Support\Facades\Route;
 /**
  * Baseclass list responses
  * @author klaus
@@ -289,12 +289,19 @@ abstract class SunhillListResponse extends SunhillBladeResponse
         $this->params['current_page'] = $current_page;
     }
     
+    protected function getFilters()
+    {
+        return [];    
+    }
+    
     protected function addStdFields()
     {
         $this->params['key'] = $this->key;    
         $this->params['order'] = $this->order;
         $this->params['filter'] = $this->filter;
         $this->params['page'] = $this->offset;
+        $this->params['current'] = Route::currentRouteName();
+        $this->params['filters'] = $this->getFilters();
     }
     
     protected function prepareResponse()

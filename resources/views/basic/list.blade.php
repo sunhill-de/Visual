@@ -2,6 +2,14 @@
 @extends('visual::basic.navigation')
 
 @section('content')
+ @if(!empty($filters))
+ <label for="filter">{{ __('Filter') }}</label>
+ <select id="filter" name="filter" onchange="return filterchanged()">
+  @foreach ($filters as $filter_name => $filter_description)
+  <option value="{{$filter_name}}" @selected($filter==$filter_name)>{{ __($filter_description) }}</option>
+  @endforeach
+ </select>
+ @endif
  @hasSection('tableheader')
   @yield('tableheader')
  @endif
@@ -40,6 +48,13 @@
   @endforelse 
  </tbody>
 </table>
+ <script>
+ function filterchanged() {
+ 	var filter = $("#filter").val();
+ 	var link = "{{ route($current,['page'=>$page,'order'=>$order,'filter'=>'']) }}"+"/"+filter;
+ 	window.location.href = link;
+ }
+ </script>
 
 @isset($pages)
 <nav class="pagination" role="navigation" aria-label="pagination">
