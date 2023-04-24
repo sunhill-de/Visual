@@ -70,11 +70,15 @@ class SunhillResponseBase
         try {
             $this->prepareResponse();
             return $this->getResponse();
-        } catch (SunhillUserException $e) {
+        }         
+        catch (SunhillUserException $e) {
             report($e);
             $params = $this->getBasicParams();
             $params['e'] = $e;
             return response()->view('visual::basic.usererror',$params, 500);
+        }
+        catch (SunhillRedirectException $e) {
+               
         }
     }
 }
