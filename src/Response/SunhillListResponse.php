@@ -167,28 +167,13 @@ abstract class SunhillListResponse extends SunhillBladeResponse
         return array_slice($data, $offset * self::ENTRIES_PER_PAGE, self::ENTRIES_PER_PAGE);    
     }
         
-    protected function handleNull($entry)
-    {
-        $result = $entry->getReturnIfNull();
-        
-        if (is_null($result)) {
-            return __($entry->getName());            
-        } else {
-            return __($result);
-        }
-    }
-    
     protected function getDataRow($data_row, ListDescriptor $descriptor)
     {
         $result = [];
         
         foreach ($descriptor as $entry) {
             $data_entry = new \StdClass();
-            if (!is_null($data_item = $this->accessData($data_row, $entry->getName()))) {
-                $data_entry->name = $data_item;
-            } else {
-                $data_entry->name = $this->handleNull($entry);
-            }
+            $data_entry->name = $entry->getText($data_row);
             $data_entry->link = $entry->getLink($data_row);
             
             $result[] = $data_entry;

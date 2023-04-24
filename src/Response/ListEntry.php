@@ -29,6 +29,8 @@ class ListEntry
     
     protected $return_if_null = null;
     
+    protected $callback = null;
+    
     public function __construct(string $name)
     {
         $this->name = $name;    
@@ -110,5 +112,40 @@ class ListEntry
     public function getReturnIfNull()
     {
         return $this->return_if_null;
+    }
+    
+    public function displayCallback(callable $callback)
+    {
+        $this->callback = $callback;
+    }
+    
+    protected function handleNull()
+    {
+        $result = $this->getReturnIfNull();
+        
+        if (is_null($result)) {
+            return __($this->getName());
+        } else {
+            return __($result);
+        }
+    }
+    
+    protected function getStdText($data_row)
+    {
+        if (!is_null($data_item = $this->accessData($data_row, $this->getName()))) {
+            return $data_item;
+        } else {
+            return $this->handleNull();
+        }        
+    }
+    
+    public function getText($data)
+    {
+        if (!is_null($this->callback)) {
+            $callback = $this->callback;
+            return $callback($data);
+        } else {
+            return $this->getStdText($data);            
+        }
     }
 }
