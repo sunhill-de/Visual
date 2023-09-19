@@ -6,7 +6,7 @@ use Illuminate\View\Component;
 use Sunhill\ORM\Facades\Classes;
 use Sunhill\ORM\Facades\Objects;
 use Sunhill\Visual\Facades\Dialogs;
-use Sunhill\InfoMarket\Facades\InfoMarket;
+use Sunhill\ORM\Facades\InfoMarket;
 
 class Data extends Component
 {
