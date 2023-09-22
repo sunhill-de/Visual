@@ -44,12 +44,21 @@ class ListEntry
         } else {
             $field = $key;
         }
+        if (!is_null($this->callback)) {
+            return $this->getCallbackDataElement($data_set, $field);
+        }
         if (is_array($data_set)) {
             return $this->getArrayDataElement($data_set, $field);
         }
         if (is_a($data_set, \StdClass::class)) {
             return $this->getObjectDataElement($data_set, $field);
         }
+    }
+    
+    protected function getCallbackDataElement($data_set, string $field)
+    {
+        $callback = $this->callback;
+        return $callback($data_set, $field);    
     }
     
     protected function getObjectDataElement(\StdClass $data_set, string $field)
@@ -132,6 +141,13 @@ class ListEntry
     public function getLinkTitle(): string
     {
         return $this->link_title;    
+    }
+    
+    public function setCallback($callback): ListEntry
+    {
+        $this->callback = $callback;
+        
+        return $this;
     }
     
     /**
