@@ -199,8 +199,8 @@ abstract class SunhillListResponse extends SunhillBladeResponse
     protected function getDataRow($data_row, ListDescriptor $descriptor)
     {
         $result = [];
-        $id = $this->getID($data_row);
         if ($descriptor->getGroupselect()) {
+            $id = $this->getID($data_row);
             $result[] = '<input type="checkbox" name="selected[]" value="'.$id.'"></input>';
         }
         foreach ($descriptor as $entry) {
