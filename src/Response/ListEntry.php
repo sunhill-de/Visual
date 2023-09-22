@@ -21,8 +21,6 @@ class ListEntry
     
     protected $field_name = '';
     
-    protected $name = '';
-        
     protected $title = '';
     
     protected $link_route = '';
@@ -33,16 +31,138 @@ class ListEntry
     
     protected $searchable = false;
     
-    protected $return_if_null = null;
-    
     protected $callback = null;
     
     protected $class = null;
     
+    /**
+     * Setter for class. With setClass it is possible to pass a css class that is used for the header
+     * cell tag (like is-narrow)
+     * @param string $class
+     * @return ListEntry
+     */
     public function setClass(string $class): ListEntry
     {
         $this->class = $class; 
         return $this;
+    }
+    
+    /**
+     * Setter for link_title. With setLinkTitle it is possible to pass a fixed string to a cell that is
+     * displayed in every row (like 'delete')
+     * @param string $link_title
+     * @return ListEntry
+     */
+    public function setLinkTitle(string $link_title): ListEntry
+    {
+        $this->link_title = $link_title;
+        
+        return $this;
+    }
+    
+    /**
+     * Getter for link_title
+     * @return string
+     */
+    public function getLinkTitle(): string
+    {
+        return $this->link_title;
+    }
+    
+    public function setCallback($callback): ListEntry
+    {
+        $this->callback = $callback;
+        
+        return $this;
+    }
+    
+    /**
+     * Sets the field name for columns that access the data source
+     * @param string $field_name
+     * @return DataListEntry
+     */
+    public function setFieldName(string $field_name): ListEntry
+    {
+        $this->field_name = $field_name;
+        
+        return $this;
+    }
+    
+    public function getFieldName(): string
+    {
+        return $this->field_name;
+    }
+    
+    /**
+     * Sets the title of the column. This will be passed to __()
+     * @param string $column_title
+     * @return \Sunhill\Visual\Response\ListEntry
+     */
+    public function setColumnTitle(string $column_title)
+    {
+        $this->column_title = $column_title;
+        return $this;
+    }
+    
+    /**
+     * Returns the title of the column.
+     * @return string
+     */
+    public function getColumnTitle(): string
+    {
+        if (empty($this->column_title)) {
+            return '';
+        }
+        return __($this->column_title);
+    }
+    
+    /**
+     * Marks (by default value) the given column as sortable
+     * @param bool $column_sortable
+     * @return \Sunhill\Visual\Response\ListEntry
+     */
+    public function setColumnSortable(bool $column_sortable = true)
+    {
+        $this->column_sortable = $column_sortable;
+        return $this;
+    }
+    
+    /**
+     * Returns if this column in sortable
+     * @return bool
+     */
+    public function getColumnSortable(): bool
+    {
+        return $this->column_sortable;
+    }
+    
+    public function getName(): string
+    {
+        return $this->name;
+    }
+    
+    public function title(string $title) : ListEntry
+    {
+        $this->title = $title;
+        
+        return $this;
+    }
+    
+    public function getTitle(): string
+    {
+        return __($this->title);
+    }
+    
+    public function searchable(bool $searchable = true): ListEntry
+    {
+        $this->searchable = $searchable;
+        
+        return $this;
+    }
+    
+    public function getSearchable(): bool
+    {
+        return $this->searchable;
     }
     
     protected function getDataElement($data_set, $key = '')
@@ -142,105 +262,12 @@ class ListEntry
         return $return;    
     }
     
-    protected function checkTranslation(string $input)
+    protected function checkTranslation($input)
     {
-        return $input;    
-    }
-    
-    public function setLinkTitle(string $link_title): ListEntry
-    {
-        $this->link_title = $link_title;
-        
-        return $this;
-    }
-    
-    public function getLinkTitle(): string
-    {
-        return $this->link_title;    
-    }
-    
-    public function setCallback($callback): ListEntry
-    {
-        $this->callback = $callback;
-        
-        return $this;
-    }
-    
-    /**
-     * Sets the field name for columns that access the data source
-     * @param string $field_name
-     * @return DataListEntry
-     */
-    public function setFieldName(string $field_name): ListEntry
-    {
-        $this->field_name = $field_name;
-        
-        return $this;
-    }
-    
-    public function getFieldName(): string
-    {
-        return $this->field_name;
-    }
-    
-    /**
-     * Sets the title of the column. This will be passed to __()
-     * @param string $column_title
-     * @return \Sunhill\Visual\Response\ListEntry
-     */
-    public function setColumnTitle(string $column_title)
-    {
-        $this->column_title = $column_title;
-        return $this;
-    }
-    
-    /**
-     * Returns the title of the column.
-     * @return string
-     */
-    public function getColumnTitle(): string
-    {
-        if (empty($this->column_title)) {
+        if (empty($input)) {
             return '';
         }
-        return __($this->column_title);    
-    }
-    
-    /**
-     * Marks (by default value) the given column as sortable
-     * @param bool $column_sortable
-     * @return \Sunhill\Visual\Response\ListEntry
-     */
-    public function setColumnSortable(bool $column_sortable = true)
-    {
-        $this->column_sortable = $column_sortable;
-        return $this;
-    }
-    
-    /**
-     * Returns if this column in sortable
-     * @return bool
-     */
-    public function getColumnSortable(): bool
-    {
-        return $this->column_sortable;
-    }
-    
-    public function getName(): string
-    {
-        return $this->name;
-    }
-    
-    public function title(string $title) : ListEntry
-    {
-        $this->title = $title;
-        
-        return $this;        
-    }
-    
-    public function getTitle(): string
-    {
-        return __($this->title);    
+        return $input;    
     }
     
     public function link(string $route, array $params): ListEntry
@@ -251,17 +278,6 @@ class ListEntry
         return $this;        
     }
     
-    public function searchable(bool $searchable = true): ListEntry
-    {
-        $this->searchable = $searchable;
-        
-        return $this;
-    }
-    
-    public function getSearchable(): bool
-    {
-        return $this->searchable;
-    }
     
      
 }
