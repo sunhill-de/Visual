@@ -27,8 +27,6 @@ use Illuminate\Support\Facades\Route;
 abstract class SunhillListResponse extends SunhillBladeResponse
 {
  
-    use AccessData;
-    
     /**
      * Defines how many entry per page should be displayed
      */
@@ -134,13 +132,24 @@ abstract class SunhillListResponse extends SunhillBladeResponse
         return $list_descriptor;
     }
     
+    protected function getRouteParameters()
+    {
+        return [
+            'page'=>$this->offset,
+            'order'=>$this->order_dir == 'desc'?'rev_'.$this->order:$this->order
+        ];    
+    }
+    
     protected function getSortLink(ListEntry $entry)
     {
         if ($entry->getSearchable()) {
+            $route_parameters = $this->getRouteParameters();
             if (($this->order == $entry->getName()) && ($this->order_dir == 'asc')) {
-                return route($this->route,['page'=>0,'order'=>'rev_'.$entry->getName()]);                
+                $route_parameters['order'] = 'rev_'.$entry->getName();
+                return route($this->route,$route_parameters);                
             } else {
-                return route($this->route,['page'=>0,'order'=>$entry->getName()]);
+                $route_parameters['order'] = $entry->getName();
+                return route($this->route,$route_parameters);
             }
         } 
         return null;
@@ -167,13 +176,18 @@ abstract class SunhillListResponse extends SunhillBladeResponse
         return array_slice($data, $offset * self::ENTRIES_PER_PAGE, self::ENTRIES_PER_PAGE);    
     }
         
+    protected function processText(string $input): string
+    {
+        return $input;    
+    }
+    
     protected function getDataRow($data_row, ListDescriptor $descriptor)
     {
         $result = [];
         
         foreach ($descriptor as $entry) {
             $data_entry = new \StdClass();
-            $data_entry->name = $entry->getText($data_row);
+            $data_entry->name = $this->processText($entry->getText($data_row));
             $data_entry->link = $entry->getLink($data_row);
             
             $result[] = $data_entry;
@@ -235,10 +249,10 @@ abstract class SunhillListResponse extends SunhillBladeResponse
     
     protected function getPaginatorLink(int $offset)
     {
-        $route_data = ['page'=>$offset,'order'=>$this->order];
-        if (!empty($this->key)) {
+        $route_data = $this->getRouteParameters();
+/*        if (!empty($this->key)) {
             $route_data['key'] = $this->key;
-        }
+        } */
         return route($this->route,$route_data);
     }
     
