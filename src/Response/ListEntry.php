@@ -15,8 +15,6 @@ namespace Sunhill\Visual\Response;
  */
 class ListEntry
 {
-    use AccessData;
-   
     protected $name = '';
         
     protected $title = '';
@@ -59,6 +57,24 @@ class ListEntry
         $this->link_params = $params;
     
         return $this;        
+    }
+    
+    protected function accessData($data, $item = null)
+    {
+        if (is_array($data)) {
+            if (!array_key_exists($item,$data)) {
+                return __($item);
+            } else {
+                return $data[$item];
+            }
+        } else if (is_a($data, \StdClass::class)) {
+            if (property_exists($data, $item)) {
+                return $data->$item;
+            } else {
+                return __($item);
+            }
+        } 
+        return $data;
     }
     
     protected function getCurrentParams($current)
