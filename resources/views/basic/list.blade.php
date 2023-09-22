@@ -18,7 +18,11 @@
    <thead>
    <tr>
     @foreach ($headers as $entry)
-    <th>{!! $entry !!}</th>
+    @if(isset($entry->class))
+    <th  class="{{ $entry->class }}">{!! $entry->title !!}</th>        
+    @else
+    <th>{!! $entry->title !!}</th>    
+    @endif
     @endforeach
   </tr>
  </thead>  

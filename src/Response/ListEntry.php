@@ -37,6 +37,14 @@ class ListEntry
     
     protected $callback = null;
     
+    protected $class = null;
+    
+    public function setClass(string $class): ListEntry
+    {
+        $this->class = $class; 
+        return $this;
+    }
+    
     protected function getDataElement($data_set, $key = '')
     {
         if (empty($key)) {
@@ -79,9 +87,17 @@ class ListEntry
         }
     }
     
+    protected function createHeaderEntry($title, $class = null)
+    {
+        $result = new \StdClass();
+        $result->title = $title;
+        $result->class = $class;
+        return $result;
+    }
+    
     public function getHeaderEntry()
     {
-        return $this->getTitle();
+        return $this->createHeaderEntry($this->getTitle(), $this->class);
     }
     
     public function getDataEntry($data_set)

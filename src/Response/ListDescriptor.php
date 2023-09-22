@@ -20,6 +20,18 @@ class ListDescriptor implements \Iterator
 
     protected $current = 0;
     
+    protected $groupselect = false;
+    
+    public function groupselect(bool $value = true)
+    {
+        $this->groupselect = $value;    
+    }
+    
+    public function getGroupselect(): bool
+    {
+        return $this->groupselect;    
+    }
+    
     public function column(string $name): ListEntry
     {        
         return $this->dataField($name);

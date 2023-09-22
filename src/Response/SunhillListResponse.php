@@ -155,10 +155,21 @@ abstract class SunhillListResponse extends SunhillBladeResponse
         return null;
     }
     
+    protected function createHeaderEntry($title, $class = null)
+    {
+        $result = new \StdClass();
+        $result->title = $title;
+        $result->class = $class;
+        return $result;
+    }
+    
     protected function processHeader(ListDescriptor $descriptor)
     {
         $header = [];
         
+        if ($descriptor->getGroupselect()) {
+            $header[] = $this->createHeaderEntry('','is-narrow');
+        }
         foreach ($descriptor as $entry) {
             $header[] = $entry->getHeaderEntry();
         }
@@ -176,11 +187,22 @@ abstract class SunhillListResponse extends SunhillBladeResponse
     {
         return $input;    
     }
+
+    protected function getID($data_row)
+    {
+        if (is_array($data_row)) {
+            return $data_row['id'];
+        }
+        return $data_row->id;
+    }
     
     protected function getDataRow($data_row, ListDescriptor $descriptor)
     {
         $result = [];
-        
+        $id = $this->getID($data_row);
+        if ($descriptor->getGroupselect()) {
+            $result[] = '<input type="checkbox" name="selected[]" value="'.$id.'"></input>';
+        }
         foreach ($descriptor as $entry) {
             $result[] = $entry->getDataEntry($data_row);
         }
@@ -242,6 +264,7 @@ abstract class SunhillListResponse extends SunhillBladeResponse
     protected function getPaginatorLink(int $offset)
     {
         $route_data = $this->getRouteParameters();
+        $route_data['page'] = $offset;
 /*        if (!empty($this->key)) {
             $route_data['key'] = $this->key;
         } */
