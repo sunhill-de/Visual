@@ -22,8 +22,40 @@ class ListDescriptor implements \Iterator
     
     public function column(string $name): ListEntry
     {        
-        $entry = new ListEntry($name);
-        $this->entries[] = $entry;
+        return $this->dataField($name);
+    }
+    
+    protected function addEntry($entry)
+    {
+        $this->entries[] = $entry;    
+    }
+    
+    public function link(string $route, array $route_parameters)
+    {
+        $entry = new LinkEntry();
+        $entry->setRoute($route);
+        $entry->setRouteParameters($route_parameters);
+        $this->addEntry($entry);
+        
+        return $entry;
+    }
+    
+    public function dataField(string $field_name)
+    {
+        $entry = new ListEntry();
+        $entry->setFieldName($field_name);
+        $this->addEntry($entry);
+        
+        return $entry;
+    }
+    
+    public function linkableDataField(string $field_name, string $route, array $route_parameters)
+    {
+        $entry = new LinkEntry();
+        $entry->setFieldName($field_name);
+        $entry->setRoute($route);
+        $entry->setRouteParameters($route_parameters);
+        $this->addEntry($entry);
         
         return $entry;
     }

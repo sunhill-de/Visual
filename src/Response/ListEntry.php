@@ -15,6 +15,12 @@ namespace Sunhill\Visual\Response;
  */
 class ListEntry
 {
+    protected $column_title = '';
+    
+    protected $column_sortable = false;
+    
+    protected $field_name = '';
+    
     protected $name = '';
         
     protected $title = '';
@@ -23,15 +29,169 @@ class ListEntry
     
     protected $link_params = [];
     
+    protected $link_title = '';
+    
     protected $searchable = false;
     
     protected $return_if_null = null;
     
     protected $callback = null;
     
-    public function __construct(string $name)
+    protected function getDataElement($data_set, $key = '')
     {
-        $this->name = $name;    
+        if (empty($key)) {
+            $field = $this->field_name;
+        } else {
+            $field = $key;
+        }
+        if (is_array($data_set)) {
+            return $this->getArrayDataElement($data_set, $field);
+        }
+        if (is_a($data_set, \StdClass::class)) {
+            return $this->getObjectDataElement($data_set, $field);
+        }
+    }
+    
+    protected function getObjectDataElement(\StdClass $data_set, string $field)
+    {
+        if (property_exists($data_set, $field)) {
+            return $data_set->$field;
+        } else {
+            return "NE";
+        }
+    }
+    
+    protected function getArrayDataElement(array $data_set, string $field)
+    {
+        if (array_key_exists($field, $data_set)) {
+            return $data_set[$field];
+        } else {
+            return "NE";
+        }
+    }
+    
+    public function getHeaderEntry()
+    {
+        return $this->getTitle();
+    }
+    
+    public function getDataEntry($data_set)
+    {
+        if (empty($this->link_route)) {
+            return $this->getSimpleEntry($data_set);
+        } else {
+            return $this->getLinkedEntry($data_set);            
+        }
+    }
+    
+    protected function getSimpleEntry($data_set)
+    {
+        return e($this->checkTranslation($this->getDataElement($data_set)));        
+    }
+    
+    protected function getLinkedEntry($data_set)
+    {
+        return '<a href="'.$this->getLinkTarget($data_set).'">'.$this->getLinkText($data_set).'</a>';
+    }
+    
+    protected function getLinkTarget($data_set)
+    {
+        return asset(route($this->link_route,$this->getRoutingParameters($data_set)));
+    }
+    
+    protected function getLinkText($data_set)
+    {
+        if (empty($this->getLinkTitle())) {
+            return e($this->checkTranslation($this->getDataElement($data_set)));
+        } else {
+            return e(__($this->getLinkTitle()));            
+        }
+    }
+    
+    protected function getRoutingParameters($data_set)
+    {
+        $return = [];
+        foreach ($this->link_params as $key => $value) {
+            $return[$key] = $this->getDataElement($data_set, $value);
+        }
+        return $return;    
+    }
+    
+    protected function checkTranslation(string $input)
+    {
+        return $input;    
+    }
+    
+    public function setLinkTitle(string $link_title): ListEntry
+    {
+        $this->link_title = $link_title;
+        
+        return $this;
+    }
+    
+    public function getLinkTitle(): string
+    {
+        return $this->link_title;    
+    }
+    
+    /**
+     * Sets the field name for columns that access the data source
+     * @param string $field_name
+     * @return DataListEntry
+     */
+    public function setFieldName(string $field_name): ListEntry
+    {
+        $this->field_name = $field_name;
+        
+        return $this;
+    }
+    
+    public function getFieldName(): string
+    {
+        return $this->field_name;
+    }
+    
+    /**
+     * Sets the title of the column. This will be passed to __()
+     * @param string $column_title
+     * @return \Sunhill\Visual\Response\ListEntry
+     */
+    public function setColumnTitle(string $column_title)
+    {
+        $this->column_title = $column_title;
+        return $this;
+    }
+    
+    /**
+     * Returns the title of the column.
+     * @return string
+     */
+    public function getColumnTitle(): string
+    {
+        if (empty($this->column_title)) {
+            return '';
+        }
+        return __($this->column_title);    
+    }
+    
+    /**
+     * Marks (by default value) the given column as sortable
+     * @param bool $column_sortable
+     * @return \Sunhill\Visual\Response\ListEntry
+     */
+    public function setColumnSortable(bool $column_sortable = true)
+    {
+        $this->column_sortable = $column_sortable;
+        return $this;
+    }
+    
+    /**
+     * Returns if this column in sortable
+     * @return bool
+     */
+    public function getColumnSortable(): bool
+    {
+        return $this->column_sortable;
     }
     
     public function getName(): string
@@ -59,53 +219,6 @@ class ListEntry
         return $this;        
     }
     
-    protected function accessData($data, $item = null)
-    {
-        if (is_array($data)) {
-            if (!array_key_exists($item,$data)) {
-                return __($item);
-            } else {
-                return $data[$item];
-            }
-        } else if (is_a($data, \StdClass::class)) {
-            if (property_exists($data, $item)) {
-                return $data->$item;
-            } else {
-                return __($item);
-            }
-        } 
-        return $data;
-    }
-    
-    protected function getCurrentParams($current)
-    {
-        $result = [];
-        
-        foreach ($this->link_params as $key => $value) {
-            $result[$key] = $this->accessData($current, $value); 
-        }
-        
-        return $result;
-    }
-    
-    public function getLink($current)
-    {
-        if (empty($this->link_route)) {
-           return null;  
-        } 
-        return route($this->link_route, $this->getCurrentParams($current));
-    }
-    
-    public function getLinkRoute(): string
-    {
-        return $this->link_route;    
-    }
-    
-    public function getLinkParams(): array
-    {
-        return $this->link_params;
-    }
-    
     public function searchable(bool $searchable = true): ListEntry
     {
         $this->searchable = $searchable;
@@ -118,50 +231,5 @@ class ListEntry
         return $this->searchable;
     }
     
-    public function nullable(string $return_if_null = ""): ListEntry
-    {
-        $this->return_if_null = $return_if_null;
-        
-        return $this;
-    }
-    
-    public function getReturnIfNull()
-    {
-        return $this->return_if_null;
-    }
-    
-    public function displayCallback(callable $callback)
-    {
-        $this->callback = $callback;
-    }
-    
-    protected function handleNull()
-    {
-        $result = $this->getReturnIfNull();
-        
-        if (is_null($result)) {
-            return __($this->getName());
-        } else {
-            return __($result);
-        }
-    }
-    
-    protected function getStdText($data_row)
-    {
-        if (!is_null($data_item = $this->accessData($data_row, $this->getName()))) {
-            return $data_item;
-        } else {
-            return $this->handleNull();
-        }        
-    }
-    
-    public function getText($data)
-    {
-        if (!is_null($this->callback)) {
-            $callback = $this->callback;
-            return $callback($data);
-        } else {
-            return $this->getStdText($data);            
-        }
-    }
+     
 }

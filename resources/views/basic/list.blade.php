@@ -18,13 +18,7 @@
    <thead>
    <tr>
     @foreach ($headers as $entry)
-    <th>
-     @if (is_null($entry->link))
-      {{ $entry->name }}
-     @else
-      <a href="{{ asset( $entry->link ) }}">{{ $entry->name }}</a>
-     @endif
-    </th>
+    <th>{!! $entry !!}</th>
     @endforeach
   </tr>
  </thead>  
@@ -32,13 +26,7 @@
    @forelse ($items as $row)
   <tr>
    @foreach ($row as $col)
-   <td>
-    @if (is_null($col->link))
-     {{ $col->name }}   
-    @else
-     <a href="{{ asset( $col->link ) }}">{{ $col->name }}</a>
-    @endif
-   </td> 
+   <td>{!! $col !!}</td> 
    @endforeach 
   </tr>
   @empty
@@ -48,8 +36,6 @@
   @endforelse 
  </tbody>
 </table>
- <script>
- </script>
 
 @isset($pages)
 <nav class="pagination" role="navigation" aria-label="pagination">

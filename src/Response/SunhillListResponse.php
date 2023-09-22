@@ -160,11 +160,7 @@ abstract class SunhillListResponse extends SunhillBladeResponse
         $header = [];
         
         foreach ($descriptor as $entry) {
-            $list_entry = new \StdClass();
-            $list_entry->name = $entry->getTitle();
-            $list_entry->link = $this->getSortLink($entry);
-            
-            $header[] = $list_entry;
+            $header[] = $entry->getHeaderEntry();
         }
         
         $this->params['headers'] = $header;
@@ -186,11 +182,7 @@ abstract class SunhillListResponse extends SunhillBladeResponse
         $result = [];
         
         foreach ($descriptor as $entry) {
-            $data_entry = new \StdClass();
-            $data_entry->name = $this->processText($entry->getText($data_row));
-            $data_entry->link = $entry->getLink($data_row);
-            
-            $result[] = $data_entry;
+            $result[] = $entry->getDataEntry($data_row);
         }
         
         return $result;
