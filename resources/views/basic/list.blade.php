@@ -15,7 +15,7 @@
  @endif
  <table class="table is-bordered is-striped is-hoverable">
   <caption>@yield('caption')</caption>
-  <thead>
+   <thead>
    <tr>
     @foreach ($headers as $entry)
     <th>
@@ -27,7 +27,7 @@
     </th>
     @endforeach
   </tr>
- </thead>
+ </thead>  
  <tbody>
    @forelse ($items as $row)
   <tr>
@@ -49,11 +49,6 @@
  </tbody>
 </table>
  <script>
- function filterchanged() {
- 	var filter = $("#filter").val();
- 	var link = "{{ route($current,['page'=>$page,'order'=>$order,'filter'=>'']) }}"+"/"+filter;
- 	window.location.href = link;
- }
  </script>
 
 @isset($pages)
