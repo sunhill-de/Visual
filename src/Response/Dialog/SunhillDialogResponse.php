@@ -9,7 +9,7 @@ namespace Sunhill\Visual\Response\Dialog;
 
 use Sunhill\Visual\Response\SunhillBladeResponse;
 
-class SunhillDialog extends SunhillBladeResponse
+class SunhillDialogResponse extends SunhillBladeResponse
 {
 
     protected $route = '';
