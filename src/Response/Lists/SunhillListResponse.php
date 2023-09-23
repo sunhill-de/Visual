@@ -5,7 +5,7 @@
  * Basic class that return blade templates
  *
  */
-namespace Sunhill\Visual\Response;
+namespace Sunhill\Visual\Response\Lists;
 
 use Sunhill\Visual\Modules\SunhillModuleTrait;
 use Illuminate\Support\Facades\Route;

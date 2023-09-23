@@ -6,7 +6,7 @@
  *
  */
 
-namespace Sunhill\Visual\Response;
+namespace Sunhill\Visual\Response\Lists;
 
 /**
  * The ListEntry class represents a single column in a list view

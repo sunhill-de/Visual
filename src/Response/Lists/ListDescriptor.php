@@ -6,7 +6,7 @@
  *
  */
 
-namespace Sunhill\Visual\Response;
+namespace Sunhill\Visual\Response\Lists;
 
 /**
  * The ListDescriptor class defines the columns of a SunhillListResponse
