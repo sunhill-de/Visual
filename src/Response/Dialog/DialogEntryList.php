@@ -22,6 +22,16 @@ class DialogEntryList extends DialogEntry
         switch ($this->type) {
             case 'string':
                 return 'text';
+                break;
+        }
+    }
+    
+    protected function getLookupMethod()
+    {
+        switch ($this->lookup) {
+            case 'classes':
+                return 'classSelectField(\''.$this->name.'\', \'\');';
+                break;
         }
     }
     
@@ -36,7 +46,9 @@ class DialogEntryList extends DialogEntry
        $result .= '<div class="dynamic_list" id="list_'.$this->name.'"></div></div>';
        $result .= '<div class="column">&nbsp;</div'; 
        $result .= '</div>';
-
+       if (!empty($this->lookup)) {
+            $result .= '<script>$( function() { '.$this->getLookupMethod().' } );</script>';
+       }
        return $result;
     }
 
