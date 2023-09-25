@@ -9,6 +9,7 @@ namespace Sunhill\Visual\Response\Lists;
 
 use Sunhill\Visual\Modules\SunhillModuleTrait;
 use Illuminate\Support\Facades\Route;
+use Sunhill\Visual\Response\SunhillBladeResponse;
 /**
  * Baseclass list responses
  * @author klaus
