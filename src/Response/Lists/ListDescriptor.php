@@ -8,17 +8,15 @@
 
 namespace Sunhill\Visual\Response\Lists;
 
+use Sunhill\Visual\Response\SunhillDescriptor;
+
 /**
  * The ListDescriptor class defines the columns of a SunhillListResponse
  * @author lokal
  *
  */
-class ListDescriptor implements \Iterator
+class ListDescriptor extends SunhillDescriptor
 {
-    
-    protected $entries = [];
-
-    protected $current = 0;
     
     protected $groupselect = false;
     
@@ -35,11 +33,6 @@ class ListDescriptor implements \Iterator
     public function column(string $name): ListEntry
     {        
         return $this->dataField($name);
-    }
-    
-    protected function addEntry($entry)
-    {
-        $this->entries[] = $entry;    
     }
     
     public function link(string $route, array $route_parameters)
@@ -71,29 +64,5 @@ class ListDescriptor implements \Iterator
         
         return $entry;
     }
-    
-    public function current(): mixed
-    {
-        return $this->entries[$this->current];
-    }
-    
-    public function key(): mixed
-    {
-        return $this->current;    
-    }
-    
-    public function next(): void
-    {
-        $this->current++;
-    }
-    
-    public function rewind(): void
-    {
-        $this->current = 0;
-    }
-    
-    public function valid(): bool
-    {
-       return isset($this->entries[$this->current]);
-    }
+
 }
