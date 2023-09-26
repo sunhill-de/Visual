@@ -30,11 +30,17 @@ class TestDialogResponse extends SunhillDialogResponse
             'Entry 1'=>'entry1','Entry 2'=>'entry2','Entry 3'=>'entry3'
         ]);
         $descriptor->radio()->label('Test radio')->name('testradio')->entries([
-            'Entry 1'=>'entry1','Entry 2'=>'entry2','Entry 3'=>'entry3'
+            'Radio-Entry 1'=>'radioentry1','Radio-Entry 2'=>'radioentry2','Radio-Entry 3'=>'radioentry3'
         ])->class('radio');
         $descriptor->checkbox()->label('Test checkbox')->name('testcheckbox');
         $descriptor->text()->label('Test text')->name('testtext');
         $descriptor->list()->label('Test list')->name('testlist')->element('string');
+        $descriptor->list()->label('Test lookup list')->name('testlookuplist')->element('string')->lookup('test');
     }
     
+    protected function execAdd($parameters)
+    {
+        $this->setTemplate('visual::test.show');
+        $this->params = array_merge($this->params, $parameters);
+    }
 }
