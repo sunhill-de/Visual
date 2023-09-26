@@ -2,16 +2,8 @@
 
 namespace Sunhill\Visual\Response\Dialog;
 
-class DialogEntrySelect extends DialogEntry
+class DialogEntrySelect extends DialogEntryWithEntries
 {
-   
-   protected $entries = [];
-   
-   public function entries(array $entries): DialogEntrySelect
-   {
-       $this->entries = $entries;
-       return $this;
-   }
    
    public function getHTMLCode(): string
    {
