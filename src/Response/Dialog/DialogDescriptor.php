@@ -98,4 +98,10 @@ class DialogDescriptor extends SunhillDescriptor
         return $entry;        
     }
     
+    public function inputLookup()
+    {
+        $entry = new DialogEntryInputLookup();
+        $this->addEntry($entry);
+        return $entry;        
+    }
 }
