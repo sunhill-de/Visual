@@ -12,11 +12,14 @@ class TestController extends Controller
     public function dialog()
     {
         $response = new TestDialogResponse();
+        $response->setMode('add');
         return $response->response();        
     }
     
     public function execute()
     {
-        
+        $response = new TestDialogResponse();
+        $response->setMode('execadd');
+        return $response->response();        
     }
 }
