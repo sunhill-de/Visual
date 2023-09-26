@@ -10,7 +10,7 @@
  <div class="control">
   {!! $element->dialog !!}
   @if( property_exists($element,'error' ) )
-    <p class="help is-danger">{{ $lement->error }}</p>  
+    <p class="help is-danger">{{ $element->error }}</p>  
   @endif
  </div>
 </div>
