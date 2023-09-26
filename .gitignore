@@ -13,3 +13,5 @@
 /.buildpath
 /.env
 DEADJOE
+/*.bak
+/.phpunit.cache/
