@@ -7,8 +7,13 @@ class DialogEntryCheckbox extends DialogEntry
     
     public function getHTMLCode(): string
     {
-        return '<input type="checkbox" name="'.$this->name.'"'.
-               (empty($this->class)?'>':' class="'.$this->class.'">');
+        $result = '<input type="checkbox" name="'.$this->name.'"'.
+            (empty($this->class)?'':' class="'.$this->class.'"');
+            if (!empty($this->value) && ($this->value)) {
+                $result .= 'checked';
+            }
+        $result .= '>';
+        return $result;
     }
     
 }

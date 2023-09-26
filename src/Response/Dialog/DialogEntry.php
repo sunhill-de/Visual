@@ -70,5 +70,10 @@ abstract class DialogEntry
         return $this;
     }
     
+    public function getValue($value)
+    {
+        return $value;
+    }
+    
     abstract public function getHTMLCode(): string;
 }

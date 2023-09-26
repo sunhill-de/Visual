@@ -21,7 +21,9 @@ class DialogEntryText extends DialogEntryWithEntries
     
     public function getHTMLCode(): string
     {
-        $result = '<textarea name="'.$this->name.'" rows="'.$this->rows.'" cols="'.$this->cols.'"></textarea>';
+        $result = '<textarea name="'.$this->name.'" rows="'.$this->rows.'" cols="'.$this->cols.'">';
+        if (!empty($this->value)) { $result .= $this->value; }
+        $result .= '</textarea>';
         return $result;    
     }
     

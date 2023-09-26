@@ -39,15 +39,6 @@ class DialogEntryList extends DialogEntry
         }
     }
     
-    protected function getLookupMethod()
-    {
-        switch ($this->lookup) {
-            case 'classes':
-                return 'classSelectField(\''.$this->name.'\', \'\');';
-                break;
-        }
-    }
-    
     public function getHTMLCode(): string
     {
        $result = '<div class="columns"><div class="control column is-narrow"><label class="label is-size-7">';
