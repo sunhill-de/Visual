@@ -13,6 +13,8 @@ abstract class DialogEntry
     
     protected $class = null;
     
+    protected $value = null;
+    
     public function label(string $label): DialogEntry
     {
         $this->label = $label;
@@ -35,15 +37,36 @@ abstract class DialogEntry
         return $this->name;        
     }
     
+    public function getDialogName(): string
+    {
+        return $this->getName();    
+    }
+    
     public function required(bool $value = true): DialogEntry
     {
         $this->required = $value;
         return $this;
     }
     
+    public function getRequired(): bool
+    {
+        return $this->required;    
+    }
+    
     public function class(string $class): DialogEntry
     {
         $this->class = $class;
+        return $this;
+    }
+    
+    public function getEmptyValue()
+    {
+        return null;    
+    }
+    
+    public function value($value): DialogEntry
+    {
+        $this->value = $value;
         return $this;
     }
     
