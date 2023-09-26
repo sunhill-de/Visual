@@ -9,17 +9,27 @@ use Sunhill\Visual\Test\TestDialogResponse;
 
 class TestController extends Controller
 {
-    public function dialog()
+    public function add()
     {
         $response = new TestDialogResponse();
         $response->setMode('add');
         return $response->response();        
     }
     
-    public function execute()
+    public function execadd()
     {
         $response = new TestDialogResponse();
         $response->setMode('execadd');
         return $response->response();        
+    }
+    
+    public function edit()
+    {
+        
+    }
+    
+    public function execedit()
+    {
+        
     }
 }
