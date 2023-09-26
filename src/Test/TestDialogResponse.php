@@ -13,7 +13,7 @@ use Sunhill\Visual\Response\Dialog\DialogDescriptor;
 class TestDialogResponse extends SunhillDialogResponse
 {
 
-    protected $route = 'execute';
+    protected $route_base = 'test';
     
     protected $route_parameters = [];
                 
@@ -36,6 +36,7 @@ class TestDialogResponse extends SunhillDialogResponse
         $descriptor->text()->label('Test text')->name('testtext');
         $descriptor->list()->label('Test list')->name('testlist')->element('string');
         $descriptor->list()->label('Test lookup list')->name('testlookuplist')->element('string')->lookup('test');
+        $descriptor->inputLookup()->label('Test lookup input')->name('testlookupinput')->lookup('test');
     }
     
     protected function execAdd($parameters)
@@ -43,4 +44,15 @@ class TestDialogResponse extends SunhillDialogResponse
         $this->setTemplate('visual::test.show');
         $this->params = array_merge($this->params, $parameters);
     }
+    
+    protected function getEditValues()
+    {
+        
+    }
+    
+    protected function execEdit($parameters)
+    {
+        
+    }
+    
 }
