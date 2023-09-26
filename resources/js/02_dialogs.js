@@ -17,6 +17,7 @@ function lookupInput( id, ajaxmodule, param1 = '', param2 = '')
 		select: function( event, ui ) {
 		   $("#input_"+id).val(ui.item.label);
 		   $("#value_"+id).val(ui.item.id);
+		   addEntry(id , false);
 		   return false;	
 		},
 		focus: function( event, ui ) {
