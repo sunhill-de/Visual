@@ -13,12 +13,13 @@ use Illuminate\Support\Facades\Blade;
 use Sunhill\InfoMarket\Facades\InfoMarket;
 use Sunhill\Visual\Marketeers\Database;
 
+use Sunhill\Visual\Test\TestAjax;
+use Illuminate\Support\Facades\App;
+
 class VisualServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->singleton(DialogManager::class, function () { return new DialogManager(); } );
-        $this->app->alias(DialogManager::class,'dialogmanager');
         $this->app->singleton(SunhillSiteManager::class, function () { return new SunhillSiteManager(); } );
         $this->app->alias(SunhillSiteManager::class,'sunhillsitemanager');
     }
@@ -31,8 +32,11 @@ class VisualServiceProvider extends ServiceProvider
     //    $this->loadViewComponentsAs('input', [Input::class]);
         Blade::component('visual-data', Data::class);
         
-        Dialogs::addCSSResource(__DIR__.'/../resources/css');
-        Dialogs::addJSResource(__DIR__.'/../resources/js');
+        \Sunhill\Visual\Facades\SunhillSiteManager::addCSSResource(__DIR__.'/../resources/css');
+        \Sunhill\Visual\Facades\SunhillSiteManager::addJSResource(__DIR__.'/../resources/js');
+        if (App::environment(['local','staging'])) {
+           \Sunhill\Visual\Facades\SunhillSiteManager::addAjaxModule('test',TestAjax::class); 
+        }
     }
 
 }
