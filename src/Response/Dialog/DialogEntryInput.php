@@ -16,7 +16,7 @@ class DialogEntryInput extends DialogEntry
     public function getHTMLCode(): string
     {
         return '<input type="'.$this->element_name.'" name="'.$this->name.'"'.
-               (empty($this->class)?'>':' class="'.$this->class.'">');
+               (empty($this->class)?'':' class="'.$this->class.'"').(empty($this->value)?'':' value="'.$this->value.'"').'>';
     }
     
 }
