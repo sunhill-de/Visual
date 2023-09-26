@@ -28,7 +28,7 @@
   <li>{{ $value }}</li>
   @endforeach	
   </ul></td></tr>
-  
+  <tr><td>Testlookupfield</td><td>{{ $testlookupinput }}</td></tr>
  </tbody>
 </table>
 @endsection
