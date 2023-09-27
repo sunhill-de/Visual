@@ -25,11 +25,15 @@ class TestController extends Controller
     
     public function edit()
     {
-        
+        $response = new TestDialogResponse();
+        $response->setMode('edit');
+        return $response->response();        
     }
     
     public function execedit()
     {
-        
+        $response = new TestDialogResponse();
+        $response->setMode('execedit');
+        return $response->response();        
     }
 }
