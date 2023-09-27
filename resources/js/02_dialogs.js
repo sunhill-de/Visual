@@ -1,4 +1,4 @@
-function lookupInput( id, ajaxmodule, param1 = '', param2 = '')
+function lookupInput( id, ajaxmodule, addentry = false, param1 = '', param2 = '')
 {
 	$('#input_'+id).autocomplete({
 		source: function( request, response ) {
@@ -17,7 +17,9 @@ function lookupInput( id, ajaxmodule, param1 = '', param2 = '')
 		select: function( event, ui ) {
 		   $("#input_"+id).val(ui.item.label);
 		   $("#value_"+id).val(ui.item.id);
-		   addEntry(id , false);
+		   if (addentry) {
+		   	addEntry(id , false);
+		   }	
 		   return false;	
 		},
 		focus: function( event, ui ) {
