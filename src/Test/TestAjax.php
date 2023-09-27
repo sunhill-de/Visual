@@ -2,9 +2,9 @@
 
 namespace Sunhill\Visual\Test;
 
-use Sunhill\Visual\Response\Ajax\AjaxResponse;
+use Sunhill\Visual\Response\Ajax\AjaxSearchResponse;
 
-class TestAjax extends AjaxResponse
+class TestAjax extends AjaxSearchResponse
 {
     
     protected $dummy_data = [
@@ -25,7 +25,7 @@ class TestAjax extends AjaxResponse
         'Megadeth'=>15
     ];
     
-    protected function assembleOutput(string $search)
+    protected function assembleSearchResult(string $search)
     {
         $result = [];
         foreach ($this->dummy_data as $entry => $id) {

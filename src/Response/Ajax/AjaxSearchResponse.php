@@ -2,12 +2,8 @@
 
 namespace Sunhill\Visual\Response\Ajax;
 
-abstract class AjaxResponse
+abstract class AjaxSearchResponse 
 {
-    
-    protected $parameter1 = '';
-    
-    protected $parameter2 = '';
     
     /**
      * Returns the answer of this module to the ajax controller. It doesn't have to be a json answer
@@ -18,10 +14,11 @@ abstract class AjaxResponse
      */
     public function getOutput(string $parameter1, string $parameter2)
     {
+        $search = request()->input('search','');
         $this->parameter1 = $parameter1;
         $this->parameter2 = $parameter2;
         
-        return $this->assembleOutput($search);
+        return $this->assembleSearchResult($search);
     }
     
     /**
@@ -40,7 +37,8 @@ abstract class AjaxResponse
 
     /**
      * This method has to be overwritten by the inhertied class. It returns the answer to the given 
-     * request.
+     * search request.
+     * @param string $search
      */
-    abstract protected function assembleOutput();
+    abstract protected function assembleSearchResult(string $search);
 }
