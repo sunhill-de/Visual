@@ -75,5 +75,10 @@ abstract class DialogEntry
         return $value;
     }
     
+    public function loadValue(array $values)
+    {
+        $this->value($values[$this->name]);
+    }
+    
     abstract public function getHTMLCode(): string;
 }
