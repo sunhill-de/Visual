@@ -142,7 +142,7 @@ class SunhillModuleBaseTest extends SunhillNoAppTestCase
         $this->assertEquals($expect,$this->callProtectedMethod($test,'hasActiveModule',[$module,$remain]));
     }
     
-    public function hasActiveModuleProvider()
+    public static function hasActiveModuleProvider()
     {
         return [
             ['','',null],
@@ -164,7 +164,7 @@ class SunhillModuleBaseTest extends SunhillNoAppTestCase
         $this->assertEquals($expect,$this->callProtectedMethod($test,'cleanPath',[$path]));
     }
 
-    public function cleanPathProvider()
+    public static function cleanPathProvider()
     {
         return [
             ['/test','test'],
@@ -205,7 +205,7 @@ class SunhillModuleBaseTest extends SunhillNoAppTestCase
         $this->assertEquals($expect, $test->getActiveModule($path));
     }
     
-    public function getActiveModuleProvider()
+    public static function getActiveModuleProvider()
     {
         return [
             ['',null],
