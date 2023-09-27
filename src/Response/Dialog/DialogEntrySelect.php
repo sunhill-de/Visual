@@ -9,7 +9,7 @@ class DialogEntrySelect extends DialogEntryWithEntries
    {
        $result = '<select name="'.$this->name.'">';
        foreach ($this->entries as $name => $value) {
-           $result .= '<option value='.$value;
+           $result .= '<option value="'.$value.'"';
            if (!empty($this->value) && ($this->value == $value)) {
                $result .= ' selected';
            }

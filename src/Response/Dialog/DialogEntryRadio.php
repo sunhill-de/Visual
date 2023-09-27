@@ -13,7 +13,7 @@ class DialogEntryRadio extends DialogEntryWithEntries
             .(empty($this->class)?'>':' class="'.$this->class.'">').$name;
             $result .= '<input type="radio" id="'.$value.'" name="'.$this->name.'" value="'.$value.'"';
             if (!empty($this->value) && ($this->value == $value)) {
-                $result .= 'checked';                
+                $result .= ' checked';                
             }
             $result .= '></label>';
         }
