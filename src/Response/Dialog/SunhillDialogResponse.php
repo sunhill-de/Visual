@@ -62,7 +62,7 @@ abstract class SunhillDialogResponse extends SunhillBladeResponse
             if (array_key_exists($element->name,$this->error)) {
                 $element->error = $this->error[$element->name];
             }
-            if (array_key_exists($element->name, $values)) {
+            if (array_key_exists($element->name, $values) || array_key_exists('value_'.$element->name, $values)) {
                 $entry->loadValue($values);                
             }
             $element->dialog = $entry->getHTMLCode();
@@ -124,13 +124,20 @@ abstract class SunhillDialogResponse extends SunhillBladeResponse
     
     protected function editResponse()
     {
+        $this->fillFormTemplate('execedit', $this->getEditValues());
         
     }
     
     protected function execEditResponse()
     {
         $this->recall = 'execedit';
-        
+        $input = $this->parseInput();
+        if ($this->error) {
+            return;
+        }
+        if ($this->error = $this->execEdit($input)) {
+            return;
+        }
     }
     
     protected function handleError($values = [])
