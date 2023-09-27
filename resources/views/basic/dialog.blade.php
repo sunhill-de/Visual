@@ -5,9 +5,9 @@
 <form action="{{ route($dialog_route, $dialog_route_parameters) }}" method="{{ $dialog_method }}">
  @csrf
  @foreach($elements as $element)
- <div class="field">
- <label class="label" for="{{ $element->name }}">{{__($element->label)}}</label>
- <div class="control">
+ <div class="field is-horizontal">
+ <label class="field-label" for="{{ $element->name }}">{{__($element->label)}}</label>
+ <div class="control field-body">
   {!! $element->dialog !!}
   @if( property_exists($element,'error' ) )
     <p class="help is-danger">{{ $element->error }}</p>  
