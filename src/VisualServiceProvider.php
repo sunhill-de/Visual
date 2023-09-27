@@ -34,7 +34,7 @@ class VisualServiceProvider extends ServiceProvider
         
         \Sunhill\Visual\Facades\SunhillSiteManager::addCSSResource(__DIR__.'/../resources/css');
         \Sunhill\Visual\Facades\SunhillSiteManager::addJSResource(__DIR__.'/../resources/js');
-        if (App::environment(['local','staging'])) {
+        if (App::environment(['local','staging','testing'])) {
            \Sunhill\Visual\Facades\SunhillSiteManager::addAjaxModule('test',TestAjax::class); 
         }
     }
