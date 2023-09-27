@@ -47,7 +47,24 @@ class TestDialogResponse extends SunhillDialogResponse
     
     protected function getEditValues()
     {
-        
+        return [
+            'teststring'=>'This is a TestString',
+            'testpassword'=>'secret',
+            'testdate'=>'2023-09-27',
+            'testdatetime'=>'2023-09-27T22:22',
+            'testcolor'=>'#000000',
+            'testnumber'=>10,
+            'testselect'=>'entry2',
+            'testradio'=>'radioentry2',
+            'testcheckbox'=>'ON',
+            'testtext'=>'This is a text',
+            'testlist'=>['ABC','DEF'],
+            'name_testlist'=>['ABC','DEF'],
+            'testlookuplist'=>[1,2],
+            'name_testlookuplist'=>['Iron Maiden','Judas Priest'],
+            'value_testlookupinput'=>4,
+            'input_testlookupinput'=>'Def Leppard'            
+        ];
     }
     
     protected function execEdit($parameters)
