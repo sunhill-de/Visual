@@ -72,11 +72,11 @@ class DialogEntryList extends DialogEntry
        $result .= '</div></div>';
        $result .= '<div class="column">&nbsp;</div>'; 
        $result .= '</div>';
-       $result .= '<script>$( function() { listField(\''.$this->name.'\');';
        if (!empty($this->lookup)) {
-            $result .= 'lookupInput(\''.$this->name.'\',\''.$this->lookup.'\', true);';
+           $result .= '<script>$( function() { ';
+           $result .= 'lookupInput(\''.$this->name.'\',\''.$this->lookup.'\', true);';
+           $result .= '})</script>';
        }
-       $result .= '})</script>';
        return $result;
     }
 
