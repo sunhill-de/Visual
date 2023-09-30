@@ -20,6 +20,19 @@ class ListDescriptor extends SunhillDescriptor
     
     protected $groupselect = false;
     
+    protected $data_callback;
+    
+    public function setDataCallback(callable $callback)
+    {
+        $this->data_callback = $callback;
+        return $this;
+    }
+
+    public function getDataCallback()
+    {
+        return $this->data_callback;    
+    }
+    
     public function groupselect(bool $value = true)
     {
         $this->groupselect = $value;    

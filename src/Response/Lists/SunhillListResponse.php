@@ -205,7 +205,11 @@ abstract class SunhillListResponse extends SunhillBladeResponse
             $result[] = '<input type="checkbox" name="selected[]" value="'.$id.'"></input>';
         }
         foreach ($descriptor as $entry) {
-            $result[] = $entry->getDataEntry($data_row);
+            if ($data = $entry->getDataEntry($data_row)) {
+                $result[] = $data;                
+            } else {
+                $result[] = $entry->getDataByCallback($descriptor->getDataCallback(),$data_row);
+            }
         }
         
         return $result;

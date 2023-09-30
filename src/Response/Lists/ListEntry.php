@@ -21,6 +21,8 @@ class ListEntry
     
     protected $field_name = '';
     
+    protected $build_rule = '';
+    
     protected $title = '';
     
     protected $link_route = '';
@@ -153,6 +155,17 @@ class ListEntry
         return __($this->title);
     }
     
+    public function buildRule(string $rule): ListEntry
+    {
+        $this->build_rule = $rule;
+        return $this;
+    }
+    
+    public function getBuildRule()
+    {
+        return $this->build_rule;
+    }
+    
     public function searchable(bool $searchable = true): ListEntry
     {
         $this->searchable = $searchable;
@@ -167,8 +180,11 @@ class ListEntry
     
     protected function getDataElement($data_set, $key = '')
     {
+        if (empty($this->build_rule)) {
+            $this->build_rule = $this->field_name;
+        }
         if (empty($key)) {
-            $field = $this->field_name;
+            $field = $this->build_rule;
         } else {
             $field = $key;
         }
@@ -193,18 +209,14 @@ class ListEntry
     {
         if (property_exists($data_set, $field)) {
             return $data_set->$field;
-        } else {
-            return "NE";
-        }
+        } 
     }
     
     protected function getArrayDataElement(array $data_set, string $field)
     {
         if (array_key_exists($field, $data_set)) {
             return $data_set[$field];
-        } else {
-            return "NE";
-        }
+        } 
     }
     
     protected function createHeaderEntry($title, $class = null)
@@ -236,7 +248,7 @@ class ListEntry
     
     protected function getLinkedEntry($data_set)
     {
-        return '<a href="'.$this->getLinkTarget($data_set).'">'.$this->getLinkText($data_set).'</a>';
+        return '<a href="'.$this->getLinkTarget($data_set).'">'.e($this->getLinkText($data_set)).'</a>';
     }
     
     protected function getLinkTarget($data_set)
@@ -278,6 +290,12 @@ class ListEntry
         return $this;        
     }
     
+    public function getDataByCallback($callback, $data_set)
+    {
+        if (is_callable($callback)) {
+            return $callback($this, $data_set);
+        }
+        return '';
+    }
     
-     
 }
