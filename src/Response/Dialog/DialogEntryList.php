@@ -74,7 +74,7 @@ class DialogEntryList extends DialogEntry
        $result .= '</div>';
        if (!empty($this->lookup)) {
            $result .= '<script>$( function() { ';
-           $result .= 'lookupInput(\''.$this->name.'\',\''.$this->lookup.'\', true);';
+           $result .= 'lookupInput(\''.$this->name.'\',\''.$this->lookup.'\', true,\''.$this->additional1.'\',\''.$this->additional2.'\');';
            $result .= '})</script>';
        }
        return $result;
