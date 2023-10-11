@@ -28,6 +28,8 @@ abstract class SunhillDialogResponse extends SunhillBladeResponse
     
     protected $redirect;
     
+    protected $redirect_params = [];
+    
     public function setRoute(string $route_base, array $parameters): SunhillDialogResponse
     {
         $this->route_base       = $route;
@@ -169,15 +171,16 @@ abstract class SunhillDialogResponse extends SunhillBladeResponse
         }
     }
     
-    protected function redirect($route)
+    protected function redirect($route, $params)
     {
         $this->redirect = $route;    
+        $this->redirect_params = $params;
     }
     
     protected function getResponse()
     {
         if (!empty($this->redirect)) {
-            return redirect(route($this->redirect));   
+            return redirect(route($this->redirect, $this->redirect_params));   
         }
         return view($this->template, $this->params);
     }
