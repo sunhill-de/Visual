@@ -15,9 +15,9 @@ abstract class DialogEntry
     
     protected $value = null;
     
-    public function label(string $label): DialogEntry
+    public function label($label = ''): DialogEntry
     {
-        $this->label = $label;
+        $this->label = is_null($label)?'':$label;
         return $this;
     }
     
