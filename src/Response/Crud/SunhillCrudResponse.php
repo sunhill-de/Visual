@@ -59,6 +59,14 @@ abstract class SunhillCrudResponse extends SunhillResponseBase
     }
     
 // *************************** Routines for list *********************************************
+    protected $offset = 0;
+    
+    protected $order = 'id';
+    
+    protected $order_dir = 'asc';
+    
+    protected $filter = 'none';
+    
     /**
      * This method has to be implemented by any derrived list to define what columns should be displayed
      * @param ListDescription $descriptor
@@ -144,6 +152,20 @@ abstract class SunhillCrudResponse extends SunhillResponseBase
         return 'id';    
     }
     
+    private function getOrderName($target = ''): string
+    {
+        if ($target == '') {
+            return ($this->order_dir == 'desc')?'desc_'.$this->order:$this->order;
+            
+        } else {
+            $direction = $this->order_dir;
+            if ($this->order == $target) {
+                $direction = ($this->order_dir == 'asc')?'desc':'asc';
+            }
+            return ($direction == 'desc')?'desc_'.$target:$target;            
+        }
+    }
+    
     protected function getListHeader(ListDescriptor $descriptor)
     {
         $header = [];
@@ -156,7 +178,8 @@ abstract class SunhillCrudResponse extends SunhillResponseBase
             if ($target = $entry->getColumnSortable()) {
                 $parameters = $this->getRoutingParameters();
                 $parameters['page']  = $this->getPage();
-                $parameters['order'] = $target;
+                $parameters['order'] = $this->getOrderName($target);
+                $parameters['filter'] = $this->filter;
                 $header_entry->title = '<a href="'.route(static::$route_base.'.list',$parameters).'">'.$header_entry->title.'</a>';
             }
             $header[] = $header_entry;
@@ -170,11 +193,102 @@ abstract class SunhillCrudResponse extends SunhillResponseBase
         return ['items'=>[]];
     }
     
-    protected function getListPaginator(ListDescriptor $descriptor)
+    protected function getCurrentPage()
     {
-        return [];
+        return $this->offset;
     }
     
+    /**
+     * Checks if there are less entries than in the ENTRIES_PER_PAGE constant. If yes
+     * Clear the paginator and return true otherwise return false
+     * @return bool
+     */
+    protected function checkForLessEntriesThanEntriesPerPage(): bool
+    {
+        if (self::ENTRIES_PER_PAGE < $this->getEntryCount()) {
+            return false;
+        }
+        $this->params['pages'] = [];
+        return true;
+    }
+    
+    protected function getNumberOfPages(): int
+    {
+        return ceil($this->getEntryCount() / self::ENTRIES_PER_PAGE); // Number of pages
+    }
+    
+    /**
+     * Checks if the given index $page_index is below 0 or higher than number_of_pages. If yes
+     * it raises an UserException
+     * @param int $page_index
+     * @param int $number_of_pages
+     * @throws SunhillUserException
+     */
+    protected function checkWrongPageIndex(int $page_index, int $number_of_pages)
+    {
+        if (!$page_index) {
+            return;
+        }
+        if (($page_index < 0) || ($page_index >= $number_of_pages)) {
+            throw new SunhillUserException(__("The index ':index' is out of range.",['index'=>$page_index]));
+        }
+    }
+    
+    protected function getPaginatorLink(int $offset)
+    {
+        $route_data = $this->getRoutingParameters();
+        $route_data['page'] = $offset;
+        $route_data['order'] = $this->getOrderName();
+        $route_data['filter'] = $this->filter;
+        /*        if (!empty($this->key)) {
+         $route_data['key'] = $this->key;
+         } */
+        return route(static::$route_base.'.list',$route_data);
+    }
+    
+    protected function getListPaginator(ListDescriptor $descriptor)
+    {
+        $pages = $this->getNumberOfPages();
+        $current_page = $this->getCurrentPage();
+        $this->checkWrongPageIndex($current_page, $pages);
+        if ($this->checkForLessEntriesThanEntriesPerPage()) {
+            return;
+        }
+        
+        if (($current_page - self::PAGINATOR_NEIGHBOURS)<1) {
+            $start = 1;
+            $this->params['left_ellipse'] = '';
+        } else {
+            $start = ($current_page - self::PAGINATOR_NEIGHBOURS);
+            $this->params['left_ellipse'] = '...';
+        }
+        if (($current_page + self::PAGINATOR_NEIGHBOURS)>($pages-1)) {
+            $end = $pages - 1;
+            $this->params['right_ellipse'] = '';
+        } else {
+            $end = ($current_page + self::PAGINATOR_NEIGHBOURS);
+            $this->params['right_ellipse'] = '...';
+        }
+        
+        $result = [];
+        $entry = new \StdClass();
+        $entry->link = $this->getPaginatorLink(0);
+        $entry->text = "1";
+        $result[] = $entry;
+        for ($i=$start;$i<$end;$i++) {
+            $entry = new \StdClass();
+            $entry->link = $this->getPaginatorLink($i);
+            $entry->text = $i+1;
+            $result[] = $entry;
+        }
+        $entry = new \StdClass();
+        $entry->link = $this->getPaginatorLink($pages-1);
+        $entry->text = $pages;
+        $result[] = $entry;
+        
+        return ['pages'=>$result,'current_page'=>$current_page];
+    }
+        
     protected function getListParams()
     {
         $result = [];
@@ -188,6 +302,17 @@ abstract class SunhillCrudResponse extends SunhillResponseBase
         $result = array_merge($result, $this->getListPaginator($list_descriptor));
         return $result;    
     }
+
+    private function handleDirection(string $order)
+    {
+        if (substr($order,0,5) == 'desc_') {
+            $this->order = substr($order,5);
+            $this->order_dir = 'desc';
+        } else {
+            $this->order = $order;
+            $this->order_dir = 'asc';
+        }        
+    }
     
     /**
      * Lists the entries of the entity with the following parameters
@@ -195,28 +320,29 @@ abstract class SunhillCrudResponse extends SunhillResponseBase
      * @param string $order = In what order should the entries be displayed
      * @param array $filter = What filter(s) should be applied (if any)
      */
-    public function list(int $page, string $order = 'id', string $order_dir = 'asc', array $filter = [])
+    public function list(int $page, string $order = 'id', string $filter = 'none')
     {
         $template = 'collection::'.static::$route_base.'.list';
 
+        $this->offset = $page;
+        $this->handleDirection($order);        
+        $this->filter = $filter;
+        
         try {
             $response = view($template, $this->getListParams());
         } catch (SunhillUserException $e) {
             return $this->exception($e);
         }
-        return view($template, $this->getListParams());
+        return $response;
     }
 
 // ****************************** Routines for filterList ***************************************
-    public function filterList()
+    public function filter(string $order = 'id')
     {
-        
-    }
-    
-// **************************** Routines for execFilterList *************************************
-    public function execFilterList()
-    {
-        
+        $parameters = $this->getRoutingParameters();
+        $parameters['page']  = 0;
+        $parameters['order'] = $order;
+        return redirect(route(static::$route_base.'.list',$parameters));
     }
     
     /**
