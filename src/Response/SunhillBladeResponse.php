@@ -17,8 +17,6 @@ use Sunhill\Visual\Modules\SunhillModuleTrait;
 class SunhillBladeResponse extends SunhillResponseBase
 {
     
-    use SunhillModuleTrait;
-    
     protected $template;
     
     public function setTemplate(string $template)
