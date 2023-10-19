@@ -8,6 +8,7 @@
 namespace Sunhill\Visual\Response;
 
 use Sunhill\Visual\Facades\SunhillSiteManager;
+use Sunhill\Visual\Modules\SunhillModuleTrait;
 
 /**
  * Baseclass for responses. Responses are simplified controller actions.
@@ -16,6 +17,8 @@ use Sunhill\Visual\Facades\SunhillSiteManager;
  */
 class SunhillResponseBase
 {
+    
+    use SunhillModuleTrait;
     
     protected $params;
     
