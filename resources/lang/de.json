@@ -5,5 +5,13 @@
   
   "************ CrudResponse":"CrudResponse *****************************",
   "no filter":"Kein Filter",
-  "Filtercondition":"Filterbedingung"
+  "Filtercondition":"Filterbedingung",
+  "Conditions have to match":"Die Bedingungen müssen passen",
+  "all":"Alle",
+  "any":"Eine",
+  "Field":"Feld",
+  "Choose a field":"Wähle ein Feld",
+  "Relation":"Relation",
+  "Condition":"Bedingung",
+  "Name to save (an empty field will not save)":"Name zum speichern (leeres Feld speichert den Filter nicht)"
 }
