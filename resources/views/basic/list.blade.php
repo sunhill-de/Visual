@@ -2,16 +2,9 @@
 @extends('visual::basic.navigation')
 
 @section('content')
- @if(!empty($filters))
- <label for="filter">{{ __('Filter') }}</label>
- <select id="filter" name="filter" onchange="return filterchanged()">
-  @foreach ($filters as $filter_name => $filter_description)
-  <option value="{{$filter_name}}" @selected($filter==$filter_name)>{{ __($filter_description) }}</option>
-  @endforeach
- </select>
- @endif
- @hasSection('tableheader')
-  @yield('tableheader')
+ @includeWhen($has_filter, 'visual::basic.filter_list')
+ @if(!empty($groupactions))
+ <form id="groupform" name="groupform" method="post">
  @endif
  <table class="table is-bordered is-striped is-hoverable">
   <caption>@yield('caption')</caption>
@@ -40,6 +33,16 @@
   @endforelse 
  </tbody>
 </table>
+ @if(!empty($groupactions))
+ {{ __("marked:"); }}
+ @foreach($groupactions as $action)
+ <input id="{{ $action->action }}" type="submit" value="{{ $action->title }}">
+ <script>
+  $('#'{{ $action->action }}).attr('action', {{ $action->route }}
+ </script>
+ @endforeach
+ </form>
+ @endif
 
 @isset($pages)
 <nav class="pagination" role="navigation" aria-label="pagination">
