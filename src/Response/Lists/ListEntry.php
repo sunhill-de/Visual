@@ -123,7 +123,7 @@ class ListEntry
      * @param bool $column_sortable
      * @return \Sunhill\Visual\Response\ListEntry
      */
-    public function setColumnSortable(bool $column_sortable = true)
+    public function setColumnSortable($column_sortable)
     {
         $this->column_sortable = $column_sortable;
         return $this;
@@ -133,7 +133,7 @@ class ListEntry
      * Returns if this column in sortable
      * @return bool
      */
-    public function getColumnSortable(): bool
+    public function getColumnSortable()
     {
         return $this->column_sortable;
     }
@@ -166,14 +166,14 @@ class ListEntry
         return $this->build_rule;
     }
     
-    public function searchable(bool $searchable = true): ListEntry
+    public function searchable($searchable): ListEntry
     {
         $this->searchable = $searchable;
         
         return $this;
     }
     
-    public function getSearchable(): bool
+    public function getSearchable()
     {
         return $this->searchable;
     }
