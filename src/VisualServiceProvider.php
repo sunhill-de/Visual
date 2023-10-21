@@ -26,10 +26,12 @@ class VisualServiceProvider extends ServiceProvider
     
     public function boot()
     {
-        $this->loadJSONTranslationsFrom(__DIR__.'/../resources/lang');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang','visual');
         $this->loadRoutesFrom(__DIR__.'/Routes/web.php');
         $this->loadViewsFrom(__DIR__.'/../resources/views','visual');
     //    $this->loadViewComponentsAs('input', [Input::class]);
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        
         Blade::component('visual-data', Data::class);
         
         \Sunhill\Visual\Facades\SunhillSiteManager::addCSSResource(__DIR__.'/../resources/css');
