@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Blade;
 use Sunhill\Visual\Facades\Dialogs;
 use Sunhill\Visual\Test\TestDialogResponse;
 use Sunhill\Visual\Facades\SunhillSiteManager;
+use Illuminate\Http\Request;
 
 class CrudController extends SemiCrudController
 {

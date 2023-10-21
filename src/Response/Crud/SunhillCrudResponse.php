@@ -5,6 +5,7 @@ namespace Sunhill\Visual\Response\Crud;
 use Sunhill\Visual\Response\SunhillResponseBase;
 use Sunhill\Visual\Response\Crud\ListDescriptor;
 use Sunhill\Visual\Response\SunhillUserException;
+use Illuminate\Http\Request;
 
 abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
 {
@@ -28,18 +29,65 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
     }
     
     /**
+     * Defines the elements of the dialog
+     * @param DialogDescriptor $descriptor
+     */
+    abstract protected function defineDialog(DialogDescriptor $descriptor);
+    
+    /**
+     * Finally adds the entry to the database
+     * @param unknown $parameters
+     */
+    abstract protected function doExecAdd($parameters);
+    
+    abstract protected function getEditValues();
+    abstract protected function doExecEdit($parameters);
+    
+    protected $error = [];
+    
+    protected function fillFormTemplate(string $route_addition, array $values = [])
+    {        
+        $descriptor = new DialogDescriptor();
+        $this->defineDialog($descriptor);
+        $entries = [];
+        foreach ($descriptor as $entry) {
+            $element = new \StdClass();
+            $element->label = $entry->getLabel();
+            $element->name = $entry->getName();
+            if (array_key_exists($element->name,$this->error)) {
+                $element->error = $this->error[$element->name];
+            }
+            if (array_key_exists($element->name, $values) || array_key_exists('value_'.$element->name, $values)) {
+                $entry->loadValue($values);
+            }
+            $element->dialog = $entry->getHTMLCode();
+            $entries[] = $element;
+        }
+
+        $result = [];
+        $result = array_merge($result, $this->getCommonParameters());
+        $result = array_merge($result, [
+            'dialog_method'=>'post',
+            'dialog_route'=>static::$route_base.'.'.$route_addition,
+            'dialog_route_parameters'=>$this->getRoutingParameters(),
+            'elements'=>$entries,            
+        ]);
+        return view('visual::crud.dialog', $result);
+    }
+    
+    /**
      * Opens a dialog to add another entity
      */
     public function add()
     {
-        
+        return $this->fillFormTemplate('execadd');        
     }
     
     /**
      * Checks the entered values and adds the given entity
      * @param array $parameters
      */
-    public function execAdd(array $parameters)
+    public function execAdd(Request $parameters)
     {
         
     }
@@ -58,7 +106,7 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
      * @param unknown $id = Normally an integer that identies the entity
      * @param array $parameters
      */
-    public function execEdit($id, array $parameters)
+    public function execEdit($id, Request $parameters)
     {
         
     }
