@@ -2,7 +2,7 @@
 @extends('visual::basic.navigation')
 
 @section('content')
- @includeWhen($has_filter, 'visual::basic.filter_list')
+ @includeWhen($has_filter, 'visual::crud.filter_list')
  @if(!empty($groupactions))
  <form id="groupform" name="groupform" method="post">
  @endif

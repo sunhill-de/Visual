@@ -41,7 +41,10 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
     
     protected function exception(\Exception $e)
     {
-        
+        report($e);
+        $params = $this->getBasicParams();
+        $params['e'] = $e;
+        return response()->view('visual::basic.usererror',$params, 500);        
     }
     
     /**
@@ -99,6 +102,11 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
      */
     abstract protected function getData();
   
+    protected function getDefaultOrder(): string
+    {
+        return 'id';    
+    }
+    
     /**
      * When groupactions is set, an additional column is added with checkboxes and for each groupaction
      * a button is placed on the bottom of the table that triggers the wanted group action
@@ -351,7 +359,10 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
 
     private function handleDirection(string $order)
     {
-        if (substr($order,0,5) == 'desc_') {
+        if ($order == 'default') {
+            $this->order = $this->getDefaultOrder();
+            $this->order_dir = 'asc';            
+        } else if (substr($order,0,5) == 'desc_') {
             $this->order = substr($order,5);
             $this->order_dir = 'desc';
         } else {
@@ -366,9 +377,9 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
      * @param string $order = In what order should the entries be displayed
      * @param array $filter = What filter(s) should be applied (if any)
      */
-    public function list(int $page, string $order = 'id', string $filter = 'none')
+    public function list(int $page, string $order = 'default', string $filter = 'none')
     {
-        $template = 'visual::basic.list';
+        $template = 'visual::crud.list';
 
         $this->offset = $page;
         $this->handleDirection($order);        
@@ -427,7 +438,7 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
     {
        $this->checkID($id); 
        
-       $template = 'visual::basic.show';
+       $template = 'visual::crud.show';
        
        try {
            $response = view($template, $this->getShowParams($id));

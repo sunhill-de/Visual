@@ -19,13 +19,13 @@ class SemiCrudController extends Controller
         return $response->index();
     }
     
-    public function list(int $page = 0, string $order = 'id', string $filter = 'none')
+    public function list(int $page = 0, string $order = 'default', string $filter = 'none')
     {
         $response = new static::$crud_response();
         return $response->list($page, $order, $filter);
     }
     
-    public function filter(string $order = 'id')
+    public function filter(string $order = 'default')
     {
         $response = new static::$crud_response();
         return $response->filter($order);        
