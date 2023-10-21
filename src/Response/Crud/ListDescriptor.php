@@ -18,8 +18,6 @@ use Sunhill\Visual\Response\SunhillDescriptor;
 class ListDescriptor extends SunhillDescriptor
 {
     
-    protected $groupselect = false;
-    
     protected $data_callback;
     
     public function setDataCallback(callable $callback)
@@ -31,16 +29,6 @@ class ListDescriptor extends SunhillDescriptor
     public function getDataCallback()
     {
         return $this->data_callback;    
-    }
-    
-    public function groupselect(bool $value = true)
-    {
-        $this->groupselect = $value;    
-    }
-    
-    public function getGroupselect(): bool
-    {
-        return $this->groupselect;    
     }
     
     public function column(string $name): ListEntry
