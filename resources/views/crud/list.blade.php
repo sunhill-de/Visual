@@ -7,7 +7,7 @@
  <form id="groupform" name="groupform" method="post">
  @endif
  <table class="table is-bordered is-striped is-hoverable">
-  <caption>@yield('caption')</caption>
+  <caption>{{ $caption }}</caption>
    <thead>
    <tr>
     @foreach ($headers as $entry)
