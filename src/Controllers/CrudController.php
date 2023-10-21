@@ -13,27 +13,72 @@ class CrudController extends SemiCrudController
 
     public function add()
     {
-        
+        $response = $this->getResponse();
+        return $response->add();
     }
     
-    public function execAdd($parameters)
+    public function execAdd(Request $request)
     {
-        
+        $response = $this->getResponse();
+        return $response->execAdd($request);
     }
     
     public function edit($id)
     {
-        
+        $response = $this->getResponse();
+        return $response->edit($id);        
     }
     
-    public function execEdit($id)
+    public function execEdit($id, Request $request)
     {
-        
+        $response = $this->getResponse();
+        return $response->execEdit($id, $request);        
     }
     
     public function delete($id)
     {
+        $response = $this->getResponse();
+        return $response->delete($id);        
+    }
+    
+    public function confirmGroupDelete(Request $request)
+    {
+        $response = $this->getResponse();
+        return $response->confirmGroupDelete($request->input['selected']);        
+    }
+    
+    public function execGroupDelete(Request $request)
+    {
+        $response = $this->getResponse();
+        return $response->execGroupDelete($request->input['selected']);        
+    }
+    
+    public function groupEdit()
+    {
         
+    }
+    
+    public function execGroupEdit()
+    {
+        
+    }
+    
+    /**
+     * Returns true when the connected response provides the group action 'delete'
+     * @return bool
+     */
+    public static function providesGroupDelete(): bool
+    {
+        return static::$crud_response::providesGroupDelete();
+    }
+    
+    /**
+     * Returns true when the connected response provides the group action 'edit'
+     * @return bool
+     */
+    public static function providesGroupEdit(): bool
+    {
+        return static::$crud_response::providesGroupEdit();
     }
     
 }
