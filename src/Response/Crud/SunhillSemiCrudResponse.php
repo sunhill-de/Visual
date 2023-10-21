@@ -25,19 +25,21 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
      * @var string
      */
     protected static $route_base = '';
-    
-    /**
-     * A derrived response can fill up this array with methods for group actions. That are
-     * actions that apply to multiple entries. If empty no group actions are provided
-     * @var array
-     */
-    protected static $group_action = [];
-    
+        
     /**
      * If this variable is set to true the list response will provide a filter mechanism
      * @var boolean
      */
     protected static $has_filters = true;
+    
+    
+    /**
+     * A derrived response can fill up this array with methods for group actions. That are
+     * actions that apply to multiple entries. If empty no group actions are provided
+     * Note: Has to be implemented in SemiCrudResponse, because list() uses it
+     * @var array
+     */
+    protected static $group_action = [];
     
     protected function exception(\Exception $e)
     {
@@ -183,7 +185,7 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
         $header = [];
         
         if (!empty(static::$group_action)) {
-            $header[] = $this->createStdClass(['title'=>'','class'=>'is-narrow']);
+            $header[] = $this->getStdClass(['title'=>'','class'=>'is-narrow']);
         }
         foreach ($descriptor as $entry) {
             $header_entry = $entry->getHeaderEntry();
@@ -222,7 +224,7 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
     protected function getDataRow($data_row, ListDescriptor $descriptor)
     {
         $result = [];
-        if ($descriptor->getGroupselect()) {
+        if (!empty(static::$group_action)) {
             $id = $this->getID($data_row);
             $result[] = '<input type="checkbox" name="selected[]" value="'.$id.'"></input>';
         }
