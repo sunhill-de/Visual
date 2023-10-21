@@ -6,7 +6,7 @@
  *
  */
 
-namespace Sunhill\Visual\Response\Lists;
+namespace Sunhill\Visual\Response\Crud;
 
 use Sunhill\Visual\Response\SunhillDescriptor;
 

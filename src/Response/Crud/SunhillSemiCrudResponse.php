@@ -3,7 +3,7 @@
 namespace Sunhill\Visual\Response\Crud;
 
 use Sunhill\Visual\Response\SunhillResponseBase;
-use Sunhill\Visual\Response\Lists\ListDescriptor;
+use Sunhill\Visual\Response\Crud\ListDescriptor;
 use Sunhill\Visual\Response\SunhillUserException;
 use Sunhill\Collection\Exceptions\InvalidIDException;
 

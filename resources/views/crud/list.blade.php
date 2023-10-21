@@ -62,7 +62,7 @@
 
 @if(!empty($links))
 @foreach($links as $link)
-<a href="{{ $link->target }}" class="button {{ $link->class }}">{{ $link->text }}</a>
+<a href="{{ $link->target }}" class="button @if(isset($link->class) {{ $link->class }}@endif">{{ $link->text }}</a>
 @endforeach
 @endif
 
