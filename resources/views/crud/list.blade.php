@@ -33,8 +33,9 @@
   </tr>
   @endforelse 
  </tbody>
-</table>
  @if(!empty($groupactions))
+ <tfoot>
+ <tr><td colspan="100">
  {{ __("marked:"); }}
  @foreach($groupactions as $action)
  <input class="button" id="{{ $action->action }}" type="submit" value="{{ $action->title }}" onclick="groupButtonClicked('{{ $action->route }}')">
@@ -45,8 +46,11 @@
   	$('#groupform').attr('action', action)
   }	
  </script>
+ </td></tr>
+ </tfoot>
  </form>
  @endif
+</table>
 
 @isset($pages)
 <nav class="pagination" role="navigation" aria-label="pagination">
@@ -62,7 +66,7 @@
 
 @if(!empty($links))
 @foreach($links as $link)
-<a href="{{ $link->target }}" class="button @if(isset($link->class) {{ $link->class }}@endif">{{ $link->text }}</a>
+<a href="{{ $link->target }}" class="button @if(isset($link->class)) {{ $link->class }}@endif">{{ $link->text }}</a>
 @endforeach
 @endif
 
