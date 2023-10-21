@@ -1,6 +1,6 @@
 <?php
 
-namespace Sunhill\Visual\Response\Dialog;
+namespace Sunhill\Visual\Response\Crud;
 
 class DialogEntryList extends DialogEntry
 {

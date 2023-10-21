@@ -5,7 +5,7 @@
  * Basic class that return blade templates
  *
  */
-namespace Sunhill\Visual\Response\Dialog;
+namespace Sunhill\Visual\Response\Crud;
 
 use Sunhill\Visual\Response\SunhillBladeResponse;
 

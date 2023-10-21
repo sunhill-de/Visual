@@ -1,6 +1,6 @@
 <?php
 
-namespace Sunhill\Visual\Response\Dialog;
+namespace Sunhill\Visual\Response\Crud;
 
 use Sunhill\Visual\Response\SunhillDescriptor;
 

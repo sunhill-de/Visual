@@ -33,14 +33,14 @@ class DialogTest extends SunhillVisualTestCase
     
     public function testDefaultDialogName()
     {
-        $test = new Sunhill\Visual\Response\Dialog\DialogEntryText();
+        $test = new Sunhill\Visual\Response\Crud\DialogEntryText();
         $test->name('test');
         $this->assertEquals('test',$test->getDialogName());
     }
     
     public function testEntryInputGetHTML()
     {
-        $test = new Sunhill\Visual\Response\Dialog\DialogEntryInput();
+        $test = new Sunhill\Visual\Response\Crud\DialogEntryInput();
         $test->setElementName('text')->name('test');
         
         $this->assertEquals('<input type="text" name="test">', $test->getHTMLCode());

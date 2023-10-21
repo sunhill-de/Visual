@@ -7,8 +7,8 @@
  */
 namespace Sunhill\Visual\Test;
 
-use Sunhill\Visual\Response\Dialog\SunhillDialogResponse;
-use Sunhill\Visual\Response\Dialog\DialogDescriptor;
+use Sunhill\Visual\Response\Crud\SunhillDialogResponse;
+use Sunhill\Visual\Response\Crud\DialogDescriptor;
 
 class TestDialogResponse extends SunhillDialogResponse
 {
