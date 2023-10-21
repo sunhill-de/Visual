@@ -11,6 +11,16 @@ namespace Sunhill\Visual\Modules;
 abstract class SunhillCrudModule extends SunhillSemiCrudModule
 {
  
+    protected function providesGroupDelete(): bool
+    {
+        return static::$controller::providesGroupDelete();
+    }
+    
+    protected function providesGroupEdit(): bool
+    {
+        return static::$controller::providesGroupEdit();        
+    }
+    
     protected function setupCrud()
     {
         parent::setupCrud();
@@ -35,10 +45,35 @@ abstract class SunhillCrudModule extends SunhillSemiCrudModule
              ->setVisible(false)
              ->setAlias(static::$route_base.'.execedit');
         $this->addAction('Delete')
-             ->addControllerAction([static::$route_base, 'delete'])
+             ->addControllerAction([static::$controller, 'delete'])
              ->setVisible(false)
              ->setRouteAddition('/{id}')
              ->setAlias(static::$route_base.'.delete');
+        if ($this->providesGroupDelete()) {
+            $this->addAction('ConfirmGroupDelete')
+                 ->addControllerAction([static::$controller, 'confirmgroupdelete'])
+                 ->setMethod('post')
+                 ->setVisible(false)
+                 ->setAlias(static::$route_base.'.confirmgroupdelete');            
+            $this->addAction('ExecGroupDelete')
+                 ->addControllerAction([static::$controller, 'execgroupdelete'])
+                 ->setMethod('post')
+                 ->setVisible(false)
+                 ->setAlias(static::$route_base.'.execgroupdelete');
+        }
+        
+        if ($this->providesGroupEdit()) {
+            $this->addAction('GroupEdit')
+                 ->addControllerAction([static::$controller, 'groupedit'])
+                 ->setMethod('post')
+                 ->setVisible(false)
+                 ->setAlias(static::$route_base.'.groupedit');
+            $this->addAction('ExecGroupDelete')
+                 ->addControllerAction([static::$controller, 'execgroupedit'])
+                 ->setMethod('post')
+                 ->setVisible(false)
+                 ->setAlias(static::$route_base.'.execgroupedit');            
+        }
     }
     
 }
