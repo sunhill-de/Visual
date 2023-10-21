@@ -306,7 +306,7 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
         $current_page = $this->getCurrentPage();
         $this->checkWrongPageIndex($current_page, $pages);
         if ($this->checkForLessEntriesThanEntriesPerPage()) {
-            return;
+            return [];
         }
         
         if (($current_page - self::PAGINATOR_NEIGHBOURS)<1) {
