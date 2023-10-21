@@ -93,6 +93,11 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
         return $list_descriptor;
     }
     
+    protected function getAdditionalLinks()
+    {
+        return [];    
+    }
+    
     /**
      * Returns the count of entries for the given filter (if any)
      * @param string $filter
@@ -356,6 +361,7 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
         $result = array_merge($result, $this->getListHeader($list_descriptor));
         $result = array_merge($result, $this->getListBody($list_descriptor));
         $result = array_merge($result, $this->getListPaginator($list_descriptor));
+        $result = array_merge($result, ['links'=>$this->getAdditionalLinks()]);
         return $result;    
     }
 
