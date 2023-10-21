@@ -8,26 +8,32 @@ use Sunhill\Visual\Facades\Dialogs;
 use Sunhill\Visual\Test\TestDialogResponse;
 use Sunhill\Visual\Facades\SunhillSiteManager;
 
-class CrudController extends Controller
+class CrudController extends SemiCrudController
 {
 
-    protected static $crud_response = '';
-    
-    public function index()
+    public function add()
     {
-        $response = new static::$crud_response();
-        return $response->index();
+        
     }
     
-    public function list(int $page = 0, string $order = 'id', string $filter = 'none')
+    public function execAdd($parameters)
     {
-        $response = new static::$crud_response();
-        return $response->list($page, $order, $filter);
+        
     }
     
-    public function filter(string $order = 'id')
+    public function edit($id)
     {
-        $response = new static::$crud_response();
-        return $response->filter($order);        
+        
     }
+    
+    public function execEdit($id)
+    {
+        
+    }
+    
+    public function delete($id)
+    {
+        
+    }
+    
 }
