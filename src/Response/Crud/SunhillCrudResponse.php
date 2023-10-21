@@ -10,6 +10,24 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
 {
     
     /**
+     * Indicates that this crud response provides a functioning [confirm,exec]groupdelete
+     * @return bool
+     */
+    public static function providesGroupDelete(): bool
+    {
+        return in_array('delete',static::$group_action);
+    }
+    
+    /**
+     * Indicates that this crud response provides a functioning groupedit|execgroupedit
+     * @return bool
+     */
+    public static function providesGroupEdit(): bool
+    {
+        return in_array('edit',static::$group_action);
+    }
+    
+    /**
      * Opens a dialog to add another entity
      */
     public function add()
