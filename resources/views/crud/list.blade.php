@@ -5,6 +5,7 @@
  @includeWhen($has_filter, 'visual::crud.filter_list')
  @if(!empty($groupactions))
  <form id="groupform" name="groupform" method="post">
+ @csrf
  @endif
  <table class="table is-bordered is-striped is-hoverable">
   <caption>{{ $caption }}</caption>
@@ -36,11 +37,14 @@
  @if(!empty($groupactions))
  {{ __("marked:"); }}
  @foreach($groupactions as $action)
- <input id="{{ $action->action }}" type="submit" value="{{ $action->title }}">
- <script>
-  $('#'{{ $action->action }}).attr('action', {{ $action->route }}
- </script>
+ <input class="button" id="{{ $action->action }}" type="submit" value="{{ $action->title }}" onclick="groupButtonClicked('{{ $action->route }}')">
  @endforeach
+ <script>
+  function groupButtonClicked( action )	
+  {
+  	$('#groupform').attr('action', action)
+  }	
+ </script>
  </form>
  @endif
 
@@ -55,6 +59,12 @@
 </ul>
 </nav>
 @endisset
+
+@if(!empty($links))
+@foreach($links as $link)
+<a href="{{ $link->target }}" class="button {{ $link->class }}">{{ $link->text }}</a>
+@endforeach
+@endif
 
 @hasSection('tablefooter')
   @yield('tablefooter')
