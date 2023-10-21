@@ -13,27 +13,39 @@ class SemiCrudController extends Controller
 
     protected static $crud_response = '';
     
-    public function index()
+    protected function getResponse()
     {
         $response = new static::$crud_response();
+        $this->addAdditionalParameters($response);
+        return $response;
+    }
+    
+    protected function addAdditionalParameters($response)
+    {
+        
+    }
+    
+    public function index()
+    {
+        $response = $this->getResponse();
         return $response->index();
     }
     
     public function list(int $page = 0, string $order = 'default', string $filter = 'none')
     {
-        $response = new static::$crud_response();
+        $response = $this->getResponse();
         return $response->list($page, $order, $filter);
     }
     
     public function filter(string $order = 'default')
     {
-        $response = new static::$crud_response();
+        $response = $this->getResponse();
         return $response->filter($order);        
     }
     
     public function show($id)
     {
-        $response = new static::$crud_response();
+        $response = $this->getResponse();
         return $response->show($id);
     }
 }
