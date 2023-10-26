@@ -45,23 +45,25 @@ class CrudController extends SemiCrudController
     public function confirmGroupDelete(Request $request)
     {
         $response = $this->getResponse();
-        return $response->confirmGroupDelete($request->input['selected']);        
+        return $response->confirmGroupDelete($request->input('selected'));        
     }
     
     public function execGroupDelete(Request $request)
     {
         $response = $this->getResponse();
-        return $response->execGroupDelete($request->input['selected']);        
+        return $response->execGroupDelete($request->input('selected'));        
     }
     
-    public function groupEdit()
+    public function groupEdit(Request $request)
     {
-        
+        $response = $this->getResponse();
+        return $response->groupEdit($request->input('selected'));
     }
     
-    public function execGroupEdit()
+    public function execGroupEdit(Request $request)
     {
-        
+        $response = $this->getResponse();        
+        return $response->execGroupEdit($request->input('selected'),$request);
     }
     
     /**

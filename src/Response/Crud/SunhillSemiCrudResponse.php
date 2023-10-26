@@ -59,9 +59,13 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
         return array_merge($this->getBasicParams(),['crud_base'=>static::$route_base]);
     }
     
-    protected function getRoutingParameters()
+    protected function getRoutingParameters($id = null)
     {
-        return [];    
+        if (!is_null($id)) {
+            return ['id'=>$id];
+        } else {
+            return [];
+        }
     }
 
     protected static $entity = '';

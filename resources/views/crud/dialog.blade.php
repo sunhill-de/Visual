@@ -4,6 +4,11 @@
 @section('content')
 <form action="{{ route($dialog_route, $dialog_route_parameters) }}" method="{{ $dialog_method }}">
  @csrf
+ @if (isset($ids))
+  @foreach ($ids as $id)
+  <input type="hidden" name="selected[]" id="{{ $id }}">
+  @endforeach
+ @endif
  @foreach($elements as $element)
  <div class="field is-horizontal">
  <label class="field-label" for="{{ $element->name }}">{{__($element->label)}}</label>

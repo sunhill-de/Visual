@@ -68,7 +68,7 @@ abstract class SunhillCrudModule extends SunhillSemiCrudModule
                  ->setMethod('post')
                  ->setVisible(false)
                  ->setAlias(static::$route_base.'.groupedit');
-            $this->addAction('ExecGroupDelete')
+            $this->addAction('ExecGroupEdit')
                  ->addControllerAction([static::$controller, 'execgroupedit'])
                  ->setMethod('post')
                  ->setVisible(false)

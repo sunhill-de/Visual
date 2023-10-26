@@ -40,17 +40,43 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
      */
     abstract protected function doExecAdd($parameters);
     
-    abstract protected function getEditValues();
-    abstract protected function doExecEdit($parameters);
+    /**
+     * Returns the current values of entry with id $id
+     * @param unknown $id
+     */
+    abstract protected function getEditValues($id);
+
+    /**
+     * Finally updates the entry with id $id with the parameters in $parameters
+     * @param unknown $id
+     * @param unknown $parameters
+     */
+    abstract protected function doExecEdit($id, $parameters);
     
     protected $error = [];
     
-    protected function fillFormTemplate(string $route_addition, array $values = [])
-    {        
+    /**
+     * Creates a dialog descriptor and fills it with the current crud response dialog descriptor
+     * @return \Sunhill\Visual\Response\Crud\DialogDescriptor
+     */
+    protected function getDialogDescriptor()
+    {
         $descriptor = new DialogDescriptor();
         $this->defineDialog($descriptor);
+        
+        return $descriptor;
+    }
+    
+    protected function fillFormTemplate(string $route_addition, array $values = [], $id = null, $groupeditable = [])
+    {        
+        $descriptor = $this->getDialogDescriptor();
+
         $entries = [];
+        
         foreach ($descriptor as $entry) {
+            if (!empty($groupeditable) && !$entry->getGroupeditable()) {
+                continue;
+            }
             $element = new \StdClass();
             $element->label = $entry->getLabel();
             $element->name = $entry->getName();
@@ -65,11 +91,14 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
         }
 
         $result = [];
+        if (isset($groupeditable)) {
+            $result['ids'] = $groupeditable;
+        }
         $result = array_merge($result, $this->getCommonParameters());
         $result = array_merge($result, [
             'dialog_method'=>'post',
             'dialog_route'=>static::$route_base.'.'.$route_addition,
-            'dialog_route_parameters'=>$this->getRoutingParameters(),
+            'dialog_route_parameters'=>$this->getRoutingParameters($id),
             'elements'=>$entries,            
         ]);
         return view('visual::crud.dialog', $result);
@@ -83,13 +112,61 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
         return $this->fillFormTemplate('execadd');        
     }
     
+    protected function handleDescriptorEntry(&$result, $entry, $request)
+    {
+        if (request()->has($entry->getDialogName()) && !empty($request->input($entry->getDialogName()))) {
+            switch ($entry::class) {
+                case DialogEntryList::class:
+                    $result[$entry->getName()] = $request->input($entry->getDialogName());
+                    $result['name_'.$entry->getName()] = $request->input('name_'.$entry->getDialogName());
+                    break;
+                case DialogEntryInputLookup::class:
+                    $result['input_'.$entry->getName()] = $request->input('input_'.$entry->getName());
+                    $result['value_'.$entry->getName()] = $request->input('value_'.$entry->getName());
+                default:
+                    $result[$entry->getName()] = $request->input($entry->getDialogName());
+            }
+        } else {
+            if ($entry->getRequired()) {
+                $this->inputError($entry, __('This field is required.'));
+            }
+            $result[$entry->getName()] = $entry->getEmptyValue();
+        }        
+    }
+    
+    protected function parseInput(Request $request, $groupedit = false)
+    {
+        $descriptor = $this->getDialogDescriptor();
+        $result = [];
+        foreach ($descriptor as $entry) {
+            if (!$groupedit || $entry->getGroupeditable()) {
+                $this->handleDescriptorEntry($result, $entry, $request);
+            }
+        }
+        $this->input = $result;
+        return $result;
+    }
+    
+    protected function inputError($entry, string $message)
+    {
+        $this->error[$entry->getName()] = $message;
+    }
+    
     /**
      * Checks the entered values and adds the given entity
      * @param array $parameters
      */
     public function execAdd(Request $parameters)
     {
-        
+        $input = $this->parseInput($parameters);
+        if ($this->error) {
+            return $this->fillFormTemplate('execadd', $parameters->post());
+        }
+        if (($result = $this->doExecAdd($input)) == false) {
+            return $this->fillFormTemplate('execadd', $parameters->post());            
+        } else {
+            return $result;
+        }
     }
     
     /**
@@ -98,7 +175,9 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
      */
     public function edit($id)
     {
+        $this->checkID($id);
         
+        return $this->fillFormTemplate('execedit', $this->getEditValues($id), $id);        
     }
     
     /**
@@ -108,8 +187,20 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
      */
     public function execEdit($id, Request $parameters)
     {
-        
+        $this->checkID($id);
+
+        $input = $this->parseInput($parameters);
+        if ($this->error) {
+            return $this->fillFormTemplate('execedit', $parameters->post());
+        }
+        if (($result = $this->doExecEdit($id, $input)) == false) {
+            return $this->fillFormTemplate('execedit', $parameters->post());
+        } else {
+            return $result;
+        }        
     }
+    
+    abstract protected function doDelete($id);
     
     /**
      * Deletes the given entity
@@ -117,7 +208,9 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
      */
     public function delete($id)
     {
+        $this->checkID($id);
         
+        return $this->doDelete($id);
     }
     
     /**
@@ -126,17 +219,38 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
      */
     public function groupEdit(array $ids)
     {
-        
+        return $this->fillFormTemplate('execgroupedit', [], null, $ids);        
     }
+    
+    abstract protected function doExecGroupEdit(array $ids, array $parameters);
     
     /**
      * Checks the entered values and changes them on the given entities
      * @param array $ids
      * @param array $parameters
      */
-    public function execGroupEdit(array $ids, array $parameters)
+    public function execGroupEdit(array $ids, Request $parameters)
     {
-        
+         return $this->doExecGroupEdit($ids, $this->parseInput($parameters, true));
+    }
+    
+    /**
+     * Returns an array in the form $id->key
+     * @param unknown $ids array of ids
+     * @return array
+     */
+    abstract protected function getRecordKeys($ids): array;
+    
+    protected function getGroupDeleteParams($ids)
+    {
+        $result = $this->getCommonParameters();
+        $result['action'] = route(static::$route_base.'.execgroupdelete');        
+        $result['entries'] = [];
+        $keys = $this->getRecordKeys($ids);
+        foreach ($ids as $id) {
+            $result['entries'][] = $this->getStdClass(['id'=>$id,'key'=>$keys[$id]]);
+        }
+        return $result;
     }
     
     /**
@@ -145,16 +259,22 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
      */
     public function confirmGroupDelete(array $ids)
     {
-        
+        return view('visual::crud.confirm', $this->getGroupDeleteParams($ids));
     }
+    
+    /**
+     * Finally deletes all entries with the given ids
+     * @param array $ids
+     */
+    abstract protected function doExecGroupDelete(array $ids);
     
     /**
      * Deletes the entities with the given ids
      * @param array $ids
      */
-    public function executeGroupDelete(array $ids)
+    public function execGroupDelete(array $ids)
     {
-        
+        return $this->doExecGroupDelete($ids);
     }
     
 }

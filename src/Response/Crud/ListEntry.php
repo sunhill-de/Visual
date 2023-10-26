@@ -8,6 +8,8 @@
 
 namespace Sunhill\Visual\Response\Crud;
 
+use Sunhill\ORM\Objects\PropertiesCollection;
+
 /**
  * The ListEntry class represents a single column in a list view
  * @author lokal
@@ -196,6 +198,9 @@ class ListEntry
         }
         if (is_a($data_set, \StdClass::class)) {
             return $this->getObjectDataElement($data_set, $field);
+        }
+        if (is_a($data_set, PropertiesCollection::class, true)) {
+            return $data_set::getInfo($field);
         }
     }
     

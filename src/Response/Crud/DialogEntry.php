@@ -9,12 +9,14 @@ abstract class DialogEntry
     
     protected $name = '';
     
+    protected $groupeditable = false;
+    
     protected $required = false;
     
     protected $class = null;
     
     protected $value = null;
-    
+        
     public function label($label = ''): DialogEntry
     {
         $this->label = is_null($label)?'':$label;
@@ -35,6 +37,17 @@ abstract class DialogEntry
     public function getName(): string
     {
         return $this->name;        
+    }
+    
+    public function groupeditable(bool $value = true): DialogEntry
+    {
+        $this->groupeditable = $value;
+        return $this;
+    }
+    
+    public function getGroupeditable(): bool
+    {
+        return $this->groupeditable;    
     }
     
     public function getDialogName(): string
