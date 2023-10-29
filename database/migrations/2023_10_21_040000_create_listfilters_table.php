@@ -15,6 +15,7 @@ class CreateListFiltersTable extends Migration
     {
         Schema::create('listfilters', function (Blueprint $table) {
             $table->increments('id');
+            $table->dateTime('bestbefore')->nullable()->default(null);
             $table->string('name',40);
             $table->string('list',40);
             $table->unique(['name','list']);
