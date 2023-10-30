@@ -4,8 +4,9 @@ namespace Sunhill\Visual\Response\Crud;
 
 use Sunhill\Visual\Response\SunhillResponseBase;
 use Sunhill\Visual\Response\Crud\ListDescriptor;
-use Sunhill\Visual\Response\SunhillUserException;
-use Sunhill\Collection\Exceptions\InvalidIDException;
+
+use Sunhill\Visual\Response\Crud\Exceptions\InvalidIDException;
+use Sunhill\Visual\Response\Crud\Exceptions\InvalidPageException;
 
 abstract class SunhillSemiCrudResponse extends SunhillResponseBase
 {
@@ -298,7 +299,7 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
             $page_index = $number_of_pages + $page_index; // negativ index means pages from the end
         }
         if (($page_index < 0) || ($page_index >= $number_of_pages)) {
-            throw new SunhillUserException(__("The index ':index' is out of range.",['index'=>$page_index]));
+            throw new InvalidPageException(__("The index ':index' is out of range.",['index'=>$page_index]));
         }
     }
     
