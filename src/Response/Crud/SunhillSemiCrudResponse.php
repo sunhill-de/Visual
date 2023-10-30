@@ -8,6 +8,7 @@ use Sunhill\Visual\Response\Crud\ListDescriptor;
 use Sunhill\Visual\Response\Crud\Exceptions\InvalidIDException;
 use Sunhill\Visual\Response\Crud\Exceptions\InvalidPageException;
 use Sunhill\Visual\Response\Crud\Exceptions\InvalidOrderKeyException;
+use Sunhill\Visual\Response\Crud\Exceptions\SunhillUserException;
 
 abstract class SunhillSemiCrudResponse extends SunhillResponseBase
 {
