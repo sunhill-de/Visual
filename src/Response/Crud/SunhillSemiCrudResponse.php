@@ -294,6 +294,9 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
         if (!$page_index) {
             return;
         }
+        if ($page_index < 0) {
+            $page_index = $number_of_pages + $page_index; // negativ index means pages from the end
+        }
         if (($page_index < 0) || ($page_index >= $number_of_pages)) {
             throw new SunhillUserException(__("The index ':index' is out of range.",['index'=>$page_index]));
         }
