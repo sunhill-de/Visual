@@ -7,6 +7,7 @@ use Sunhill\Visual\Response\Crud\ListDescriptor;
 
 use Sunhill\Visual\Response\Crud\Exceptions\InvalidIDException;
 use Sunhill\Visual\Response\Crud\Exceptions\InvalidPageException;
+use Sunhill\Visual\Response\Crud\Exceptions\InvalidOrderKeyException;
 
 abstract class SunhillSemiCrudResponse extends SunhillResponseBase
 {
@@ -358,6 +359,19 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
         return ['pages'=>$result,'current_page'=>$current_page];
     }
         
+    protected function checkValidOrder(string $order, ListDescriptor $descriptor)
+    {
+        if (substr($order,0,5) == 'desc_') {
+            $this->order = substr($order,5);
+        }
+        foreach ($descriptor as $entry) {
+            if ($entry->getColumnSortable() == $order) {
+                return true;
+            }
+        }
+        throw new InvalidOrderKeyException(__("':order' is not an allowed order key.",['order'=>$order]));
+    }
+    
     protected function getListParams()
     {
         $result = ['caption'=>__('List :entity',['entity'=>__(static::$entity)])];
@@ -366,6 +380,7 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
         $result = array_merge($result, $this->getSingleListParameters());
         
         $list_descriptor = $this->getListDescriptor();
+        $this->checkValidOrder($this->order, $list_descriptor);
         $result = array_merge($result, $this->getListHeader($list_descriptor));
         $result = array_merge($result, $this->getListBody($list_descriptor));
         $result = array_merge($result, $this->getListPaginator($list_descriptor));
