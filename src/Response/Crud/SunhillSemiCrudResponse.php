@@ -157,7 +157,7 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
     
     protected function getFilters()
     {
-        $is_temp = true;
+        $is_temp = ($this->filter == 'none')?false:true;
         $result = [];
         if (!Schema::hasTable('listfilters')) { // @todo this is an ugly hack so the unit tests run through
             return [];
