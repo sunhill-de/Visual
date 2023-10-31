@@ -11,6 +11,7 @@ use Sunhill\Visual\Response\Crud\Exceptions\InvalidOrderKeyException;
 use Sunhill\Visual\Response\Crud\Exceptions\SunhillUserException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Sunhill\ORM\Facades\ObjectData;
 
 abstract class SunhillSemiCrudResponse extends SunhillResponseBase
 {
@@ -156,17 +157,31 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
     
     protected function getFilters()
     {
+        $is_temp = true;
         $result = [];
         if (!Schema::hasTable('listfilters')) { // @todo this is an ugly hack so the unit tests run through
             return [];
         }
         $query = DB::table('listfilters')->where('list',static::$entity)->whereNull('bestbefore')->get();
         foreach ($query as $filter) {
+            if ($this->filter == $filter->name_id) {
+                $selected = 'selected';
+                $is_temp = false;
+            } else {
+                $selected = '';
+            }
             $result[] = $this->getStdClass([
                 'value'=>$filter->name_id,
                 'name'=>$filter->name,
-                'selected'=>($this->filter == $filter->name_id)?'selected':''
+                'selected'=>$selected
             ]);    
+        }
+        if ($is_temp) {
+            $result[] = $this->getStdClass([
+                'value'=>$this->filter,
+                'name'=>__('temporary filter'),
+                'selected'=>'selected'
+            ]);
         }
         return $result;
     }
@@ -458,11 +473,51 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
     }
 
 // ****************************** Routines for filterList ***************************************
+    protected function handleFilterDialog()
+    {
+        $request = request();
+        $name_id = ObjectData::getUniqueID();
+        if ($request->post('save')) {
+            $name = $request->post('save');
+            $bestbefore = null;
+        } else {
+            $name = '';
+            $bestbefore = date('Y-m-d H:i:s', strtotime('2 hours'));            
+        }
+        DB::table('listfilters')->insert(
+            [
+                'bestbefore'=>$bestbefore,
+                'name'=>$name,
+                'name_id'=>$name_id,
+                'list'=>static::$entity
+            ]    
+        );
+        $id = DB::getPdo()->lastInsertId();
+        $count = $request->post('cond_count'); 
+        for ($i=1;$i<=$count;$i++) {
+            $connection = ($request->post('connection') == 'all')?'':'or';
+            $field = $request->post('field'.$i);
+            $relation = $request->post('relations'.$i);
+            $condition = $request->post('condition'.$i);
+            
+            DB::table('listfilterconditions')->insert([
+                'listfilter_id'=>$id,
+                'connection'=>$connection,
+                'field'=>$field,
+                'relation'=>$relation,
+                'condition'=>$condition
+            ]);
+        }
+        return $name_id;
+    }
+    
     public function filter(string $order = 'id')
     {
+        $name = $this->handleFilterDialog();
         $parameters = $this->getRoutingParameters();
         $parameters['page']  = 0;
         $parameters['order'] = $order;
+        $parameters['filter'] = $name;
         return redirect(route(static::$route_base.'.list',$parameters));
     }
     
