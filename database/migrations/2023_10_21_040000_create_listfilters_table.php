@@ -17,8 +17,9 @@ class CreateListFiltersTable extends Migration
             $table->increments('id');
             $table->dateTime('bestbefore')->nullable()->default(null);
             $table->string('name',40);
+            $table->string('name_id',10);
             $table->string('list',40);
-            $table->unique(['name','list']);
+            $table->unique(['name_id','list']);
         });
     }
 

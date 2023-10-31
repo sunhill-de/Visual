@@ -2,10 +2,10 @@
   <label class="label">{{ __('Filter condition').':' }}&nbsp;</label>
   <div class="control">
    <div class="select">
-	<select>
-     <option value="none">{{ __('no filter') }}</option>
+	<select id="choosefilter">
+     <option value="none" {{ $filter_none }}>{{ __('no filter') }}</option>
      @foreach($filters as $filter)
-     <option value="{{ $filter->value }}">{{ $filter->name }}</option>
+     <option value="{{ $filter->value }}" {{ $filter->selected }}>{{ $filter->name }}</option>
      @endforeach
     </select>   
    </div>
@@ -81,6 +81,9 @@
   </div>
 </div>
 <script>
+ $('#choosefilter').on('change', function() {
+ 	window.location.replace('{{ route($crud_base.'.list', ['page'=>0,'order'=>'default']) }}/'+this.value);
+ });
  const relations = new Map();
  @foreach($searchfields as $field)
  relations.set("{{ $field->value }}",[

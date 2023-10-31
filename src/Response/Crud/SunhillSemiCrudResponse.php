@@ -9,6 +9,8 @@ use Sunhill\Visual\Response\Crud\Exceptions\InvalidIDException;
 use Sunhill\Visual\Response\Crud\Exceptions\InvalidPageException;
 use Sunhill\Visual\Response\Crud\Exceptions\InvalidOrderKeyException;
 use Sunhill\Visual\Response\Crud\Exceptions\SunhillUserException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 abstract class SunhillSemiCrudResponse extends SunhillResponseBase
 {
@@ -152,11 +154,39 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
         return [];    
     }
     
+    protected function getFilters()
+    {
+        $result = [];
+        if (!Schema::hasTable('listfilters')) { // @todo this is an ugly hack so the unit tests run through
+            return [];
+        }
+        $query = DB::table('listfilters')->where('list',static::$entity)->whereNull('bestbefore')->get();
+        foreach ($query as $filter) {
+            $result[] = $this->getStdClass([
+                'value'=>$filter->name_id,
+                'name'=>$filter->name,
+                'selected'=>($this->filter == $filter->name_id)?'selected':''
+            ]);    
+        }
+        return $result;
+    }
+    
+    protected function getFilterConditions()
+    {
+        if ($this->filter == 'none') {
+            return [];
+        } else {
+            $result = DB::table('listfilters')->join('listfilterconditions','listfilters.id','=','listfilterconditions.listfilter_id')->where('name_id',$this->filter)->get();
+            return $result->toArray();
+        }
+    }
+    
     protected function handleFilters(&$result)
     {
         if ($result['has_filter'] = static::$has_filters) {
-            $result['filters'] = [];
+            $result['filters'] = $this->getFilters();
             $result['searchfields'] = $this->getSearchFields();
+            $result['filter_none'] = ($this->filter == 'none')?'selected':'';
         }
     }
     
