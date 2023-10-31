@@ -62,10 +62,12 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
         return array_merge($this->getBasicParams(),['crud_base'=>static::$route_base]);
     }
     
-    protected function getRoutingParameters($id = null)
+    protected function getRoutingParameters($params = null)
     {
-        if (!is_null($id)) {
-            return ['id'=>$id];
+        if (is_array($params)) {
+            return $params;
+        } else if (is_scalar($params)) {
+            return ['id'=>$params];
         } else {
             return [];
         }
@@ -238,7 +240,7 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
         $result = [];
         if (!empty(static::$group_action)) {
             $id = $this->getID($data_row);
-            $result[] = '<input type="checkbox" name="selected[]" value="'.$id.'"></input>';
+            $result[] = '<input type="checkbox" name="selected[]" value="'.$id.'">';
         }
         foreach ($descriptor as $entry) {
             if ($data = $entry->getDataEntry($data_row)) {
@@ -413,11 +415,11 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
     {
         $template = 'visual::crud.list';
 
-        $this->offset = $page;
-        $this->handleDirection($order);        
-        $this->filter = $filter;
-        
         try {
+            $this->offset = $page;
+            $this->handleDirection($order);        
+            $this->filter = $filter;
+        
             $response = view($template, $this->getListParams());
         } catch (SunhillUserException $e) {
             return $this->exception($e);
@@ -443,7 +445,7 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
     protected function checkID($id)
     {
         if (!$this->IDExists($id)) {
-            throw new InvalidIDException("The ID '$id' is not a valid ID.");  
+            throw new InvalidIDException(__("The ID ':id' is not a valid ID.",['id'=>$id]));  
         }
     }
     
@@ -468,11 +470,11 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
      */
     public function show($id)
     {
-       $this->checkID($id); 
        
        $template = 'visual::crud.show';
        
        try {
+           $this->checkID($id);
            $response = view($template, $this->getShowParams($id));
        } catch (SunhillUserException $e) {
            return $this->exception($e);

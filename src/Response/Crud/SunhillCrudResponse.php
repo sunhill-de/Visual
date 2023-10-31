@@ -4,7 +4,7 @@ namespace Sunhill\Visual\Response\Crud;
 
 use Sunhill\Visual\Response\SunhillResponseBase;
 use Sunhill\Visual\Response\Crud\ListDescriptor;
-use Sunhill\Visual\Response\SunhillUserException;
+use Sunhill\Visual\Response\Crud\Exceptions\SunhillUserException;
 use Illuminate\Http\Request;
 
 abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
@@ -149,7 +149,11 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
     
     protected function inputError($entry, string $message)
     {
-        $this->error[$entry->getName()] = $message;
+        if (is_a($entry,DialogEntry::class)) {
+            $this->error[$entry->getName()] = $message;
+        } else {
+            $this->error[$entry] = $message;            
+        }
     }
     
     /**
@@ -175,9 +179,12 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
      */
     public function edit($id)
     {
-        $this->checkID($id);
-        
-        return $this->fillFormTemplate('execedit', $this->getEditValues($id), $id);        
+        try {
+            $this->checkID($id);
+        } catch (SunhillUserException $e) {
+            return $this->exception($e);
+        }
+        return $this->fillFormTemplate('execedit', $this->getEditValues($id), $id);
     }
     
     /**
@@ -187,14 +194,18 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
      */
     public function execEdit($id, Request $parameters)
     {
-        $this->checkID($id);
-
+        try {
+            $this->checkID($id);
+        } catch (SunhillUserException $e) {
+            return $this->exception($e);
+        }
+        
         $input = $this->parseInput($parameters);
         if ($this->error) {
-            return $this->fillFormTemplate('execedit', $parameters->post());
+            return $this->fillFormTemplate('execedit', $parameters->post(),$id);
         }
         if (($result = $this->doExecEdit($id, $input)) == false) {
-            return $this->fillFormTemplate('execedit', $parameters->post());
+            return $this->fillFormTemplate('execedit', $parameters->post(),$id);
         } else {
             return $result;
         }        
@@ -208,7 +219,11 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
      */
     public function delete($id)
     {
-        $this->checkID($id);
+        try {
+            $this->checkID($id);
+        } catch (SunhillUserException $e) {
+            return $this->exception($e);
+        }
         
         return $this->doDelete($id);
     }
