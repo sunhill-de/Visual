@@ -48,9 +48,11 @@
  </script>
  </td></tr>
  </tfoot>
- </form>
- @endif
 </table>
+ </form>
+ @else
+ </table>
+ @endif
 
 @isset($pages)
 <nav class="pagination" role="navigation" aria-label="pagination">
