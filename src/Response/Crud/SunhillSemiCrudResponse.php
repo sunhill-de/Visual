@@ -159,9 +159,6 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
     {
         $is_temp = ($this->filter == 'none')?false:true;
         $result = [];
-        if (!Schema::hasTable('listfilters')) { // @todo this is an ugly hack so the unit tests run through
-            return [];
-        }
         $query = DB::table('listfilters')->where('list',static::$entity)->whereNull('bestbefore')->get();
         foreach ($query as $filter) {
             if ($this->filter == $filter->name_id) {
