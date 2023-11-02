@@ -38,6 +38,7 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
      */
     protected static $has_filters = true;
     
+    protected static $route_prefix = '';
     
     /**
      * A derrived response can fill up this array with methods for group actions. That are
@@ -95,6 +96,12 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
     abstract protected function defineList(ListDescriptor &$descriptor);
     
     /**
+     * For Listentries and count this method returns the query on which the other operation will
+     * be performed.
+     */
+    abstract protected function getBasicQuery();
+    
+    /**
      * Creates a list descriptor and calls defineLIst()
      * @return \Sunhill\Visual\Response\ListDescriptor
      */
@@ -110,16 +117,51 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
         return [];    
     }
     
+    protected function handleConditions($query, array $conditions)
+    {
+        foreach ($conditions as $condition) {
+            if ($condition->connection == '') {
+                $connection = 'where';
+            } else {
+                $connection = $condition->connection.'Where';
+            }
+            $query = $query->$connection($condition->field,$condition->relation,$condition->condition);
+        }
+        return $query;
+    }
+    
     /**
      * Returns the count of entries for the given filter (if any)
      * @param string $filter
      */
-    abstract protected function getEntryCount(): int;
+    protected function getEntryCount(): int
+    {
+        $query = $this->getBasicQuery();
+        $query = $this->handleConditions($query, $this->getFilterConditions());
+        return $query->count();        
+    }
     
     /**
      * Return the table Data
      */
-    abstract protected function getData();
+    protected function getData()
+    {
+        $order = $this->order; 
+        $order_dir = $this->order_dir;
+        $offset = $this->offset*self::ENTRIES_PER_PAGE;
+        $limit = self::ENTRIES_PER_PAGE;
+        
+        $query = $this->getBasicQuery();;
+        $query = $this->handleConditions($query, $this->getFilterConditions());
+        if ($offset) {
+            $query->offset($offset);
+        }
+        if ($limit) {
+            $query->limit($limit);
+        }
+        $query->orderBy($order, $order_dir);
+        return $query->get();        
+    }
   
     protected function getDefaultOrder(): string
     {
