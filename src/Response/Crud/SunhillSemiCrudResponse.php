@@ -108,6 +108,7 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
     protected function getListDescriptor()
     {
         $list_descriptor = new ListDescriptor();
+        $list_descriptor->setParentParameters($this->getRoutingParameters());
         $this->defineList($list_descriptor);
         return $list_descriptor;
     }
@@ -180,13 +181,13 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
         foreach (static::$group_action as $action) {
             switch ($action) {
                 case 'edit':
-                    $result['groupactions'][] = $this->getStdClass(['action'=>$action,'title'=>_('edit'),'route'=>route(static::$route_base.'.groupedit')]);
+                    $result['groupactions'][] = $this->getStdClass(['action'=>$action,'title'=>_('edit'),'route'=>route(static::$route_base.'.groupedit',$this->getRoutingParameters())]);
                     break;
                 case 'delete':
-                    $result['groupactions'][] = $this->getStdClass(['action'=>$action,'title'=>_('delete'),'route'=>route(static::$route_base.'.confirmgroupdelete')]);
+                    $result['groupactions'][] = $this->getStdClass(['action'=>$action,'title'=>_('delete'),'route'=>route(static::$route_base.'.confirmgroupdelete',$this->getRoutingParameters())]);
                     break;
                 default:    
-                    $result['groupactions'][] = $this->getStdClass(['action'=>$action,'title'=>_($action),'route'=>route(static::$route_base.'.'.$action)]);
+                    $result['groupactions'][] = $this->getStdClass(['action'=>$action,'title'=>_($action),'route'=>route(static::$route_base.'.'.$action,$this->getRoutingParameters())]);
                     break;
             }
         }        
@@ -461,7 +462,7 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
     
     protected function getListParams()
     {
-        $result = ['caption'=>__('List :entity',['entity'=>__(static::$entity)])];
+        $result = ['prefix'=>$this->getRoutingParameters(),'caption'=>__('List :entity',['entity'=>__(static::$entity)])];
         
         $result = array_merge($result, $this->getCommonParameters());
         $result = array_merge($result, $this->getSingleListParameters());

@@ -7,6 +7,8 @@ use Sunhill\ORM\Database\Seeders\SearchStringObjectAssignsTableSeeder;
 class SunhillModuleBase
 {
     
+    protected static $prefix = '';
+    
     /**
      * The name of this entry
      */
@@ -50,6 +52,7 @@ class SunhillModuleBase
      * @var unknown
      */
     protected $alias = '';
+    
     
     /**
      * Setter for $this->name

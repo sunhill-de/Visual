@@ -39,6 +39,8 @@ class ListEntry
     
     protected $class = null;
     
+    protected $parent_routing = [];
+    
     /**
      * Setter for class. With setClass it is possible to pass a css class that is used for the header
      * cell tag (like is-narrow)
@@ -270,10 +272,23 @@ class ListEntry
         }
     }
     
+    public function setParentRoutingParameters($parent)
+    {
+        $this->parent_routing = $parent;    
+    }
+    
+    private function getParentRoutingParameters(): array
+    {
+        return $this->parent_routing;
+    }
+    
     protected function getRoutingParameters($data_set)
     {
-        $return = [];
+        $return = $this->getParentRoutingParameters();
         foreach ($this->link_params as $key => $value) {
+            if (isset($return[$key])) {
+                continue;
+            }
             $return[$key] = $this->getDataElement($data_set, $value);
         }
         return $return;    

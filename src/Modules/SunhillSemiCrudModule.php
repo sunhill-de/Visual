@@ -22,16 +22,16 @@ abstract class SunhillSemiCrudModule extends SunhillModuleBase
         $this->addAction('List')
             ->addControllerAction([static::$controller, 'list'])
             ->setVisible(true)
-            ->setRouteAddition('/{page?}/{order?}/{filter?}')
+            ->setRouteAddition(static::$prefix.'/{page?}/{order?}/{filter?}')
             ->setAlias(static::$route_base.'.list');
         $this->addAction('Show')
             ->addControllerAction([static::$controller, 'show'])
             ->setVisible(false)
-            ->setRouteAddition('/{id}')
+            ->setRouteAddition(static::$prefix.'/{id}')
             ->setAlias(static::$route_base.'.show');
         $this->addAction('Filter')
             ->addControllerAction([static::$controller, 'filter'])
-            ->setRouteAddition('/{order?}')
+            ->setRouteAddition(static::$prefix.'/{order?}')
             ->setMethod('POST')
             ->setVisible(false)
             ->setAlias(static::$route_base.'.filter');

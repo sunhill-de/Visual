@@ -20,6 +20,13 @@ class ListDescriptor extends SunhillDescriptor
     
     protected $data_callback;
     
+    protected $parent_parameters = [];
+    
+    public function setParentParameters($parent_parameters)
+    {
+        $this->parent_parameters = $parent_parameters;
+    }
+    
     public function setDataCallback(callable $callback)
     {
         $this->data_callback = $callback;
@@ -40,6 +47,7 @@ class ListDescriptor extends SunhillDescriptor
     {
         $entry = new LinkEntry();
         $entry->setRoute($route);
+        $entry->setParentRoutingParameters($this->parent_parameters);
         $entry->setRouteParameters($route_parameters);
         $this->addEntry($entry);
         
@@ -50,6 +58,7 @@ class ListDescriptor extends SunhillDescriptor
     {
         $entry = new ListEntry();
         $entry->setFieldName($field_name);
+        $entry->setParentRoutingParameters($this->parent_parameters);
         $this->addEntry($entry);
         
         return $entry;
@@ -61,6 +70,7 @@ class ListDescriptor extends SunhillDescriptor
         $entry->setFieldName($field_name);
         $entry->setRoute($route);
         $entry->setRouteParameters($route_parameters);
+        $entry->setParentRoutingParameters($this->parent_parameters);
         $this->addEntry($entry);
         
         return $entry;

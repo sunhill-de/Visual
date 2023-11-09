@@ -14,7 +14,7 @@
    <button class="button js-modal-trigger" id="add_filter" name="add_filter" data-target="filter-dialog">+</button>   
   </div>   
  </div>
- <form method="post" id="filterform" action="{{ route($crud_base.'.filter') }}">
+ <form method="post" id="filterform" action="{{ route($crud_base.'.filter', $prefix) }}">
  @csrf 
  <div id="filter-dialog" class="modal">
   <div class="modal-background"></div>
@@ -82,7 +82,7 @@
 </div>
 <script>
  $('#choosefilter').on('change', function() {
- 	window.location.replace('{{ route($crud_base.'.list', ['page'=>0,'order'=>'default']) }}/'+this.value);
+ 	window.location.replace('{{ route($crud_base.'.list', array_merge($prefix, ['page'=>0,'order'=>'default'])) }}/'+this.value);
  });
  const relations = new Map();
  @foreach($searchfields as $field)
