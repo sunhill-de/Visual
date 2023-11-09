@@ -259,7 +259,7 @@ abstract class SunhillCrudResponse extends SunhillSemiCrudResponse
     protected function getGroupDeleteParams($ids)
     {
         $result = $this->getCommonParameters();
-        $result['action'] = route(static::$route_base.'.execgroupdelete');        
+        $result['action'] = route(static::$route_base.'.execgroupdelete', $this->getRoutingParameters());        
         $result['entries'] = [];
         $keys = $this->getRecordKeys($ids);
         foreach ($ids as $id) {
