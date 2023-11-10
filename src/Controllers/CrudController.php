@@ -21,49 +21,49 @@ class CrudController extends SemiCrudController
     public function execAdd(Request $request)
     {
         $response = $this->getResponse();
-        return $response->execAdd($request);
+        return $response->execAdd(request()->post());
     }
     
     public function edit($id)
     {
         $response = $this->getResponse();
-        return $response->edit($id);        
+        return $response->edit(request('id'));        
     }
     
-    public function execEdit($id, Request $request)
+    public function execEdit()
     {
         $response = $this->getResponse();
-        return $response->execEdit($id, $request);        
+        return $response->execEdit(request('id'), request()->post());        
     }
     
-    public function delete($id)
+    public function delete()
     {
         $response = $this->getResponse();
-        return $response->delete($id);        
+        return $response->delete(request('id'));        
     }
     
-    public function confirmGroupDelete(Request $request)
+    public function confirmGroupDelete()
     {
         $response = $this->getResponse();
-        return $response->confirmGroupDelete($request->input('selected'));        
+        return $response->confirmGroupDelete(request('selected'));        
     }
     
     public function execGroupDelete(Request $request)
     {
         $response = $this->getResponse();
-        return $response->execGroupDelete($request->input('selected'));        
+        return $response->execGroupDelete(request('selected'));        
     }
     
     public function groupEdit(Request $request)
     {
         $response = $this->getResponse();
-        return $response->groupEdit($request->input('selected'));
+        return $response->groupEdit(request('selected'));
     }
     
     public function execGroupEdit(Request $request)
     {
         $response = $this->getResponse();        
-        return $response->execGroupEdit($request->input('selected'),$request);
+        return $response->execGroupEdit(request('selected'),request()->post());
     }
     
     /**
