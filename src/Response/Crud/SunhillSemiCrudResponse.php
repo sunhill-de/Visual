@@ -379,7 +379,7 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
      * @param int $number_of_pages
      * @throws SunhillUserException
      */
-    protected function checkWrongPageIndex(int $page_index, int $number_of_pages)
+    protected function checkWrongPageIndex(int &$page_index, int $number_of_pages)
     {
         if (!$page_index) {
             return;
@@ -408,7 +408,6 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
     {
         $pages = $this->getNumberOfPages();
         $current_page = $this->getCurrentPage();
-        $this->checkWrongPageIndex($current_page, $pages);
         if ($this->checkForLessEntriesThanEntriesPerPage()) {
             return [];
         }
@@ -469,6 +468,7 @@ abstract class SunhillSemiCrudResponse extends SunhillResponseBase
         
         $list_descriptor = $this->getListDescriptor();
         $this->checkValidOrder($this->order, $list_descriptor);
+        $this->checkWrongPageIndex($this->offset, $this->getNumberOfPages());
         $result = array_merge($result, $this->getListHeader($list_descriptor));
         $result = array_merge($result, $this->getListBody($list_descriptor));
         $result = array_merge($result, $this->getListPaginator($list_descriptor));
