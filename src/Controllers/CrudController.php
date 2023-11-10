@@ -21,7 +21,7 @@ class CrudController extends SemiCrudController
     public function execAdd(Request $request)
     {
         $response = $this->getResponse();
-        return $response->execAdd(request()->post());
+        return $response->execAdd(request());
     }
     
     public function edit($id)
@@ -33,7 +33,7 @@ class CrudController extends SemiCrudController
     public function execEdit()
     {
         $response = $this->getResponse();
-        return $response->execEdit(request('id'), request()->post());        
+        return $response->execEdit(request('id'), request());        
     }
     
     public function delete()
@@ -63,7 +63,7 @@ class CrudController extends SemiCrudController
     public function execGroupEdit(Request $request)
     {
         $response = $this->getResponse();        
-        return $response->execGroupEdit(request('selected'),request()->post());
+        return $response->execGroupEdit(request('selected'),request());
     }
     
     /**
