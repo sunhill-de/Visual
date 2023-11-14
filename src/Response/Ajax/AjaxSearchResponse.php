@@ -18,7 +18,7 @@ abstract class AjaxSearchResponse
         $this->parameter1 = $parameter1;
         $this->parameter2 = $parameter2;
         
-        return $this->assembleSearchResult($search);
+        return $this->assembleSearchResult($search??'');
     }
     
     /**
