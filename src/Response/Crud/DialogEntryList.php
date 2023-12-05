@@ -11,6 +11,7 @@ class DialogEntryList extends DialogEntry
     
     protected $additional2 = '';
     
+    protected $type = '';
     
     public function element(string $type): DialogEntryList
     {
@@ -34,9 +35,8 @@ class DialogEntryList extends DialogEntry
     protected function getSearchField()
     {
         switch ($this->type) {
-            case 'string':
+            default:
                 return 'text';
-                break;
         }
     }
     
