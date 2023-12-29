@@ -12,15 +12,21 @@ class Status extends Component
 {
     
     protected $name;
+
+    protected $success_message = '';
+    
+    protected $error_message = '';
     
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($name)
+    public function __construct($name, $success_message = '', $error_message = '')
     {
         $this->name = $name;
+        $this->success_message = $success_message;
+        $this->error_message = $error_message;
     }
 
     /**
@@ -30,7 +36,23 @@ class Status extends Component
      */
     public function render()
     {
-        $result = InfoMarket::getItem($this->name,'anybody','array');
+        $result = InfoMarket::getItem($this->name.'.status','anybody','array');
+        if ($result) {
+            $color = 'green';
+            if (!empty($this->success_message)) {
+                $message = InfoMarket::getItem($this->name.'.'.$this->success_message,'anybody','array');
+            }
+        } else {
+            $color_response = InfoMarket::getItem($this->name.'.severity', 'anybody', 'array');
+            if (!isset($result['result']) || ($result['result'] == 'OK')) {
+                $color = 'red';
+            } else {
+                $color = $color_response['value'];
+            }
+            if (!empty($this->success_message)) {
+                $message = InfoMarket::getItem($this->name.'.'.$this->success_message,'anybody','array');
+            }            
+        }
         if (!isset($result['result']) || ($result['result'] == 'OK')) {
             return $result['value'];
         } else {
