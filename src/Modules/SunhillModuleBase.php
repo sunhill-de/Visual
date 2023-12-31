@@ -453,7 +453,7 @@ class SunhillModuleBase
         if (!is_null($this->getParent())) {
             $this->getParent()->addBreadcrumb($breadcrumbs);
         }
-        $breadcrumbs[] = $this->getStdClass(['name'=>$this->getDisplayName(),'link'=>$this->getRoute()]);
+        $breadcrumbs[] = $this->getStdClass(['name'=>__($this->getDisplayName()),'link'=>$this->getRoute()]);
     }
     
     public function getBreadcrumbs()
