@@ -12,6 +12,8 @@ class Status extends Component
 {
     
     protected $name;
+    
+    protected $description = '';
 
     protected $success_message = '';
     
@@ -22,9 +24,10 @@ class Status extends Component
      *
      * @return void
      */
-    public function __construct($name, $success_message = '', $error_message = '')
+    public function __construct($name, $description, $success_message = '', $error_message = '')
     {
         $this->name = $name;
+        $this->description = $description;
         $this->success_message = $success_message;
         $this->error_message = $error_message;
     }
@@ -53,10 +56,7 @@ class Status extends Component
                 $message = InfoMarket::getItem($this->name.'.'.$this->success_message,'anybody','array');
             }            
         }
-        if (!isset($result['result']) || ($result['result'] == 'OK')) {
-            return $result['value'];
-        } else {
-            return $result['error_code'];
-        }
+        
+        return view('visual::components.status', ['severity'=>$color, 'description'=>$this->description]);
     }
 }
