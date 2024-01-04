@@ -9,6 +9,7 @@ use Sunhill\Visual\Facades\Dialogs;
 
 use Sunhill\Visual\Components\Input;
 use Sunhill\Visual\Components\Data;
+use Sunhill\Visual\Components\Status;
 use Illuminate\Support\Facades\Blade;
 use Sunhill\InfoMarket\Facades\InfoMarket;
 use Sunhill\Visual\Marketeers\Database;
@@ -33,6 +34,7 @@ class VisualServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         
         Blade::component('visual-data', Data::class);
+        Blade::component('visual-status', Status::class);
         
         \Sunhill\Visual\Facades\SunhillSiteManager::addCSSResource(__DIR__.'/../resources/css');
         \Sunhill\Visual\Facades\SunhillSiteManager::addJSResource(__DIR__.'/../resources/js');

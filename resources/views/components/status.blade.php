@@ -1,0 +1,1 @@
+<div class="status {{ $severity }}"><div class="description">{{ $description }}@isset($message): $message @endisset</div></div>

@@ -27,7 +27,7 @@ overflow-x: hidden;
   cursor: pointer;
   
   opacity: 0; /* hide this */
-  z-index: 2; /* and place it over the hamburger */
+  z-index: 200; /* and place it over the hamburger */
   
   -webkit-touch-callout: none;
 }
@@ -46,7 +46,7 @@ overflow-x: hidden;
   background: #cdcdcd;
   border-radius: 3px;
   
-  z-index: 1;
+  z-index: 200;
   
   transform-origin: 4px 0px;
   
