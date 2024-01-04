@@ -281,7 +281,7 @@ class SunhillModuleBase
      */
     public function addIndex($controller, string $action="index")
     {
-        $this->addAction('index')->addControllerAction([$controller, $action])->setVisible(false);
+        return $this->addAction('index')->addControllerAction([$controller, $action])->setVisible(false);
     }
     
     /**
