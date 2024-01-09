@@ -10,6 +10,7 @@ use Sunhill\Visual\Facades\Dialogs;
 use Sunhill\Visual\Components\Input;
 use Sunhill\Visual\Components\Data;
 use Sunhill\Visual\Components\Status;
+use Sunhill\Visual\Components\Tile;
 use Illuminate\Support\Facades\Blade;
 use Sunhill\InfoMarket\Facades\InfoMarket;
 use Sunhill\Visual\Marketeers\Database;
@@ -35,6 +36,7 @@ class VisualServiceProvider extends ServiceProvider
         
         Blade::component('visual-data', Data::class);
         Blade::component('visual-status', Status::class);
+        Blade::component('visual-tile', Tile::class);
         
         \Sunhill\Visual\Facades\SunhillSiteManager::addCSSResource(__DIR__.'/../resources/css');
         \Sunhill\Visual\Facades\SunhillSiteManager::addJSResource(__DIR__.'/../resources/js');
