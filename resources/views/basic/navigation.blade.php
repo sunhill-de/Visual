@@ -10,6 +10,8 @@
   <script src="{{ asset('js/sunhill.js') }}"></script>
   <script src="{{ asset('js/jstree.min.js') }}"></script>
   <script src="{{ asset('js/jquery.cycle.all.js') }}"></script>
+  <script src="{{ asset('js/jquery.autoscroll.js') }}"></script>
+  
 @endpush
 
 @section('body')
