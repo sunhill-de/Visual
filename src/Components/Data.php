@@ -31,6 +31,9 @@ class Data extends Component
     public function render()
     {
         $result = InfoMarket::getItem($this->name,'anybody','array');
+        if (empty($result)) {
+            return "Could not read '".$this->name."'";
+        }
         if (!isset($result['result']) || ($result['result'] == 'OK')) {
             return $result['value'];
         } else {
