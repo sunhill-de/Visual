@@ -18,12 +18,26 @@ use Sunhill\Visual\Marketeers\Database;
 use Sunhill\Visual\Test\TestAjax;
 use Illuminate\Support\Facades\App;
 
+use Sunhill\Visual\Managers\UserManager;
+use Sunhill\ORM\Facades\Collections;
+
+use Sunhill\Visual\Collections\User;
+use Sunhill\Visual\Collections\Capability;
+
 class VisualServiceProvider extends ServiceProvider
 {
     public function register()
     {
         $this->app->singleton(SunhillSiteManager::class, function () { return new SunhillSiteManager(); } );
         $this->app->alias(SunhillSiteManager::class,'sunhillsitemanager');
+        $this->app->singleton(UserManager::class, function () { return new UserManager(); } );
+        $this->app->alias(UserManager::class,'usermanager');
+    }
+    
+    protected function registerCollections()
+    {
+        Collections::registerCollection(User::class);
+        Collections::registerCollection(Capability::class);
     }
     
     public function boot()
@@ -33,6 +47,8 @@ class VisualServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/../resources/views','visual');
     //    $this->loadViewComponentsAs('input', [Input::class]);
         $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        
+        $this->registerCollections();
         
         Blade::component('visual-data', Data::class);
         Blade::component('visual-status', Status::class);

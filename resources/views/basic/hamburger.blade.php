@@ -25,11 +25,12 @@
     -->
     <ul id="menu">
       <a href="#"></a>
-      <a href="/"><li>Home</li></a>
-      <a href="#"><li>About</li></a>
-      <a href="#"><li>Info</li></a>
-      <a href="#"><li>Contact</li></a>
-      <a href="https://erikterwan.com/" target="_blank"><li>Show me more</li></a>
+      @if(\Sunhill\Visual\Facades\Users::isLoggedIn())
+      {{ \Sunhill\Visual\Facades\Users::getCurrentUser() }}
+      <a href="{{ route('user.logoff') }}"><li>Logoff</li></a>
+      @else
+      <a href="{{ route('user.login') }}"><li>Login</li></a>      
+      @endif
     </ul>
   </div>
 </nav>
