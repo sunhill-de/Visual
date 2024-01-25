@@ -41,7 +41,7 @@ class SunhillAction extends SunhillModuleBase
         if (is_array($controller)) {
             return $this->addControllerActionArray($controller);
         }
-        if (is_string($controller) && is_empty($action)) {
+        if (is_string($controller) && empty($action)) {
             $parts = explode('@',$controller);
             return $this->addControllerActionArray($parts);
         }
